@@ -204,7 +204,7 @@ export default class TextElements extends LayerInfo {
             function (m, o) {
                 var k, v;
                 for (k in o) {
-                    if (!__hasProp.call(o, k)) continue;
+                    if (!o.hasOwnProperty(k)) continue;
                     v = o[k];
                     m[k] || (m[k] = []);
                     m[k].push(v);

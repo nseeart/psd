@@ -51,6 +51,7 @@ const __indexOf =
 class LazyExecute {
     constructor(obj, file) {
         this.obj = obj;
+
         this.file = file;
         this.startPos = this.file.tell();
         this.loaded = false;
@@ -92,14 +93,12 @@ class LazyExecute {
     // This defines all items on the proxied objects prototype on this object, and checks to make sure
     // the proxied object has been loaded before passing on the call.
     get() {
-        var key, val, _fn, _ref;
-        _ref = this.obj;
-        _fn = (function (_this) {
+        const _ref = this.obj;
+        const _fn = (function (_this) {
             return function (key, val) {
                 if (_this[key] != null) {
                     return;
                 }
-
                 return Object.defineProperty(_this, key, {
                     get: function () {
                         if (!this.loaded && !this.passthru.includes(key)) {
@@ -110,10 +109,19 @@ class LazyExecute {
                 });
             };
         })(this);
-        for (key in _ref) {
-            val = _ref[key];
-            _fn(key, val);
-        }
+
+        Object.getOwnPropertyNames(_ref)
+            .concat(Object.getOwnPropertyNames(Object.getPrototypeOf(_ref)))
+            .forEach((key) => {
+                const val = _ref[key];
+                _fn(key, val);
+            });
+
+        // for (let key in Object.getPrototypeOf(_ref)) {
+        //     // console.log("key", key);
+        //     const val = _ref[key];
+        //     _fn(key, val);
+        // }
         return this;
     }
 
