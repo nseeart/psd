@@ -6,29 +6,29 @@
 // Utility object:  Encode/Decode C-style binary primitives to/from octet arrays
 
 // Module-level (private) variables
-let el,
-    bBE = false,
-    m = {};
+let el;
+let bBE = false;
+const m = {};
 
 // Raw byte arrays
-m._DeArray = function (a, p, l) {
+function _DeArray(a, p, l) {
     return [a.slice(p, p + l)];
-};
-m._EnArray = function (a, p, l, v) {
+}
+function _EnArray(a, p, l, v) {
     for (var i = 0; i < l; a[p + i] = v[i] ? v[i] : 0, i++);
-};
+}
 
 // ASCII characters
-m._DeChar = function (a, p) {
+function _DeChar(a, p) {
     return String.fromCharCode(a[p]);
-};
-m._EnChar = function (a, p, v) {
+}
+function _EnChar(a, p, v) {
     a[p] = v.charCodeAt(0);
-};
+}
 
 // Little-endian (un)signed N-byte integers
 m._DeInt = function (a, p) {
-    var lsb = bBE ? el.len - 1 : 0,
+    let lsb = bBE ? el.len - 1 : 0,
         nsb = bBE ? -1 : 1,
         stop = lsb + nsb * el.len,
         rv,
@@ -45,7 +45,7 @@ m._DeInt = function (a, p) {
     return rv;
 };
 m._EnInt = function (a, p, v) {
-    var lsb = bBE ? el.len - 1 : 0,
+    let lsb = bBE ? el.len - 1 : 0,
         nsb = bBE ? -1 : 1,
         stop = lsb + nsb * el.len,
         i;
@@ -54,21 +54,22 @@ m._EnInt = function (a, p, v) {
 };
 
 // ASCII character strings
-m._DeString = function (a, p, l) {
+function _DeString(a, p, l) {
     for (
-        var rv = new Array(l), i = 0;
+        let rv = new Array(l), i = 0;
         i < l;
         rv[i] = String.fromCharCode(a[p + i]), i++
     );
     return rv.join("");
-};
-m._EnString = function (a, p, l, v) {
-    for (var t, i = 0; i < l; a[p + i] = (t = v.charCodeAt(i)) ? t : 0, i++);
-};
+}
+
+function _EnString(a, p, l, v) {
+    for (let t, i = 0; i < l; a[p + i] = (t = v.charCodeAt(i)) ? t : 0, i++);
+}
 
 // Little-endian N-bit IEEE 754 floating point
 m._De754 = function (a, p) {
-    var s, e, m, i, d, nBits, mLen, eLen, eBias, eMax;
+    let s, e, m, i, d, nBits, mLen, eLen, eBias, eMax;
     (mLen = el.mLen),
         (eLen = el.len * 8 - el.mLen - 1),
         (eMax = (1 << eLen) - 1),
@@ -107,7 +108,7 @@ m._De754 = function (a, p) {
     return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
 };
 m._En754 = function (a, p, v) {
-    var s, e, m, i, d, c, mLen, eLen, eBias, eMax;
+    let s, e, m, i, d, c, mLen, eLen, eBias, eMax;
     (mLen = el.mLen),
         (eLen = el.len * 8 - el.mLen - 1),
         (eMax = (1 << eLen) - 1),
@@ -166,8 +167,8 @@ m._En754 = function (a, p, v) {
 };
 
 // Class data
-m._sPattern = "(\\d+)?([AxcbBhHsfdiIlL])";
-m._lenLut = {
+const _sPattern = "(\\d+)?([AxcbBhHsfdiIlL])";
+const _lenLut = {
     A: 1,
     x: 1,
     c: 1,
@@ -183,10 +184,10 @@ m._lenLut = {
     l: 4,
     L: 4,
 };
-m._elLut = {
-    A: { en: m._EnArray, de: m._DeArray },
-    s: { en: m._EnString, de: m._DeString },
-    c: { en: m._EnChar, de: m._DeChar },
+const _elLut = {
+    A: { en: _EnArray, de: _DeArray },
+    s: { en: _EnString, de: _DeString },
+    c: { en: _EnChar, de: _DeChar },
     b: {
         en: m._EnInt,
         de: m._DeInt,
@@ -263,17 +264,14 @@ m._elLut = {
 
 // Unpack a series of n elements of size s from array a at offset p with fxn
 m._UnpackSeries = function (n, s, a, p) {
-    for (
-        var fxn = el.de, rv = [], i = 0;
-        i < n;
-        rv.push(fxn(a, p + i * s)), i++
-    );
+    const rv = [];
+    for (let fxn = el.de, i = 0; i < n; rv.push(fxn(a, p + i * s)), i++);
     return rv;
 };
 
 // Pack a series of n elements of size s from array v at offset i to array a at offset p with fxn
 m._PackSeries = function (n, s, a, p, v, i) {
-    for (var fxn = el.en, o = 0; o < n; fxn(a, p + o * s, v[i + o]), o++);
+    for (let fxn = el.en, o = 0; o < n; fxn(a, p + o * s, v[i + o]), o++);
 };
 
 // Unpack the octet array a, beginning at offset p, according to the fmt string
@@ -282,21 +280,21 @@ m.Unpack = function (fmt, a, p) {
     bBE = fmt.charAt(0) != "<";
 
     p = p ? p : 0;
-    var re = new RegExp(this._sPattern, "g"),
+    let re = new RegExp(_sPattern, "g"),
         m,
         n,
         s,
         rv = [];
     while ((m = re.exec(fmt))) {
         n = m[1] == undefined || m[1] == "" ? 1 : parseInt(m[1]);
-        s = this._lenLut[m[2]];
+        s = _lenLut[m[2]];
         if (p + n * s > a.length) {
             return undefined;
         }
         switch (m[2]) {
             case "A":
             case "s":
-                rv.push(this._elLut[m[2]].de(a, p, n));
+                rv.push(_elLut[m[2]].de(a, p, n));
                 break;
             case "c":
             case "b":
@@ -309,7 +307,7 @@ m.Unpack = function (fmt, a, p) {
             case "L":
             case "f":
             case "d":
-                el = this._elLut[m[2]];
+                el = _elLut[m[2]];
                 rv.push(this._UnpackSeries(n, s, a, p));
                 break;
         }
@@ -323,7 +321,7 @@ m.PackTo = function (fmt, a, p, values) {
     // Set the private bBE flag based on the format string - assume big-endianness
     bBE = fmt.charAt(0) != "<";
 
-    var re = new RegExp(this._sPattern, "g"),
+    let re = new RegExp(_sPattern, "g"),
         m,
         n,
         s,
@@ -331,7 +329,7 @@ m.PackTo = function (fmt, a, p, values) {
         j;
     while ((m = re.exec(fmt))) {
         n = m[1] == undefined || m[1] == "" ? 1 : parseInt(m[1]);
-        s = this._lenLut[m[2]];
+        s = _lenLut[m[2]];
         if (p + n * s > a.length) {
             return false;
         }
@@ -341,7 +339,7 @@ m.PackTo = function (fmt, a, p, values) {
                 if (i + 1 > values.length) {
                     return false;
                 }
-                this._elLut[m[2]].en(a, p, n, values[i]);
+                _elLut[m[2]].en(a, p, n, values[i]);
                 i += 1;
                 break;
             case "c":
@@ -355,7 +353,7 @@ m.PackTo = function (fmt, a, p, values) {
             case "L":
             case "f":
             case "d":
-                el = this._elLut[m[2]];
+                el = _elLut[m[2]];
                 if (i + n > values.length) {
                     return false;
                 }
@@ -380,13 +378,13 @@ m.Pack = function (fmt, values) {
 
 // Determine the number of bytes represented by the format string
 m.CalcLength = function (fmt) {
-    var re = new RegExp(this._sPattern, "g"),
+    let re = new RegExp(_sPattern, "g"),
         m,
         sum = 0;
     while ((m = re.exec(fmt))) {
         sum +=
             (m[1] == undefined || m[1] == "" ? 1 : parseInt(m[1])) *
-            this._lenLut[m[2]];
+            _lenLut[m[2]];
     }
     return sum;
 };
