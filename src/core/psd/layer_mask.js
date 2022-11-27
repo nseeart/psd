@@ -1,6 +1,5 @@
 import { pad2 } from "./util2";
 import Layer from "./layer";
-const _ = require("lodash");
 
 export default class LayerMask {
     constructor(file, header) {
@@ -31,6 +30,7 @@ export default class LayerMask {
     parseLayers() {
         let i, _i, _j, _len;
         const layerInfoSize = pad2(this.file.readInt());
+        console.log("layerInfoSize", layerInfoSize);
         if (layerInfoSize > 0) {
             let layerCount = this.file.readShort();
             if (layerCount < 0) {

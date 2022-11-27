@@ -9,18 +9,22 @@ export default class Resources {
     }
 
     skip() {
+        // 图像资源部分的长度。长度可以为零。
         this.length = this.file.readInt();
         return this.file.seek(this.length, true);
     }
 
     parse() {
         this.length = this.file.readInt();
-        const finish = this.length + this.file.tell();
+        let finish = this.length + this.file.tell();
+        let resourceEnd;
+        let resource;
+        let section;
         while (this.file.tell() < finish) {
-            const resource = new Resource(this.file);
+            resource = new Resource(this.file);
             resource.parse();
-            const resourceEnd = this.file.tell() + resource.length;
-            const section = Resource.Section.factory(resource);
+            resourceEnd = this.file.tell() + resource.length;
+            section = Resource.Section.factory(resource);
             if (section == null) {
                 this.file.seek(resourceEnd);
                 continue;
@@ -31,6 +35,7 @@ export default class Resources {
             }
             this.file.seek(resourceEnd);
         }
+        console.log("this.resources===", this.resources);
         return this.file.seek(finish);
     }
 

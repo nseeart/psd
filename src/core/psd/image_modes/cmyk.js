@@ -1,4 +1,4 @@
-import Color from "../color";
+import { cmykToRgb } from "../color";
 
 export default {
     setCmykChannels() {
@@ -81,7 +81,7 @@ export default {
                         k = val;
                 }
             }
-            (_ref1 = Color.cmykToRgb(255 - c, 255 - m, 255 - y, 255 - k)),
+            (_ref1 = cmykToRgb(255 - c, 255 - m, 255 - y, 255 - k)),
                 (r = _ref1[0]),
                 (g = _ref1[1]),
                 (b = _ref1[2]);

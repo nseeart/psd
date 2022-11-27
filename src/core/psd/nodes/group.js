@@ -1,4 +1,4 @@
-import Node from "../node.js";
+import Node from "../node";
 import { merge } from "lodash-es";
 
 export default class Group extends Node {

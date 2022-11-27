@@ -24,7 +24,7 @@ export default class LegacyTypeTool extends TypeTool {
     }
 
     parse() {
-        var facesCount, i, linesCount, stylesCount, _i, _j, _k;
+        let facesCount, i, linesCount, stylesCount, _i, _j, _k;
         this.file.seek(2, true);
         this.parseTransformInfo();
         this.file.seek(2, true);

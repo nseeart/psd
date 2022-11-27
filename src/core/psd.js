@@ -7,6 +7,9 @@ import Header from "./psd/header";
 import Resources from "./psd/resources";
 import RSVP from "rsvp";
 
+/**
+ * https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/
+ */
 export default class PSD {
     constructor(data) {
         this.file = new File(data);
@@ -29,26 +32,31 @@ export default class PSD {
         this.parseResources();
         this.parseLayerMask();
         this.parseImage();
+        console.log("this.image", this.image);
         return (this.parsed = true);
     }
 
+    // 文件头部分
     parseHeader() {
         this.header = new Header(this.file);
         return this.header.parse();
     }
 
+    // 图像资源部分
     parseResources() {
         const resources = new Resources(this.file);
         this.resources = new LazyExecute(resources, this.file);
         return this.resources.now("skip").later("parse").get();
     }
 
+    // 图层和蒙版信息部分
     parseLayerMask() {
         const layerMask = new LayerMask(this.file, this.header);
         this.layerMask = new LazyExecute(layerMask, this.file);
         return this.layerMask.now("skip").later("parse").get();
     }
 
+    // 图像资源部分
     parseImage() {
         const image = new ImageBase(this.file, this.header);
         this.image = new LazyExecute(image, this.file);

@@ -55,8 +55,6 @@ class LazyExecute {
     // will skip over the data that we will parse on-demand later. We can pass any arguments
     // we want to the method as well.
     now(method, ...args) {
-        // debugger;
-        // console.log("this.obj", this.obj);
         this.obj[method].apply(this.obj, args);
         return this;
     }
@@ -76,6 +74,7 @@ class LazyExecute {
 
     // The arguments are a list of method/property names we don't want to trigger on-demand parsing.
     ignore(...args) {
+        console.log("ignore=", args);
         this.passthru.concat(args);
         return this;
     }
@@ -101,18 +100,18 @@ class LazyExecute {
             };
         })(this);
 
-        Object.getOwnPropertyNames(_ref)
-            .concat(Object.getOwnPropertyNames(Object.getPrototypeOf(_ref)))
-            .forEach((key) => {
-                const val = _ref[key];
-                _fn(key, val);
-            });
-
-        // for (let key in Object.getPrototypeOf(_ref)) {
-        //     // console.log("key", key);
-        //     const val = _ref[key];
-        //     _fn(key, val);
-        // }
+        // Object.getOwnPropertyNames(Object.getPrototypeOf(_ref))
+        //     .concat(Object.getOwnPropertyNames(_ref))
+        //     .forEach((key) => {
+        //         const val = _ref[key];
+        //         _fn(key, val);
+        //     });
+        // console.log("_ref", this.obj);
+        for (let key in _ref) {
+            // console.log("key", key);
+            const val = _ref[key];
+            _fn(key, val);
+        }
         return this;
     }
 

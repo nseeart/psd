@@ -26,7 +26,6 @@ export default class TextElements extends LayerInfo {
     }
 
     parse() {
-        var index, _i, _len;
         this.version = this.file.readShort();
         this.parseTransformInfo();
         this.textVersion = this.file.readShort();
@@ -38,6 +37,7 @@ export default class TextElements extends LayerInfo {
         this.descriptorVersion = this.file.readInt();
         this.warpData = new Descriptor(this.file).parse();
         const _results = [];
+        let index, _i, _len;
         for (
             index = _i = 0, _len = COORDS_VALUE.length;
             _i < _len;
@@ -50,8 +50,8 @@ export default class TextElements extends LayerInfo {
     }
 
     parseTransformInfo() {
-        var index, name, _i, _len, _results;
-        _results = [];
+        let index, name, _i, _len;
+        const _results = [];
         for (
             index = _i = 0, _len = TRANSFORM_VALUE.length;
             _i < _len;
@@ -62,193 +62,159 @@ export default class TextElements extends LayerInfo {
         }
         return _results;
     }
-
-    fonts() {
-        if (this.engineData == null) {
-            return [];
-        }
-        return this.engineData.ResourceDict.FontSet.map(function (f) {
-            return f.Name;
-        });
-    }
-
-    lengthArray() {
-        const arr = this.engineData.EngineDict.StyleRun.RunLengthArray;
-        const sum = arr.reduce(function (m, o) {
-            return m + o;
-        });
-        if (sum - this.textValue.length === 1) {
-            arr[arr.length - 1] = arr[arr.length - 1] - 1;
-        }
-        return arr;
-    }
-
-    fontStyles() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
-            r
-        ) {
-            return r.StyleSheet.StyleSheetData;
-        });
-        return data.map(function (f) {
-            var style;
-            if (f.FauxItalic) {
-                style = "italic";
-            } else {
-                style = "normal";
-            }
-            return style;
-        });
-    }
-
-    fontWeights() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
-            r
-        ) {
-            return r.StyleSheet.StyleSheetData;
-        });
-        return data.map(function (f) {
-            let weight;
-            if (f.FauxBold) {
-                weight = "bold";
-            } else {
-                weight = "normal";
-            }
-            return weight;
-        });
-    }
-
-    textDecoration() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
-            r
-        ) {
-            return r.StyleSheet.StyleSheetData;
-        });
-        return data.map(function (f) {
-            var decoration;
-            if (f.Underline) {
-                decoration = "underline";
-            } else {
-                decoration = "none";
-            }
-            return decoration;
-        });
-    }
-
-    leading() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
-            r
-        ) {
-            return r.StyleSheet.StyleSheetData;
-        });
-        return data.map(function (f) {
-            var leading;
-            if (f.Leading) {
-                leading = f.Leading;
-            } else {
-                leading = "auto";
-            }
-            return leading;
-        });
-    }
-
-    sizes() {
-        if (this.engineData == null && this.styles().FontSize == null) {
-            return [];
-        }
-        return this.styles().FontSize;
-    }
-
-    alignment() {
-        if (this.engineData == null) {
-            return [];
-        }
-        const alignments = ["left", "right", "center", "justify"];
-        return this.engineData.EngineDict.ParagraphRun.RunArray.map(function (
-            s
-        ) {
-            return alignments[
-                Math.min(
-                    parseInt(s.ParagraphSheet.Properties.Justification, 10),
-                    3
-                )
-            ];
-        });
-    }
-
-    colors() {
-        if (this.engineData == null || this.styles().FillColor == null) {
-            return [[0, 0, 0, 255]];
-        }
-        return this.styles().FillColor.map(function (s) {
-            const values = s.Values.map(function (v) {
-                return Math.round(v * 255);
-            });
-            values.push(values.shift());
-            return values;
-        });
-    }
-
-    styles() {
-        if (this.engineData == null) {
-            return {};
-        }
-        if (this._styles != null) {
-            return this._styles;
-        }
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
-            r
-        ) {
-            return r.StyleSheet.StyleSheetData;
-        });
-        return (this._styles = data.reduce(function (m, o) {
-            for (let k in o) {
-                if (!o.hasOwnProperty(k)) continue;
-                const v = o[k];
-                m[k] || (m[k] = []);
-                m[k].push(v);
-            }
-            return m;
-        }, {}));
-    }
-
-    toCSS() {
-        var css, definition, k, v;
-        definition = {
-            "font-family": this.fonts().join(", "),
-            "font-size": this.sizes()[0] + "pt",
-            color: "rgba(" + this.colors()[0].join(", ") + ")",
-            "text-align": this.alignment()[0],
-        };
-        css = [];
-        for (k in definition) {
-            v = definition[k];
-            if (v == null) {
-                continue;
-            }
-            css.push(k + ": " + v + ";");
-        }
-        return css.join("\n");
-    }
-
-    export() {
-        return {
-            value: this.textValue,
-            font: {
-                lengthArray: this.lengthArray(),
-                styles: this.fontStyles(),
-                weights: this.fontWeights(),
-                names: this.fonts(),
-                sizes: this.sizes(),
-                colors: this.colors(),
-                alignment: this.alignment(),
-                textDecoration: this.textDecoration(),
-                leading: this.leading(),
-            },
-            left: this.coords.left,
-            top: this.coords.top,
-            right: this.coords.right,
-            bottom: this.coords.bottom,
-            transform: this.transform,
-        };
-    }
 }
+
+TextElements.prototype.export = function () {
+    return {
+        value: this.textValue,
+        font: {
+            lengthArray: this.lengthArray(),
+            styles: this.fontStyles(),
+            weights: this.fontWeights(),
+            names: this.fonts(),
+            sizes: this.sizes(),
+            colors: this.colors(),
+            alignment: this.alignment(),
+            textDecoration: this.textDecoration(),
+            leading: this.leading(),
+        },
+        left: this.coords.left,
+        top: this.coords.top,
+        right: this.coords.right,
+        bottom: this.coords.bottom,
+        transform: this.transform,
+    };
+};
+
+TextElements.prototype.lengthArray = function () {
+    const arr = this.engineData.EngineDict.StyleRun.RunLengthArray;
+    const sum = arr.reduce((m, o) => {
+        return m + o;
+    });
+    if (sum - this.textValue.length === 1) {
+        arr[arr.length - 1] = arr[arr.length - 1] - 1;
+    }
+    return arr;
+};
+
+TextElements.prototype.fontStyles = function () {
+    const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
+        return r.StyleSheet.StyleSheetData;
+    });
+    return data.map((f) => {
+        let style;
+        if (f.FauxItalic) {
+            style = "italic";
+        } else {
+            style = "normal";
+        }
+        return style;
+    });
+};
+
+TextElements.prototype.fontWeights = function () {
+    const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
+        return r.StyleSheet.StyleSheetData;
+    });
+    return data.map((f) => {
+        let weight;
+        if (f.FauxBold) {
+            weight = "bold";
+        } else {
+            weight = "normal";
+        }
+        return weight;
+    });
+};
+
+TextElements.prototype.fonts = function () {
+    if (this.engineData == null) {
+        return [];
+    }
+    return this.engineData.ResourceDict.FontSet.map((f) => {
+        return f.Name;
+    });
+};
+
+TextElements.prototype.textDecoration = function () {
+    const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
+        return r.StyleSheet.StyleSheetData;
+    });
+    return data.map((f) => {
+        let decoration;
+        if (f.Underline) {
+            decoration = "underline";
+        } else {
+            decoration = "none";
+        }
+        return decoration;
+    });
+};
+
+TextElements.prototype.leading = function () {
+    const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
+        return r.StyleSheet.StyleSheetData;
+    });
+    return data.map((f) => {
+        let leading;
+        if (f.Leading) {
+            leading = f.Leading;
+        } else {
+            leading = "auto";
+        }
+        return leading;
+    });
+};
+
+TextElements.prototype.sizes = function () {
+    if (this.engineData == null && this.styles().FontSize == null) {
+        return [];
+    }
+    return this.styles().FontSize;
+};
+
+TextElements.prototype.alignment = function () {
+    if (this.engineData == null) {
+        return [];
+    }
+    const alignments = ["left", "right", "center", "justify"];
+    return this.engineData.EngineDict.ParagraphRun.RunArray.map((s) => {
+        return alignments[
+            Math.min(parseInt(s.ParagraphSheet.Properties.Justification, 10), 3)
+        ];
+    });
+};
+
+TextElements.prototype.colors = function () {
+    if (this.engineData == null || this.styles().FillColor == null) {
+        return [[0, 0, 0, 255]];
+    }
+    return this.styles().FillColor.map((s) => {
+        const values = s.Values.map(function (v) {
+            return Math.round(v * 255);
+        });
+        values.push(values.shift());
+        return values;
+    });
+};
+
+TextElements.prototype.styles = function () {
+    if (this.engineData == null) {
+        return {};
+    }
+    if (this._styles != null) {
+        return this._styles;
+    }
+    const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
+        return r.StyleSheet.StyleSheetData;
+    });
+    return (this._styles = data.reduce((m, o) => {
+        for (let k in o) {
+            if (!o.hasOwnProperty(k)) continue;
+            const v = o[k];
+            m[k] || (m[k] = []);
+            m[k].push(v);
+        }
+        return m;
+    }, {}));
+};

@@ -1,10 +1,10 @@
-import Module from "./module";
+import { includes } from "./module";
 import ancestry from "./nodes/ancestry";
 import search from "./nodes/search";
 import build_preview from "./nodes/build_preview";
 const _ = require("lodash");
 
-class Node extends Module {
+class Node {
     static PROPERTIES = [
         "name",
         "left",
@@ -18,7 +18,6 @@ class Node extends Module {
     type = "node";
 
     constructor(layer, parent) {
-        super();
         this.layer = layer;
         this.parent = parent != null ? parent : null;
         this.layer.node = this;
@@ -197,10 +196,10 @@ class Node extends Module {
     }
 }
 
-Node.includes(ancestry);
+includes(Node, ancestry);
 
-Node.includes(search);
+includes(Node, search);
 
-Node.includes(build_preview);
+includes(Node, build_preview);
 
 export default Node;

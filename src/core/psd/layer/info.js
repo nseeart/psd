@@ -19,7 +19,10 @@ import vectorOrigination from "../layer_info/vector_origination";
 import vectorStroke from "../layer_info/vector_stroke";
 import vectorStrokeContent from "../layer_info/vector_stroke_content";
 
-export const LAYER_INFO = {
+import { pad2 } from "../util2";
+import LazyExecute from "../lazy_execute";
+
+const LAYER_INFO = {
     artboard,
     blendClippingElements,
     blendInteriorElements,
@@ -40,4 +43,48 @@ export const LAYER_INFO = {
     vectorOrigination,
     vectorStroke,
     vectorStrokeContent,
+};
+
+export default {
+    parseLayerInfo() {
+        let i, key, keyParseable, klass, length, name, pos, _results;
+        _results = [];
+        while (this.file.tell() < this.layerEnd) {
+            this.file.seek(4, true);
+            key = this.file.readString(4);
+            length = pad2(this.file.readInt());
+            pos = this.file.tell();
+            keyParseable = false;
+            for (name in LAYER_INFO) {
+                if (!Object.hasOwnProperty.call(LAYER_INFO, name)) continue;
+                klass = LAYER_INFO[name];
+                if (!klass.shouldParse(key)) {
+                    continue;
+                }
+                i = new klass(this, length);
+                this.adjustments[name] = new LazyExecute(i, this.file)
+                    .now("skip")
+                    .later("parse")
+                    .get();
+                if (this[name] == null) {
+                    (function (_this) {
+                        return function (name) {
+                            return (_this[name] = function () {
+                                return _this.adjustments[name];
+                            });
+                        };
+                    })(this)(name);
+                }
+                this.infoKeys.push(key);
+                keyParseable = true;
+                break;
+            }
+            if (!keyParseable) {
+                _results.push(this.file.seek(length, true));
+            } else {
+                _results.push(void 0);
+            }
+        }
+        return _results;
+    },
 };

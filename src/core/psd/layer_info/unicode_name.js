@@ -1,4 +1,4 @@
-import LayerInfo from "../layer_info.js";
+import LayerInfo from "../layer_info";
 
 class UnicodeName extends LayerInfo {
     static shouldParse(key) {

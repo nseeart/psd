@@ -88,9 +88,7 @@
                     const data = psd.tree().export();
                     const dataString = JSON.stringify(data, undefined, 2);
                     document.getElementById("data").innerHTML = dataString;
-                    // console.log("psd.image", psd.image.obj.toPng());
                     const img = psd.image.toPng();
-                    // console.log("img", psd.image.toPng());
                     document.getElementById("image").appendChild(img);
                 }
             );
