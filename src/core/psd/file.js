@@ -1,4 +1,5 @@
-const jspack = require("jspack").jspack;
+import jspack from "../../libs/jspack";
+
 const iconv = require("iconv-lite");
 
 const FORMATS = {
@@ -35,8 +36,8 @@ const FORMATS = {
 class File {
     pos = 0;
 
-    constructor(_at_data) {
-        this.data = _at_data;
+    constructor(data) {
+        this.data = data;
     }
 
     tell() {

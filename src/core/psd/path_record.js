@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import { merge } from "lodash-es";
 
 export default class PathRecord {
     constructor(file) {
@@ -26,8 +26,8 @@ export default class PathRecord {
         }
     }
 
-    ["export"]() {
-        return _.merge(
+    export() {
+        return merge(
             {
                 recordType: this.recordType,
             },

@@ -30,7 +30,7 @@ export default class Group extends Node {
         }
     }
 
-    ["export"]() {
+    export() {
         return _.merge(super.export(), {
             type: "group",
             children: this._children.map(function (c) {

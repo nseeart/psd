@@ -35,7 +35,7 @@ export default class VectorMask extends LayerInfo {
         return _results;
     }
 
-    ["export"]() {
+    export() {
         return {
             invert: this.invert,
             notLink: this.notLink,

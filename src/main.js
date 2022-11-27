@@ -1,3 +1,3 @@
-import PSD from "./lib/psd";
+import PSD from "./core/psd";
 
 window.PSD = PSD;

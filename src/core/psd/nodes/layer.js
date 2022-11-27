@@ -12,7 +12,7 @@ export default class Layer extends Node {
         return this.width === 0 || this.height === 0;
     }
 
-    ["export"]() {
+    export() {
         const _ref = this.get("typeTool");
         const text = _ref && _ref.export ? _ref.export() : void 0;
 

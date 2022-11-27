@@ -234,7 +234,7 @@ export default class TextElements extends LayerInfo {
         return css.join("\n");
     }
 
-    ["export"]() {
+    export() {
         return {
             value: this.textValue,
             font: {

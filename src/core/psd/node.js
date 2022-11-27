@@ -139,7 +139,7 @@ class Node extends Module {
         return this.clippingMask();
     }
 
-    ["export"]() {
+    export() {
         var hash, prop, _i, _len, _ref;
         hash = {
             type: null,
