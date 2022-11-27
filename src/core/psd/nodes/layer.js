@@ -1,5 +1,5 @@
-import Node from "../node.js";
-const _ = require("lodash");
+import Node from "../node";
+import { merge } from "lodash-es";
 
 export default class Layer extends Node {
     constructor() {
@@ -16,7 +16,7 @@ export default class Layer extends Node {
         const _ref = this.get("typeTool");
         const text = _ref && _ref.export ? _ref.export() : void 0;
 
-        return _.merge(super.export(), {
+        return merge(super.export(), {
             type: "layer",
             mask: this.layer.mask.export(),
             text,

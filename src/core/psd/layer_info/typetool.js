@@ -1,7 +1,6 @@
 import LayerInfo from "../layer_info";
 import Descriptor from "../descriptor";
 
-const _ = require("lodash");
 const parseEngineData = require("parse-engine-data");
 const TRANSFORM_VALUE = ["xx", "xy", "yx", "yy", "tx", "ty"];
 const COORDS_VALUE = ["left", "top", "right", "bottom"];
@@ -74,9 +73,8 @@ export default class TextElements extends LayerInfo {
     }
 
     lengthArray() {
-        var arr, sum;
-        arr = this.engineData.EngineDict.StyleRun.RunLengthArray;
-        sum = _.reduce(arr, function (m, o) {
+        const arr = this.engineData.EngineDict.StyleRun.RunLengthArray;
+        const sum = arr.reduce(function (m, o) {
             return m + o;
         });
         if (sum - this.textValue.length === 1) {
@@ -86,8 +84,9 @@ export default class TextElements extends LayerInfo {
     }
 
     fontStyles() {
-        var data;
-        data = this.engineData.EngineDict.StyleRun.RunArray.map(function (r) {
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
+            r
+        ) {
             return r.StyleSheet.StyleSheetData;
         });
         return data.map(function (f) {
@@ -102,12 +101,13 @@ export default class TextElements extends LayerInfo {
     }
 
     fontWeights() {
-        var data;
-        data = this.engineData.EngineDict.StyleRun.RunArray.map(function (r) {
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
+            r
+        ) {
             return r.StyleSheet.StyleSheetData;
         });
         return data.map(function (f) {
-            var weight;
+            let weight;
             if (f.FauxBold) {
                 weight = "bold";
             } else {
@@ -118,8 +118,9 @@ export default class TextElements extends LayerInfo {
     }
 
     textDecoration() {
-        var data;
-        data = this.engineData.EngineDict.StyleRun.RunArray.map(function (r) {
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
+            r
+        ) {
             return r.StyleSheet.StyleSheetData;
         });
         return data.map(function (f) {
@@ -134,8 +135,9 @@ export default class TextElements extends LayerInfo {
     }
 
     leading() {
-        var data;
-        data = this.engineData.EngineDict.StyleRun.RunArray.map(function (r) {
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
+            r
+        ) {
             return r.StyleSheet.StyleSheetData;
         });
         return data.map(function (f) {
@@ -157,11 +159,10 @@ export default class TextElements extends LayerInfo {
     }
 
     alignment() {
-        var alignments;
         if (this.engineData == null) {
             return [];
         }
-        alignments = ["left", "right", "center", "justify"];
+        const alignments = ["left", "right", "center", "justify"];
         return this.engineData.EngineDict.ParagraphRun.RunArray.map(function (
             s
         ) {
@@ -179,8 +180,7 @@ export default class TextElements extends LayerInfo {
             return [[0, 0, 0, 255]];
         }
         return this.styles().FillColor.map(function (s) {
-            var values;
-            values = s.Values.map(function (v) {
+            const values = s.Values.map(function (v) {
                 return Math.round(v * 255);
             });
             values.push(values.shift());
@@ -189,30 +189,26 @@ export default class TextElements extends LayerInfo {
     }
 
     styles() {
-        var data;
         if (this.engineData == null) {
             return {};
         }
         if (this._styles != null) {
             return this._styles;
         }
-        data = this.engineData.EngineDict.StyleRun.RunArray.map(function (r) {
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(function (
+            r
+        ) {
             return r.StyleSheet.StyleSheetData;
         });
-        return (this._styles = _.reduce(
-            data,
-            function (m, o) {
-                var k, v;
-                for (k in o) {
-                    if (!o.hasOwnProperty(k)) continue;
-                    v = o[k];
-                    m[k] || (m[k] = []);
-                    m[k].push(v);
-                }
-                return m;
-            },
-            {}
-        ));
+        return (this._styles = data.reduce(function (m, o) {
+            for (let k in o) {
+                if (!o.hasOwnProperty(k)) continue;
+                const v = o[k];
+                m[k] || (m[k] = []);
+                m[k].push(v);
+            }
+            return m;
+        }, {}));
     }
 
     toCSS() {

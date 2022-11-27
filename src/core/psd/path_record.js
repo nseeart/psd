@@ -32,7 +32,7 @@ export default class PathRecord {
                 recordType: this.recordType,
             },
             function () {
-                var _ref;
+                let _ref;
                 switch (this.recordType) {
                     case 0:
                     case 3:
@@ -82,7 +82,7 @@ export default class PathRecord {
     }
 
     isBezierPoint() {
-        var _ref;
+        let _ref;
         return (
             (_ref = this.recordType) === 1 ||
             _ref === 2 ||
@@ -97,7 +97,7 @@ export default class PathRecord {
     }
 
     _readBezierPoint() {
-        var _ref;
+        let _ref;
         this.linked = (_ref = this.recordType) === 1 || _ref === 4;
         this.precedingVert = this.file.readPathNumber();
         this.precedingHoriz = this.file.readPathNumber();

@@ -1,4 +1,4 @@
-const _ = require("lodash");
+import { clone } from "lodash-es";
 
 export default {
     childrenAtPath(path, opts) {
@@ -11,7 +11,7 @@ export default {
                 return p.length > 0;
             });
         }
-        path = _.clone(path);
+        path = clone(path);
         query = path.shift();
         matches = this.children().filter(function (c) {
             if (opts.caseSensitive) {
@@ -23,9 +23,9 @@ export default {
         if (path.length === 0) {
             return matches;
         } else {
-            return _.flatten(
+            return Array.flatten(
                 matches.map(function (m) {
-                    return m.childrenAtPath(_.clone(path), opts);
+                    return m.childrenAtPath(clone(path), opts);
                 })
             );
         }

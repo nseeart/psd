@@ -35,8 +35,6 @@ class Root extends Node {
             null;
         const layerComps = _ref && _ref.export ? _ref.export() : void 0 || [];
 
-        console.log("layerComps===1", this.psd.resources);
-
         return {
             children: this._children.map(function (c) {
                 return c.export();
@@ -54,12 +52,13 @@ class Root extends Node {
     }
 
     buildHeirarchy() {
-        var currentGroup, layer, parent, parseStack, _i, _len, _ref;
-        currentGroup = this;
-        parseStack = [];
-        _ref = this.psd.layers;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            layer = _ref[_i];
+        let currentGroup = this,
+            parent;
+        const parseStack = [];
+        const _ref = this.psd.layers;
+        const _len = _ref.length;
+        for (let _i = 0; _i < _len; _i++) {
+            const layer = _ref[_i];
             if (layer.isFolder()) {
                 parseStack.push(currentGroup);
                 currentGroup = new Group(layer, _.last(parseStack));
@@ -75,11 +74,11 @@ class Root extends Node {
     }
 
     static layerForPsd(psd) {
-        var layer, prop, _i, _len, _ref;
-        layer = {};
-        _ref = Node.PROPERTIES;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            prop = _ref[_i];
+        const layer = {};
+        const _ref = Node.PROPERTIES;
+        const _len = _ref.length;
+        for (let _i = 0; _i < _len; _i++) {
+            const prop = _ref[_i];
             layer[prop] = null;
         }
         layer.top = 0;

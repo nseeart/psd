@@ -1,18 +1,13 @@
 import ImageBase from "./image";
 
-const _ = require("lodash");
-
 export default class ChannelImage extends ImageBase {
     constructor(file, header, layer) {
         super(file, header);
         this.layer = layer;
-
         this._width = this.layer.width;
         this._height = this.layer.height;
         this.channelsInfo = this.layer.channelsInfo;
-        this.hasMask = _.any(this.channelsInfo, function (c) {
-            return c.id < -1;
-        });
+        this.hasMask = this.channelsInfo.some((c) => c.id < -1);
         this.opacity = this.layer.opacity / 255.0;
         this.maskData = [];
     }

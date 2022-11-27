@@ -32,19 +32,17 @@ export default {
         return this.parent.children();
     },
     nextSibling() {
-        var index;
         if (this.parent == null) {
             return null;
         }
-        index = this.siblings().indexOf(this);
+        const index = this.siblings().indexOf(this);
         return this.siblings()[index + 1];
     },
     prevSibling() {
-        var index;
         if (this.parent == null) {
             return null;
         }
-        index = this.siblings().indexOf(this);
+        const index = this.siblings().indexOf(this);
         return this.siblings()[index - 1];
     },
     hasSiblings() {
@@ -54,7 +52,7 @@ export default {
         return !this.hasSiblings();
     },
     descendants() {
-        return _.flatten(
+        return Array.flatten(
             this._children.map(function (n) {
                 return n.subtree();
             })
@@ -67,11 +65,10 @@ export default {
         return this.ancestors().length + 1;
     },
     path(asArray) {
-        var path;
         if (asArray == null) {
             asArray = false;
         }
-        path = this.ancestors()
+        const path = this.ancestors()
             .map(function (n) {
                 return n.name;
             })

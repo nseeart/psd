@@ -99,7 +99,7 @@ class Layer {
 
     // "./layer/info"
     parseLayerInfo() {
-        var i, key, keyParseable, klass, length, name, pos, _results;
+        let i, key, keyParseable, klass, length, name, pos, _results;
         _results = [];
         while (this.file.tell() < this.layerEnd) {
             this.file.seek(4, true);
@@ -146,7 +146,7 @@ class Layer {
 
     // "./layer/blending_ranges"
     parseBlendingRanges() {
-        var i, length, numChannels, _i, _results;
+        let i, length, numChannels, _i, _results;
         length = this.file.readInt();
         this.blendingRanges.grey = {
             source: {

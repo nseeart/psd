@@ -36,7 +36,7 @@ class Node extends Module {
         this.createProperties();
     }
 
-    createProperties = function () {
+    createProperties() {
         Object.defineProperty(this, "top", {
             get: function () {
                 return this.coords.top + this.topOffset;
@@ -79,11 +79,10 @@ class Node extends Module {
                 return this.bottom - this.top;
             },
         });
-    };
+    }
 
     get(prop) {
-        var value;
-        value = this[prop] != null ? this[prop] : this.layer[prop];
+        const value = this[prop] != null ? this[prop] : this.layer[prop];
         if (typeof value === "function") {
             return value();
         } else {
@@ -119,7 +118,7 @@ class Node extends Module {
     }
 
     clippingMask() {
-        var maskNode;
+        let maskNode;
         if (!this.layer.clipped) {
             return null;
         }
@@ -172,25 +171,25 @@ class Node extends Module {
             return !c.isEmpty();
         });
         this.left =
-            _.min(
+            Math.min(
                 nonEmptyChildren.map(function (c) {
                     return c.left;
                 })
             ) || 0;
         this.top =
-            _.min(
+            Math.min(
                 nonEmptyChildren.map(function (c) {
                     return c.top;
                 })
             ) || 0;
         this.bottom =
-            _.max(
+            Math.max(
                 nonEmptyChildren.map(function (c) {
                     return c.bottom;
                 })
             ) || 0;
         return (this.right =
-            _.max(
+            Math.max(
                 nonEmptyChildren.map(function (c) {
                     return c.right;
                 })

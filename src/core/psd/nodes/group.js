@@ -1,5 +1,5 @@
 import Node from "../node.js";
-const _ = require("lodash");
+import { merge } from "lodash-es";
 
 export default class Group extends Node {
     constructor() {
@@ -31,7 +31,7 @@ export default class Group extends Node {
     }
 
     export() {
-        return _.merge(super.export(), {
+        return merge(super.export(), {
             type: "group",
             children: this._children.map(function (c) {
                 return c.export();

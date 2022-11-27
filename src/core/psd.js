@@ -52,7 +52,6 @@ export default class PSD {
     parseImage() {
         const image = new ImageBase(this.file, this.header);
         this.image = new LazyExecute(image, this.file);
-        console.log(" this.image", this.image);
         return this.image.later("parse").ignore("width", "height").get();
     }
     tree() {
