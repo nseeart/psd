@@ -12,7 +12,6 @@ export default class ResourceSection {
             if (Section.prototype.id !== resource.id) {
                 continue;
             }
-            console.log("ddddd");
             return _.tap(new Section(resource), (s) => {
                 return s.parse();
             });

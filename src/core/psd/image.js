@@ -19,7 +19,6 @@ class ImageBase {
         this.startPos = this.file.tell();
         this.endPos = this.startPos + this.length;
         this.setChannelsInfo();
-        this.toPng = () => this.toPng2();
     }
 
     setChannelsInfo() {
@@ -419,7 +418,7 @@ class ImageBase {
         context.putImageData(imageData, 0, 0);
         return canvas.toDataURL("image/png");
     }
-    toPng2() {
+    toPng() {
         const dataUrl = this.toBase64();
         const image = new Image();
         image.width = this.width();

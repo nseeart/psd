@@ -9,6 +9,7 @@ export default class LayerMask {
         this.layers = [];
         this.mergedAlpha = false;
         this.globalMask = null;
+        console.log("this.globalMask", this.globalMask);
     }
 
     skip() {
@@ -74,6 +75,7 @@ export default class LayerMask {
                 };
             })(this)
         );
+
         return this.file.seek(maskEnd);
     }
 }

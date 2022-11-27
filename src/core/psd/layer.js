@@ -39,7 +39,8 @@ class Layer {
         return this;
     }
 
-    export() {
+    ["export"]() {
+        console.log("this.mask.export()", this.mask["export"]());
         return {
             name: this.name,
             top: this.top,
