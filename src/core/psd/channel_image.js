@@ -3,7 +3,7 @@ import ImageBase from "./image";
 import ImageFormat from "./image_format";
 
 const __extends = function (child, parent) {
-    for (var key in parent) {
+    for (let key in parent) {
         if (Object.hasOwnProperty.call(parent, key)) child[key] = parent[key];
     }
     function ctor() {
@@ -34,11 +34,11 @@ includes(ChannelImage, ImageFormat.LayerRAW);
 includes(ChannelImage, ImageFormat.LayerRLE);
 
 ChannelImage.prototype.skip = function () {
-    var chan, _i, _len, _ref, _results;
-    _ref = this.channelsInfo;
-    _results = [];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        chan = _ref[_i];
+    const _ref = this.channelsInfo;
+    const _len = _ref.length;
+    const _results = [];
+    for (let _i = 0; _i < _len; _i++) {
+        const chan = _ref[_i];
         _results.push(this.file.seek(chan.length, true));
     }
     return _results;
@@ -57,10 +57,11 @@ ChannelImage.prototype.channels = function () {
 };
 
 ChannelImage.prototype.parse = function () {
-    var chan, finish, start, _i, _len, _ref;
+    let chan, finish, start;
     this.chanPos = 0;
-    _ref = this.channelsInfo;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    const _ref = this.channelsInfo;
+    const _len = _ref.length;
+    for (let _i = 0; _i < _len; _i++) {
         chan = _ref[_i];
         if (chan.length <= 0) {
             this.parseCompression();

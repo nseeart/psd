@@ -1,6 +1,6 @@
 import Resource from "./resource";
 
-export default class Resources {
+class Resources {
     constructor(file) {
         this.file = file;
         this.resources = {};
@@ -35,19 +35,32 @@ export default class Resources {
             }
             this.file.seek(resourceEnd);
         }
-        console.log("this.resources===", this.resources);
         return this.file.seek(finish);
     }
 
-    resource(search) {
-        if (typeof search === "string") {
-            return this.byType(search);
-        } else {
-            return this.resources[search];
-        }
-    }
+    // resource(search) {
+    //     if (typeof search === "string") {
+    //         return this.byType(search);
+    //     } else {
+    //         return this.resources[search];
+    //     }
+    // }
 
-    byType(name) {
-        return this.resources[this.typeIndex[name]];
-    }
+    // byType(name) {
+    //     return this.resources[this.typeIndex[name]];
+    // }
 }
+
+Resources.prototype.resource = function (search) {
+    if (typeof search === "string") {
+        return this.byType(search);
+    } else {
+        return this.resources[search];
+    }
+};
+
+Resources.prototype.byType = function (name) {
+    return this.resources[this.typeIndex[name]];
+};
+
+export default Resources;

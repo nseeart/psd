@@ -4,6 +4,7 @@ import ImageBase from "./psd/image";
 import Root from "./psd/nodes/root";
 import LazyExecute from "./psd/lazy_execute";
 import Header from "./psd/header";
+import ColorModeData from "./psd/color_mode_data";
 import Resources from "./psd/resources";
 import RSVP from "rsvp";
 
@@ -15,6 +16,7 @@ export default class PSD {
         this.file = new File(data);
         this.parsed = false;
         this.header = null;
+        this.colorModeData = null;
         RSVP.on("error", (reason) => {
             return console.error(reason);
         });
@@ -29,10 +31,10 @@ export default class PSD {
             return;
         }
         this.parseHeader();
-        this.parseResources();
+        this.parseColorModeData();
+        this.parseImageResources();
         this.parseLayerMask();
-        this.parseImage();
-        console.log("this.image", this.image);
+        this.parseImageData();
         return (this.parsed = true);
     }
 
@@ -42,8 +44,14 @@ export default class PSD {
         return this.header.parse();
     }
 
+    // 颜色模式数据部分
+    parseColorModeData() {
+        this.colorModeData = new ColorModeData(this.file);
+        return this.colorModeData.parse();
+    }
+
     // 图像资源部分
-    parseResources() {
+    parseImageResources() {
         const resources = new Resources(this.file);
         this.resources = new LazyExecute(resources, this.file);
         return this.resources.now("skip").later("parse").get();
@@ -56,8 +64,8 @@ export default class PSD {
         return this.layerMask.now("skip").later("parse").get();
     }
 
-    // 图像资源部分
-    parseImage() {
+    // 图像数据部分
+    parseImageData() {
         const image = new ImageBase(this.file, this.header);
         this.image = new LazyExecute(image, this.file);
         return this.image.later("parse").ignore("width", "height").get();

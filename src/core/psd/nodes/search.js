@@ -23,11 +23,9 @@ export default {
         if (path.length === 0) {
             return matches;
         } else {
-            return Array.flatten(
-                matches.map(function (m) {
-                    return m.childrenAtPath(clone(path), opts);
-                })
-            );
+            return matches
+                .map((m) => m.childrenAtPath(clone(path), opts))
+                .flat(Infinity);
         }
     },
 };

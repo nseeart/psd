@@ -70,6 +70,7 @@ export default {
             }
             _results.push(this.pixelData.push(r, g, b, a));
         }
+        console.log("_results", _results);
         return _results;
     },
 };

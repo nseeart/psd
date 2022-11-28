@@ -12,7 +12,6 @@ class ImageBase {
         if (this.depth() === 16) {
             this.numPixels *= 2;
         }
-        console.log("this.numPixels", this.numPixels, this.width());
         this.calculateLength();
         this.pixelData = [];
         this.channelData = [];
@@ -67,6 +66,7 @@ class ImageBase {
     }
 
     parseImageData() {
+        console.log("this.compression", this.compression);
         switch (this.compression) {
             case 0:
                 this.parseRaw();
@@ -85,6 +85,7 @@ class ImageBase {
     }
 
     processImageData() {
+        console.log("this.mode()", this.mode());
         switch (this.mode()) {
             case 1:
                 this.combineGreyscaleChannel();

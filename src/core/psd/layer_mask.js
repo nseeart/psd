@@ -17,10 +17,12 @@ export default class LayerMask {
 
     parse() {
         const maskSize = this.file.readInt();
+
         const finish = maskSize + this.file.tell();
         if (maskSize <= 0) {
             return;
         }
+
         this.parseLayers();
         this.parseGlobalMask();
         this.layers.reverse();
@@ -28,7 +30,7 @@ export default class LayerMask {
     }
 
     parseLayers() {
-        let i, _i, _j, _len;
+        let i, _i;
         const layerInfoSize = pad2(this.file.readInt());
         console.log("layerInfoSize", layerInfoSize);
         if (layerInfoSize > 0) {
@@ -46,7 +48,8 @@ export default class LayerMask {
             }
             const _ref = this.layers;
             const _results = [];
-            for (_j = 0, _len = _ref.length; _j < _len; _j++) {
+            const _len = _ref.length;
+            for (let _j = 0; _j < _len; _j++) {
                 const layer = _ref[_j];
                 _results.push(layer.parseChannelImage());
             }
@@ -54,6 +57,7 @@ export default class LayerMask {
         }
     }
 
+    // Global layer mask info
     parseGlobalMask() {
         const length = this.file.readInt();
         if (length <= 0) {

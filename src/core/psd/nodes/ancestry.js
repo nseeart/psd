@@ -52,11 +52,7 @@ export default {
         return !this.hasSiblings();
     },
     descendants() {
-        return Array.flatten(
-            this._children.map(function (n) {
-                return n.subtree();
-            })
-        );
+        return this._children.map((n) => n.subtree()).flat(Infinity);
     },
     subtree() {
         return [this].concat(this.descendants());

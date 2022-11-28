@@ -1,7 +1,7 @@
 import { includes } from "./module";
 import ancestry from "./nodes/ancestry";
 import search from "./nodes/search";
-import build_preview from "./nodes/build_preview";
+import buildPreview from "./nodes/build_preview";
 const _ = require("lodash");
 
 class Node {
@@ -80,14 +80,14 @@ class Node {
         });
     }
 
-    get(prop) {
-        const value = this[prop] != null ? this[prop] : this.layer[prop];
-        if (typeof value === "function") {
-            return value();
-        } else {
-            return value;
-        }
-    }
+    // get(prop) {
+    //     const value = this[prop] != null ? this[prop] : this.layer[prop];
+    //     if (typeof value === "function") {
+    //         return value();
+    //     } else {
+    //         return value;
+    //     }
+    // }
 
     visible() {
         if (this.layer.clipped && !this.clippingMask().visible()) {
@@ -135,6 +135,15 @@ class Node {
 
     clippedBy() {
         return this.clippingMask();
+    }
+
+    get(prop) {
+        const value = this[prop] != null ? this[prop] : this.layer[prop];
+        if (typeof value === "function") {
+            return value();
+        } else {
+            return value;
+        }
     }
 
     export() {
@@ -200,6 +209,6 @@ includes(Node, ancestry);
 
 includes(Node, search);
 
-includes(Node, build_preview);
+includes(Node, buildPreview);
 
 export default Node;

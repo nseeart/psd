@@ -19,7 +19,6 @@ class Layer {
         this.blendMode = {};
         this.groupLayer = null;
         this.infoKeys = [];
-        console.log("  this.mask", this.mask);
     }
 
     get name() {

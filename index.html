@@ -64,7 +64,7 @@
             }
 
             #image img {
-                width: 320px;
+                max-width: 320px;
                 height: auto;
             }
         </style>
@@ -90,6 +90,9 @@
                     document.getElementById("data").innerHTML = dataString;
                     const img = psd.image.toPng();
                     document.getElementById("image").appendChild(img);
+
+                    const node = psd.tree();
+                    console.log("node", node);
                 }
             );
 

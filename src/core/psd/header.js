@@ -52,11 +52,7 @@ export default class Header {
         // 深度：每个通道的位数。支持的值为 1、8、16 和 32。
         this.depth = this.file.readUShort();
         // 文件的颜色模式。支持的值为：Bitmap = 0; Grayscale = 1; Indexed = 2; RGB = 3; CMYK = 4; Multichannel = 7; Duotone = 8; Lab = 9.
-        this.mode = this.file.readUShort();
-        // 以下颜色数据的长度。
-        let colorDataLen = this.file.readUInt();
-        // 颜色模式数据部分
-        return this.file.seek(colorDataLen, true);
+        return (this.mode = this.file.readUShort());
     }
 
     modeName() {
