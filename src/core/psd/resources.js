@@ -11,11 +11,13 @@ class Resources {
     skip() {
         // 图像资源部分的长度。长度可以为零。
         this.length = this.file.readInt();
+        console.log("skip", this.length);
         return this.file.seek(this.length, true);
     }
 
     parse() {
         this.length = this.file.readInt();
+        console.log("parse", this.length);
         let finish = this.length + this.file.tell();
         let resourceEnd;
         let resource;

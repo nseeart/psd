@@ -13,12 +13,14 @@ export default class Mask {
     parse() {
         // If there is no mask, then this section will have a size of zero
         // and we can move on to the next.
+        // 数据大小：检查大小和标志以确定存在或不存在的内容。如果为零，则以下字段不存在
         this.size = this.file.readInt();
         if (this.size === 0) {
             return this;
         }
         const maskEnd = this.file.tell() + this.size;
         // First, we parse the coordinates of the mask.
+        // 矩形封闭图层蒙版：顶部、左侧、底部、右侧
         this.top = this.file.readInt();
         this.left = this.file.readInt();
         this.bottom = this.file.readInt();
@@ -30,7 +32,15 @@ export default class Mask {
         this.relative = (this.flags & 0x01) > 0;
         this.disabled = (this.flags & (0x01 << 1)) > 0;
         this.invert = (this.flags & (0x01 << 2)) > 0;
+        // 默认颜色。 0 或 255
         this.defaultColor = this.file.readByte();
+        /**
+         * 位 0 = 相对于图层的位置
+         * 位 1 = 图层蒙版禁用
+         * 位 2 = 混合时反转图层蒙版（已过时）
+         * 位 2 = 矢量掩码密度，1 字节
+         * 位 3 = 矢量掩码羽化，8 字节，双精度
+         */
         this.flags = this.file.readByte();
         this.file.seek(maskEnd);
         return this;

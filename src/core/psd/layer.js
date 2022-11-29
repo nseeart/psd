@@ -32,11 +32,16 @@ class Layer {
     parse() {
         this.parsePositionAndChannels();
         this.parseBlendModes();
+        // 额外数据字段的长度（=接下来五个字段的总长度）。
         const extraLen = this.file.readInt();
         this.layerEnd = this.file.tell() + extraLen;
+        // 图层蒙版数据：请参阅图层蒙版/调整图层数据以了解结构。可以是 40 字节、24 字节或 4 字节（如果没有层掩码）。
         this.parseMaskData();
+        // 图层混合范围：请参阅图层混合范围数据。
         this.parseBlendingRanges();
+        // 图层名称：Pascal 字符串，填充为 4 字节的倍数。
         this.parseLegacyLayerName();
+
         this.parseLayerInfo();
         this.file.seek(this.layerEnd);
         return this;

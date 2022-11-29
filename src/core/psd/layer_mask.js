@@ -30,21 +30,22 @@ export default class LayerMask {
     }
 
     parseLayers() {
-        let i, _i;
         const layerInfoSize = pad2(this.file.readInt());
-        console.log("layerInfoSize", layerInfoSize);
         if (layerInfoSize > 0) {
+            //层数: 如果为负数，则其绝对值为层数，第一个 alpha 通道包含合并结果的透明度数据。
             let layerCount = this.file.readShort();
             if (layerCount < 0) {
                 layerCount = Math.abs(layerCount);
                 this.mergedAlpha = true;
             }
+            let i, _i;
             for (
                 i = _i = 0;
                 0 <= layerCount ? _i < layerCount : _i > layerCount;
                 i = 0 <= layerCount ? ++_i : --_i
             ) {
-                this.layers.push(new Layer(this.file, this.header).parse());
+                const layer = new Layer(this.file, this.header).parse();
+                this.layers.push(layer);
             }
             const _ref = this.layers;
             const _results = [];

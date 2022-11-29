@@ -32,6 +32,7 @@ const BLEND_MODES = {
 class BlendMode {
     constructor(file) {
         this.file = file;
+        this.signature = null;
         this.blendKey = null;
         this.opacity = null;
         this.clipping = null;
@@ -42,10 +43,20 @@ class BlendMode {
     }
 
     parse() {
-        this.file.seek(4, true);
+        this.signature = this.file.readString(4);
+        // this.file.seek(4, true);
         this.blendKey = this.file.readString(4).trim();
+        // 不透明度: 0 = 透明 ... 255 = 不透明
         this.opacity = this.file.readByte();
+        // 剪裁：0 = 基础，1 = 非基础
         this.clipping = this.file.readByte();
+        /**
+         * 位 0 = 透明度保护；
+         * 位 1 = 可见；
+         * 位 2 = 已过时；
+         * 位 3 = 1 对于 Photoshop 5.0 及更高版本，表明位 4 是否有有用的信息；
+         * 位 4 = 与文档外观无关的像素数据
+         */
         this.flags = this.file.readByte();
         this.mode = BLEND_MODES[this.blendKey];
         this.clipped = this.clipping === 1;
@@ -58,10 +69,10 @@ class BlendMode {
     }
 
     get blendingMode() {
-        return this["mode"];
+        return this.mode;
     }
     set blendingMode(val) {
-        return (this["mode"] = val);
+        this.mode = val;
     }
 }
 
