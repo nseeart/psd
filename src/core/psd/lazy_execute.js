@@ -104,7 +104,6 @@ class LazyExecute {
             (key) => key !== "constructor"
         );
         const keys = new Set([...ownKeys, ...Object.keys(_ref)]);
-        console.log("keyskeys", [...keys]);
         for (let key of keys) {
             const val = _ref[key];
             _fn(key, val);
