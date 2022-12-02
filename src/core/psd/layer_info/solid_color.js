@@ -1,7 +1,7 @@
 import Descriptor from "../descriptor";
 import LayerInfo from "../layer_info";
 
-class SolidColor extends LayerInfo {
+export default class SolidColor extends LayerInfo {
     static shouldParse(key) {
         return key === "SoCo";
     }
@@ -22,9 +22,17 @@ class SolidColor extends LayerInfo {
         return this.data["Clr "];
     }
 
-    color() {
-        return [this.r, this.g, this.b];
-    }
+    // color() {
+    //     return [this.r, this.g, this.b];
+    // }
 }
 
-export default SolidColor;
+SolidColor.prototype.color = function () {
+    return [this.r, this.g, this.b];
+};
+
+SolidColor.prototype.export = function () {
+    return {
+        color: this.color(),
+    };
+};

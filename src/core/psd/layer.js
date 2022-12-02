@@ -62,7 +62,11 @@ class Layer {
             mask: this.mask.export(),
         };
     }
+
+    // parseChannelImage: channelImage.parseChannelImage;
 }
+
+// Layer.prototype.parseChannelImage = channelImage.parseChannelImage;
 
 includes(Layer, positionChannels);
 includes(Layer, blendModes);

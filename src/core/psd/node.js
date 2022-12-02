@@ -147,16 +147,16 @@ class Node {
     }
 
     export() {
-        var hash, prop, _i, _len, _ref;
-        hash = {
+        const hash = {
             type: null,
             visible: this.visible(),
             opacity: this.layer.opacity / 255.0,
             blendingMode: this.layer.blendingMode(),
         };
-        _ref = Node.PROPERTIES;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            prop = _ref[_i];
+        const _ref = Node.PROPERTIES;
+        const _len = _ref.length;
+        for (let _i = 0; _i < _len; _i++) {
+            const prop = _ref[_i];
             hash[prop] = this[prop];
         }
         return hash;

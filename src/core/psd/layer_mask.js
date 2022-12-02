@@ -52,6 +52,8 @@ export default class LayerMask {
             const _len = _ref.length;
             for (let _j = 0; _j < _len; _j++) {
                 const layer = _ref[_j];
+                console.log("layer=", layer);
+                console.log("====", layer.parseChannelImage());
                 _results.push(layer.parseChannelImage());
             }
             return _results;

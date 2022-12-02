@@ -5,7 +5,8 @@ import { includes } from "./module";
 
 class ImageBase {
     COMPRESSIONS = ["Raw", "RLE", "ZIP", "ZIPPrediction"];
-    constructor(file, header) {
+    constructor(file, header, layer = null) {
+        this.layer = layer;
         this.file = file;
         this.header = header;
         this.numPixels = this.width() * this.height();

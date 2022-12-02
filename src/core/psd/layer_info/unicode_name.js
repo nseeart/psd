@@ -10,8 +10,7 @@ class UnicodeName extends LayerInfo {
     }
 
     parse() {
-        var pos;
-        pos = this.file.tell();
+        const pos = this.file.tell();
         this.data = this.file.readUnicodeString();
         this.file.seek(pos + this.length);
         return this;

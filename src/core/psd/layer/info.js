@@ -49,24 +49,24 @@ export default {
     parseLayerInfo() {
         let keyParseable;
         const _results = [];
+        let i;
         while (this.file.tell() < this.layerEnd) {
             // 签名：“8BIM”或“8B64”
             this.file.seek(4, true);
             // 密钥：4 个字符的代码（请参阅各个部分）
             const key = this.file.readString(4);
-            // console.log("parseLayerInfo key:", key);
             // 下面的长度数据，四舍五入为偶数字节数。
             const length = pad2(this.file.readInt());
             const pos = this.file.tell();
             keyParseable = false;
             for (let name in LAYER_INFO) {
+                // console.log("name", name);
                 if (!Object.hasOwnProperty.call(LAYER_INFO, name)) continue;
-                const klass = LAYER_INFO[name];
+                let klass = LAYER_INFO[name];
                 if (!klass.shouldParse(key)) {
                     continue;
                 }
-                const i = new klass(this, length);
-                // console.log("i", i);
+                i = new klass(this, length);
                 this.adjustments[name] = new LazyExecute(i, this.file)
                     .now("skip")
                     .later("parse")

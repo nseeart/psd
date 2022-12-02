@@ -34,15 +34,15 @@ export default class VectorMask extends LayerInfo {
         }
         return _results;
     }
-
-    export() {
-        return {
-            invert: this.invert,
-            notLink: this.notLink,
-            disable: this.disable,
-            paths: this.paths.map(function (p) {
-                return p["export"]();
-            }),
-        };
-    }
 }
+
+VectorMask.prototype.export = function () {
+    return {
+        invert: this.invert,
+        notLink: this.notLink,
+        disable: this.disable,
+        paths: this.paths.map(function (p) {
+            return p["export"]();
+        }),
+    };
+};

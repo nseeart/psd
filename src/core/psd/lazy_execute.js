@@ -100,7 +100,12 @@ class LazyExecute {
             };
         })(this);
 
-        for (let key in _ref) {
+        const ownKeys = Reflect.ownKeys(_ref.__proto__).filter(
+            (key) => key !== "constructor"
+        );
+        const keys = new Set([...ownKeys, ...Object.keys(_ref)]);
+        console.log("keyskeys", [...keys]);
+        for (let key of keys) {
             const val = _ref[key];
             _fn(key, val);
         }

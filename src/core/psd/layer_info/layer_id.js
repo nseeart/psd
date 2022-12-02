@@ -1,8 +1,8 @@
 import LayerInfo from "../layer_info";
 
 export default class LayerId extends LayerInfo {
-    constructor() {
-        return super(...arguments);
+    constructor(layer, length) {
+        super(layer, length);
     }
 
     static shouldParse(key) {
@@ -10,6 +10,7 @@ export default class LayerId extends LayerInfo {
     }
 
     parse() {
+        debugger;
         return (this.id = this.file.readInt());
     }
 }

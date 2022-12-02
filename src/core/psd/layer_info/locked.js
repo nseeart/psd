@@ -14,8 +14,7 @@ export default class Locked extends LayerInfo {
     }
 
     parse() {
-        var locked;
-        locked = this.file.readInt();
+        const locked = this.file.readInt();
         this.transparencyLocked =
             (locked & (0x01 << 0)) > 0 || locked === -2147483648;
         this.compositeLocked =

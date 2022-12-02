@@ -2,32 +2,18 @@ import { includes } from "./module";
 import ImageBase from "./image";
 import ImageFormat from "./image_format";
 
-const __extends = function (child, parent) {
-    for (let key in parent) {
-        if (Object.hasOwnProperty.call(parent, key)) child[key] = parent[key];
+export default class ChannelImage extends ImageBase {
+    constructor(file, header, layer) {
+        super(file, header, layer);
+        this.layer = layer;
+        this._width = this.layer.width;
+        this._height = this.layer.height;
+        this.channelsInfo = this.layer.channelsInfo;
+        this.hasMask = this.channelsInfo.some((c) => c.id < -1);
+        this.opacity = this.layer.opacity / 255.0;
+        this.maskData = [];
     }
-    function ctor() {
-        this.constructor = child;
-    }
-
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor();
-    child.__super__ = parent.prototype;
-    return child;
-};
-
-function ChannelImage(file, header, layer) {
-    this.layer = layer;
-    this._width = this.layer.width;
-    this._height = this.layer.height;
-    ChannelImage.__super__.constructor.call(this, file, header);
-    this.channelsInfo = this.layer.channelsInfo;
-    this.hasMask = this.channelsInfo.some((c) => c.id < -1);
-    this.opacity = this.layer.opacity / 255.0;
-    this.maskData = [];
 }
-
-__extends(ChannelImage, ImageBase);
 
 includes(ChannelImage, ImageFormat.LayerRAW);
 
@@ -102,5 +88,3 @@ ChannelImage.prototype.parseImageData = function () {
             return this.file.seek(this.endPos);
     }
 };
-
-export default ChannelImage;

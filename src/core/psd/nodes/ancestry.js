@@ -1,5 +1,3 @@
-const _ = require("lodash");
-
 export default {
     root() {
         if (this.isRoot()) {
