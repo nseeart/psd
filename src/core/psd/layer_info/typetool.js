@@ -208,14 +208,10 @@ export default class TextElements extends LayerInfo {
     }
 
     parseTransformInfo() {
-        let index, name, _i, _len;
         const _results = [];
-        for (
-            index = _i = 0, _len = TRANSFORM_VALUE.length;
-            _i < _len;
-            index = ++_i
-        ) {
-            name = TRANSFORM_VALUE[index];
+        const _len = TRANSFORM_VALUE.length;
+        for (let _i = 0; _i < _len; ++_i) {
+            const name = TRANSFORM_VALUE[_i];
             _results.push((this.transform[name] = this.file.readDouble()));
         }
         return _results;

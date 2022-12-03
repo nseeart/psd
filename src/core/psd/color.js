@@ -1,4 +1,4 @@
-import { clamp } from "./util2";
+import { clamp } from "./util";
 export function cmykToRgb(c, m, y, k) {
     var b, g, r;
     r = clamp((65535 - (c * (255 - k) + (k << 8))) >> 8, 0, 255);

@@ -22,17 +22,7 @@ export default class SolidColor extends LayerInfo {
         return this.data["Clr "];
     }
 
-    // color() {
-    //     return [this.r, this.g, this.b];
-    // }
+    color() {
+        return [this.r, this.g, this.b];
+    }
 }
-
-SolidColor.prototype.color = function () {
-    return [this.r, this.g, this.b];
-};
-
-SolidColor.prototype.export = function () {
-    return {
-        color: this.color(),
-    };
-};

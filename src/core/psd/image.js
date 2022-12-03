@@ -1,9 +1,9 @@
 import ImageExport from "./image_export";
 import ImageFormat from "./image_format";
 import ImageMode from "./image_mode";
-import { includes } from "./module";
+import { includes } from "./util";
 
-class ImageBase {
+export default class ImageBase {
     COMPRESSIONS = ["Raw", "RLE", "ZIP", "ZIPPrediction"];
     constructor(file, header, layer = null) {
         this.layer = layer;
@@ -67,7 +67,6 @@ class ImageBase {
     }
 
     parseImageData() {
-        console.log("this.compression", this.compression);
         switch (this.compression) {
             case 0:
                 this.parseRaw();
@@ -86,7 +85,6 @@ class ImageBase {
     }
 
     processImageData() {
-        console.log("this.mode()", this.mode());
         switch (this.mode()) {
             case 1:
                 this.combineGreyscaleChannel();
@@ -99,18 +97,23 @@ class ImageBase {
         }
         return (this.channelData = null);
     }
-}
 
-const _ref = ["width", "height", "channels", "depth", "mode"];
-const _fn = (attr) => {
-    return (ImageBase.prototype[attr] = function () {
-        return this.header[attr];
-    });
-};
-const _len = _ref.length;
-for (let _i = 0; _i < _len; _i++) {
-    const attr = _ref[_i];
-    _fn(attr);
+    width() {
+        return this.header.width;
+    }
+
+    height() {
+        return this.header.height;
+    }
+    channels() {
+        return this.header.channels;
+    }
+    depth() {
+        return this.header.depth;
+    }
+    mode() {
+        return this.header.mode;
+    }
 }
 
 includes(ImageBase, ImageFormat.RAW);
@@ -124,5 +127,3 @@ includes(ImageBase, ImageMode.RGB);
 includes(ImageBase, ImageMode.CMYK);
 
 includes(ImageBase, ImageExport.PNG);
-
-export default ImageBase;

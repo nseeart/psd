@@ -1,4 +1,4 @@
-import { pad2 } from "./util2";
+import { pad2 } from "./util";
 import Layer from "./layer";
 
 export default class LayerMask {
@@ -8,7 +8,6 @@ export default class LayerMask {
         this.layers = [];
         this.mergedAlpha = false;
         this.globalMask = null;
-        console.log("this.globalMask", this.globalMask);
     }
 
     skip() {

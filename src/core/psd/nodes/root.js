@@ -33,11 +33,6 @@ class Root extends Node {
             (this.psd.resources.resource &&
                 this.psd.resources.resource("layerComps")) ||
             null;
-
-        console.log(
-            "this.psd.resources.resource",
-            this.psd.resources.resource("layerComps")
-        );
         const layerComps = _ref && _ref.export ? _ref.export() : void 0 || [];
 
         return {

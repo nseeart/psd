@@ -1,5 +1,3 @@
-import RSVP from "rsvp";
-
 export default {
     toBase64() {
         var canvas, context, i, imageData, pixel, pixelData, _i, _len, _ref;

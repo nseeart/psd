@@ -72,7 +72,6 @@ class LazyExecute {
 
     // The arguments are a list of method/property names we don't want to trigger on-demand parsing.
     ignore(...args) {
-        console.log("ignore=", args);
         this.passthru.concat(args);
         return this;
     }

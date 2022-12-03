@@ -1,7 +1,7 @@
 import LayerInfo from "../layer_info";
 import Descriptor from "../descriptor";
 
-class Artboard extends LayerInfo {
+export default class Artboard extends LayerInfo {
     constructor() {
         console.log("...arguments", ...arguments);
         return super(...arguments);
@@ -31,12 +31,3 @@ class Artboard extends LayerInfo {
         };
     }
 }
-
-// Artboard.prototype.parse = function () {
-//     this.file.seek(4, true);
-//     this.data = new Descriptor(this.file);
-//     console.log("this.data", this.data.parse());
-//     return this.data.parse();
-// };
-
-export default Artboard;

@@ -1,4 +1,4 @@
-import { includes } from "./module";
+import { includes } from "./util";
 import positionChannels from "./layer/position_channels";
 import blendModes from "./layer/blend_modes";
 import info from "./layer/info";
@@ -62,11 +62,7 @@ class Layer {
             mask: this.mask.export(),
         };
     }
-
-    // parseChannelImage: channelImage.parseChannelImage;
 }
-
-// Layer.prototype.parseChannelImage = channelImage.parseChannelImage;
 
 includes(Layer, positionChannels);
 includes(Layer, blendModes);

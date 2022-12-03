@@ -19,7 +19,7 @@ import vectorOrigination from "../layer_info/vector_origination";
 import vectorStroke from "../layer_info/vector_stroke";
 import vectorStrokeContent from "../layer_info/vector_stroke_content";
 
-import { pad2 } from "../util2";
+import { pad2 } from "../util";
 import LazyExecute from "../lazy_execute";
 
 const LAYER_INFO = {

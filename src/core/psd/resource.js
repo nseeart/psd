@@ -1,4 +1,4 @@
-import { pad2 } from "./util2";
+import { pad2 } from "./util";
 import ResourceSection from "./resource_section";
 
 class Resource {
