@@ -1,7 +1,7 @@
 import LayerComps from "./resources/layer_comps";
 import LayerLinks from "./resources/layer_links";
+import { tap } from "lodash-es";
 
-const _ = require("lodash");
 const RESOURCES = [LayerComps, LayerLinks];
 
 export default class ResourceSection {
@@ -12,7 +12,7 @@ export default class ResourceSection {
             if (Section.prototype.id !== resource.id) {
                 continue;
             }
-            return _.tap(new Section(resource), (s) => {
+            return tap(new Section(resource), (s) => {
                 return s.parse();
             });
         }

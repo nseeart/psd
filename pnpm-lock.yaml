@@ -13,9 +13,6 @@ specifiers:
   babel-preset-stage-2: ^6.22.0
   chalk: ^2.0.1
   coffee-loader: ^0.9.0
-  coffee-script: ~ 1.7.1
-  coffeescript: ^2.1.1
-  coffeescript-module: ~ 0.2.1
   copy-webpack-plugin: ^4.0.1
   css-loader: ^0.28.0
   extract-text-webpack-plugin: ^3.0.0
@@ -23,7 +20,6 @@ specifiers:
   friendly-errors-webpack-plugin: ^1.6.1
   html-webpack-plugin: ^2.30.1
   iconv-lite: ~ 0.4.4
-  lodash: ~ 2.4
   lodash-es: ^4.17.21
   node-notifier: ^5.1.2
   optimize-css-assets-webpack-plugin: ^3.2.0
@@ -38,7 +34,7 @@ specifiers:
   rimraf: ^2.6.0
   rollup-plugin-babel: ^3.0.3
   rollup-plugin-node-resolve: ^3.0.0
-  rsvp: ~ 3.0.6
+  rsvp: ~3.0.21
   safer-buffer: ^2.1.2
   semver: ^5.3.0
   shelljs: ^0.7.6
@@ -53,11 +49,7 @@ specifiers:
   webpack-merge: ^4.1.0
 
 dependencies:
-  coffee-script: 1.7.1
-  coffeescript: 2.7.0
-  coffeescript-module: 0.2.1
   iconv-lite: 0.4.24
-  lodash: 2.4.2
   lodash-es: 4.17.21
   parse-engine-data: 0.1.2
   pngjs: 3.2.0
@@ -76,7 +68,7 @@ devDependencies:
   babel-preset-env: 1.7.0
   babel-preset-stage-2: 6.24.1
   chalk: 2.4.2
-  coffee-loader: 0.9.0_coffeescript@2.7.0
+  coffee-loader: 0.9.0
   copy-webpack-plugin: 4.6.0
   css-loader: 0.28.11
   extract-text-webpack-plugin: 3.0.2_webpack@3.12.0
@@ -98,7 +90,7 @@ devDependencies:
   shelljs: 0.7.8
   uglifyjs-webpack-plugin: 1.3.0_webpack@3.12.0
   url-loader: 0.5.9_file-loader@1.1.11
-  vue-loader: 13.7.3_pd2epmh3qvo45hwv5wcfoqexgi
+  vue-loader: 13.7.3_krlkgggcd4gw5zlxktysnnpvsm
   vue-style-loader: 3.1.2
   vue-template-compiler: 2.7.14
   webpack: 3.12.0
@@ -1656,31 +1648,13 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /coffee-loader/0.9.0_coffeescript@2.7.0:
+  /coffee-loader/0.9.0:
     resolution: {integrity: sha512-VSoQ5kWr6Yfjn4RDpVbba2XMs3XG1ZXtLakPRt8dNfUcNU9h+1pocpdUUEd7NK9rLDwrju4yonhxrL8aMr5tww==}
     peerDependencies:
       coffeescript: '>= 1.8.x'
     dependencies:
-      coffeescript: 2.7.0
       loader-utils: 1.4.2
     dev: true
-
-  /coffee-script/1.7.1:
-    resolution: {integrity: sha512-W3s+SROY73OmrSGtPTTW/2wp2rmW5vuh0/tUuCK1NvTuyzLOVPccIP9whmhZ4cYWcr2NJPNENZIFaAMkTD5G3w==}
-    engines: {node: '>=0.8.0'}
-    deprecated: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
-    hasBin: true
-    dependencies:
-      mkdirp: 0.3.5
-
-  /coffeescript-module/0.2.1:
-    resolution: {integrity: sha512-xVLuaDltmc5OnwvGd7/82U/kwQ0me09b66Ywg/N/KynmE41XTWbsl2+dCySOs3ixnjsy5xXOdM5BjIpjNUAQSg==}
-    dev: false
-
-  /coffeescript/2.7.0:
-    resolution: {integrity: sha512-hzWp6TUE2d/jCcN67LrW1eh5b/rSDKQK6oD6VMLlggYVUUFexgTH9z3dNYihzX4RMhze5FTUsUmOXViJKFQR/A==}
-    engines: {node: '>=6'}
-    hasBin: true
 
   /collection-visit/1.0.0:
     resolution: {integrity: sha512-lNkKvzEeMBBjUGHZ+q6z9pSJla0KWAQPvtzhEV9+iGyQYG+pBpl7xKDhxoNSOZH2hhv0v5k0y2yAM4o4SjoSkw==}
@@ -1814,7 +1788,7 @@ packages:
     resolution: {integrity: sha512-ZMkYO/LkF17QvCPqM0gxw8yUzigAOZOSWSHg91FH6orS7vcEj5dVZTidN2fQ14yBSdg97RqhSNwLUXInd52OTA==}
     dev: true
 
-  /consolidate/0.14.5_defg2spcbyi3dyjxot7vyiepke:
+  /consolidate/0.14.5_babel-core@6.26.3:
     resolution: {integrity: sha512-PZFskfj64QnpKVK9cPdY36pyWEhZNM+srRVqtwMiVTlnViSoZcvX35PpBhhUcyLTHXYvz7pZRmxvsqwzJqg9kA==}
     peerDependencies:
       arc-templates: ^0.5.3
@@ -1980,8 +1954,6 @@ packages:
     dependencies:
       babel-core: 6.26.3
       bluebird: 3.7.2
-      coffee-script: 1.7.1
-      lodash: 2.4.2
     dev: true
 
   /constants-browserify/1.0.0:
@@ -4366,10 +4338,6 @@ packages:
     resolution: {integrity: sha512-xfBaXQd9ryd9dlSDvnvI0lvxfLJlYAZzXomUYzLKtUeOQvOP5piqAWuGtrhWeqaXK9hhoM/iyJc5AV+XfsX3HQ==}
     dev: true
 
-  /lodash/2.4.2:
-    resolution: {integrity: sha512-Kak1hi6/hYHGVPmdyiZijoQyz5x2iGVzs6w9GYB/HiXEtylY7tIoYEROMjvM1d9nXJqPOrG2MNPMn01bJ+S0Rw==}
-    engines: {'0': node, '1': rhino}
-
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
     dev: true
@@ -4625,10 +4593,6 @@ packages:
       for-in: 1.0.2
       is-extendable: 1.0.1
     dev: true
-
-  /mkdirp/0.3.5:
-    resolution: {integrity: sha512-8OCq0De/h9ZxseqzCH8Kw/Filf5pF/vMI6+BH7Lu0jXz2pqYCjTAQRolSxRIi+Ax+oCCjlxoJMP0YQ4XlrQNHg==}
-    deprecated: Legacy versions of mkdirp are no longer supported. Please update to mkdirp 1.x. (Note that the API surface has changed to use Promises in 1.x.)
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
@@ -7331,7 +7295,7 @@ packages:
     resolution: {integrity: sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==}
     dev: true
 
-  /vue-loader/13.7.3_pd2epmh3qvo45hwv5wcfoqexgi:
+  /vue-loader/13.7.3_krlkgggcd4gw5zlxktysnnpvsm:
     resolution: {integrity: sha512-ACCwbfeC6HjY2pnDii+Zer+MZ6sdOtwvLmDXRK/BoD3WNR551V22R6KEagwHoTRJ0ZlIhpCBkptpCU6+Ri/05w==}
     peerDependencies:
       '@vue/compiler-sfc': ^3.0.8
@@ -7342,7 +7306,7 @@ packages:
       '@vue/compiler-sfc':
         optional: true
     dependencies:
-      consolidate: 0.14.5_defg2spcbyi3dyjxot7vyiepke
+      consolidate: 0.14.5_babel-core@6.26.3
       css-loader: 0.28.11
       hash-sum: 1.0.2
       loader-utils: 1.4.2

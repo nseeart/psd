@@ -2,7 +2,6 @@ import { includes } from "./util";
 import ancestry from "./nodes/ancestry";
 import search from "./nodes/search";
 import buildPreview from "./nodes/build_preview";
-const _ = require("lodash");
 
 class Node {
     static PROPERTIES = [

@@ -1,5 +1,4 @@
 import TypeTool from "./typetool";
-const _ = require("lodash");
 
 export default class LegacyTypeTool extends TypeTool {
     static shouldParse(key) {

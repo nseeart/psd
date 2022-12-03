@@ -1,7 +1,7 @@
 import Node from "../node";
 import Group from "./group";
 import Layer from "./layer";
-const _ = require("lodash");
+import { last } from "lodash-es";
 
 class Root extends Node {
     constructor(psd) {
@@ -59,7 +59,7 @@ class Root extends Node {
             const layer = _ref[_i];
             if (layer.isFolder()) {
                 parseStack.push(currentGroup);
-                currentGroup = new Group(layer, _.last(parseStack));
+                currentGroup = new Group(layer, last(parseStack));
             } else if (layer.isFolderEnd()) {
                 parent = parseStack.pop();
                 parent.children().push(currentGroup);
