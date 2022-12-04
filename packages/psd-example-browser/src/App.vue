@@ -18,7 +18,7 @@ const dataRef = ref();
 const imageRef = ref();
 
 onMounted(() => {
-    PSD.fromURL("/test2.psd").then(function (psd: PSD) {
+    PSD.fromURL("/test2.psd").then((psd: PSD) => {
         console.log("psd==========", psd);
         const data = psd.tree().export();
         const dataString = JSON.stringify(data, undefined, 2);
