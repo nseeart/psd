@@ -1,6 +1,6 @@
 # psd-parser.js
 
-A general purpose PSD parser written in ES6. Based off of [PSD.rb](https://github.com/layervault/psd.rb). It allows you to work with a Photoshop document in a manageable tree structure and find out important data such as:
+A general purpose PSD parser written in ES6. Based off of [PSD.rb](https://github.com/layervault/psd.rb) and [PSD.js](https://github.com/meltingice/psd.js). It allows you to work with a Photoshop document in a manageable tree structure and find out important data such as:
 
 -   Document structure
 -   Document size
@@ -21,11 +21,10 @@ Runs in both NodeJS and the browser (using browserify). There are still some pie
 
 ```bash
 # pnpm
-pnpm install @n.see/psd-parser
-# or
-# npm
+pnpm install @n.see/psd-parser --save
+# or npm
 npm install @n.see/psd-parser --save
-# yarn
+# or yarn
 yarn add @n.see/psd-parser --save
 ```
 
@@ -178,7 +177,7 @@ node.get("name");
 node.get("width");
 ```
 
-PSD files also store various pieces of information in "layer info" blocks. See [this file](https://github.com/meltingice/psd.js/blob/master/lib/psd/layer/info.coffee) for all of the possible layer info blocks that PSD.js parses (in `LAYER_INFO`). Which blocks a layer has varies from layer-to-layer, but to access them you can do:
+PSD files also store various pieces of information in "layer info" blocks. See [this file](https://github.com/nseeart/psd/blob/main/packages/psd-parser/src/core/psd/layer/info.js) for all of the possible layer info blocks that psd-parser.js parses (in `LAYER_INFO`). Which blocks a layer has varies from layer-to-layer, but to access them you can do:
 
 ```js
 node = psd.tree().descendants()[0];
