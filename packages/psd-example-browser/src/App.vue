@@ -3,22 +3,15 @@
         <div id="dropzone">
             <p>Drop here</p>
         </div>
-        <div id="app">
+        <div id="content">
             <div ref="imageRef" id="image"></div>
             <pre ref="dataRef" id="data"></pre>
         </div>
-        <a href="https://vitejs.dev" target="_blank">
-            <img src="/vite.svg" class="logo" alt="Vite logo" />
-        </a>
-        <a href="https://vuejs.org/" target="_blank">
-            <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-        </a>
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import HelloWorld from "./components/HelloWorld.vue";
 import PSD from "@n.see/psd-parser";
 
 const dataRef = ref();
@@ -67,5 +60,9 @@ onMounted(() => {
     margin: 0;
     padding: 0;
     background-color: #eee;
+}
+
+#content {
+    display: flex;
 }
 </style>

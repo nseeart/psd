@@ -15,11 +15,11 @@ const MATCH_TYPE = [
     string,
 ];
 
-var nodeStack = [],
+let nodeStack = [],
     propertyStack = [];
-var currentNode = [];
+let currentNode = [];
 
-var paresr = function (engineData) {
+let paresr = function (engineData) {
     nodeStack = propertyStack = currentNode = []; //reset
     textReg(textSegment(codeToString(engineData)));
 
@@ -41,8 +41,8 @@ function textReg(textArr) {
 }
 
 function typeMatch(currentText) {
-    for (var currentType in MATCH_TYPE) {
-        var t = new MATCH_TYPE[currentType](currentText);
+    for (let currentType in MATCH_TYPE) {
+        let t = new MATCH_TYPE[currentType](currentText);
         if (t.match) {
             return t.parse();
         }
@@ -61,7 +61,7 @@ function isArray(o) {
 
 // tyep reg
 function hashStart(text) {
-    var reg = /^<<$/;
+    let reg = /^<<$/;
 
     return {
         match: Match(reg, text),
@@ -71,7 +71,7 @@ function hashStart(text) {
     };
 }
 function hashEnd(text) {
-    var reg = /^>>$/;
+    let reg = /^>>$/;
 
     return {
         match: Match(reg, text),
@@ -81,7 +81,7 @@ function hashEnd(text) {
     };
 }
 function multiLineArrayStart(text) {
-    var reg = /^\/(\w+) \[$/;
+    let reg = /^\/(\w+) \[$/;
 
     return {
         match: Match(reg, text),
@@ -92,7 +92,7 @@ function multiLineArrayStart(text) {
     };
 }
 function multiLineArrayEnd(text) {
-    var reg = /^\]$/;
+    let reg = /^\]$/;
 
     return {
         match: Match(reg, text),
@@ -102,7 +102,7 @@ function multiLineArrayEnd(text) {
     };
 }
 function property(text) {
-    var reg = /^\/([A-Z0-9]+)$/i;
+    let reg = /^\/([A-Z0-9]+)$/i;
 
     return {
         match: Match(reg, text),
@@ -112,19 +112,19 @@ function property(text) {
     };
 }
 function propertyWithData(text) {
-    var reg = /^\/([A-Z0-9]+)\s((.|\r)*)$/i;
+    let reg = /^\/([A-Z0-9]+)\s((.|\r)*)$/i;
 
     return {
         match: Match(reg, text),
         parse: function () {
-            var match = text.match(reg);
+            let match = text.match(reg);
             pushKeyValue(match[1], typeMatch(match[2]));
         },
     };
 }
 // value reg
 function boolean(text) {
-    var reg = /^(true|false)$/;
+    let reg = /^(true|false)$/;
     return {
         match: Match(reg, text),
         parse: function () {
@@ -133,7 +133,7 @@ function boolean(text) {
     };
 }
 function number(text) {
-    var reg = /^-?\d+$/;
+    let reg = /^-?\d+$/;
     return {
         match: Match(reg, text),
         parse: function () {
@@ -142,7 +142,7 @@ function number(text) {
     };
 }
 function numberWithDecimal(text) {
-    var reg = /^(-?\d*)\.(\d+)$/;
+    let reg = /^(-?\d*)\.(\d+)$/;
     return {
         match: Match(reg, text),
         parse: function () {
@@ -152,13 +152,13 @@ function numberWithDecimal(text) {
 }
 function singleLineArray(text) {
     //单行数组似乎只有数字数组的情况
-    var reg = /^\[(.*)\]$/;
+    let reg = /^\[(.*)\]$/;
     return {
         match: Match(reg, text),
         parse: function () {
-            var items = text.match(reg)[1].trim().split(" ");
-            var tempArr = [];
-            for (var i = 0, l = items.length; i < l; i++) {
+            let items = text.match(reg)[1].trim().split(" ");
+            let tempArr = [];
+            for (let i = 0, l = items.length; i < l; i++) {
                 tempArr.push(typeMatch(items[i]));
             }
             return tempArr;
@@ -168,13 +168,13 @@ function singleLineArray(text) {
 
 function string(text) {
     //the text in editor has some encoding issues
-    var reg = /^\(((.|\r)*)\)$/;
+    let reg = /^\(((.|\r)*)\)$/;
     return {
         match: Match(reg, text),
         parse: function () {
-            var txt = text.match(reg)[1];
-            var bf = [];
-            for (var i = 0, l = txt.length; i < l; i++) {
+            let txt = text.match(reg)[1];
+            let bf = [];
+            for (let i = 0, l = txt.length; i < l; i++) {
                 bf.push(txt.charCodeAt(i));
             }
             return iconv.decode(new Buffer.from(bf), "utf-16"); //it`s utf-16 with bom
@@ -188,7 +188,7 @@ function stackPush(node) {
     currentNode = node;
 }
 function updateNode() {
-    var node = nodeStack.pop();
+    let node = nodeStack.pop();
     if (isArray(node)) {
         node.push(currentNode);
     } else {

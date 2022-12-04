@@ -15,7 +15,7 @@ function _DeArray(a, p, l) {
     return [a.slice(p, p + l)];
 }
 function _EnArray(a, p, l, v) {
-    for (var i = 0; i < l; a[p + i] = v[i] ? v[i] : 0, i++);
+    for (let i = 0; i < l; a[p + i] = v[i] ? v[i] : 0, i++);
 }
 
 // ASCII characters

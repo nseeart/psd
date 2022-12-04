@@ -20,6 +20,6 @@
         "skipLibCheck": true,
         "allowJs": true
     },
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "src/main.js", "src/main.js"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }
