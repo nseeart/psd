@@ -19,7 +19,15 @@ Runs in both NodeJS and the browser (using browserify). There are still some pie
 
 ## Installation
 
-psd-parser has no native dependencies. Simply add `@n.see/psd-parser` to your package.json or run `pnpm install @n.see/psd-parser`.
+```bash
+# pnpm
+pnpm install @n.see/psd-parser
+# or
+# npm
+npm install @n.see/psd-parser --save
+# yarn
+yarn add @n.see/psd-parser --save
+```
 
 ## Documentation
 

@@ -1,5 +1,5 @@
 {
-    "name": "psd-example-node",
+    "name": "@n.see/psd-example-node",
     "version": "1.0.0",
     "type": "module",
     "description": "",
@@ -13,5 +13,9 @@
     "dependencies": {
         "@n.see/psd-parser": "workspace:^1.0.0",
         "koa": "^2.13.4"
+    },
+    "engines": {
+        "node": ">=16.0.0",
+        "pnpm": ">=7.0.0"
     }
 }

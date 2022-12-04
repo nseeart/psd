@@ -1,12 +1,16 @@
 {
-  "name": "psd",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+    "name": "psd",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "engines": {
+        "node": ">=16.0.0",
+        "pnpm": ">=7.0.0.0"
+    },
+    "author": "n.see",
+    "license": "ISC"
 }

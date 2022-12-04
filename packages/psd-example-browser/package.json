@@ -22,5 +22,9 @@
         "vite-plugin-commonjs": "^0.6.0",
         "vite-plugin-require-transform": "^1.0.4",
         "vue-tsc": "^1.0.9"
+    },
+    "engines": {
+        "node": ">=16.0.0",
+        "pnpm": ">=7.0.0"
     }
 }
