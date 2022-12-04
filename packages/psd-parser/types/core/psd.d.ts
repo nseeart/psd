@@ -8,6 +8,8 @@ export default class PSD {
     static fromURL(url: any): any;
     static fromEvent(e: any): any;
     static fromDroppedFile(file: any): any;
+    static fromFile(file: any): PSD | undefined;
+    static open(file: any): any;
     constructor(data: any);
     file: File;
     parsed: boolean;

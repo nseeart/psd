@@ -1,5 +1,9 @@
 declare namespace _default {
-    export { PNG };
+    const PNG: {
+        toPngSteam(): any;
+        saveAsPng(output: any): any;
+        toBase64(): string;
+        toPng(): HTMLImageElement;
+    };
 }
 export default _default;
-import PNG from "../shims/png";

@@ -7,6 +7,7 @@ import Header from "./psd/header";
 import ColorModeData from "./psd/color_mode_data";
 import Resources from "./psd/resources";
 import RSVP from "rsvp";
+// import { readFile } from "fs";
 
 /**
  * https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/
@@ -121,5 +122,27 @@ export default class PSD {
             reader.onerror = reject;
             return reader.readAsArrayBuffer(file);
         });
+    }
+
+    // node
+    static fromFile(file) {
+        if (process) {
+            return new PSD(require("fs").readFileSync(file));
+        }
+    }
+
+    static open(file) {
+        if (process) {
+            return new RSVP.Promise((resolve, reject) => {
+                require("fs").readFile(file, (err, data) => {
+                    if (err) {
+                        return reject(err);
+                    }
+                    const psd = new PSD(data);
+                    psd.parse();
+                    resolve(psd);
+                });
+            });
+        }
     }
 }

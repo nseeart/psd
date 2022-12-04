@@ -1,4 +1,5 @@
 import terser from "@rollup/plugin-terser";
+import nodePolyfills from "rollup-plugin-polyfill-node";
 import resolve from "@rollup/plugin-node-resolve";
 import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
@@ -6,30 +7,28 @@ import json from "@rollup/plugin-json";
 // import ts from "@rollup/plugin-typescript";
 
 const isProduction = process.env.NODE_ENV === "production";
+const isBrowser = process.env.RUN_ENV === "browser";
+
+console.log("isBrowser", isBrowser);
 
 export default {
     input: "src/main.js",
     output: [
         {
-            file: "dist/psd-parser.esm.js",
+            file: isBrowser
+                ? "dist/psd-parser.browser.mjs"
+                : "dist/psd-parser.mjs",
             format: "es",
         },
         {
-            file: "dist/psd-parser.cjs.js",
+            file: isBrowser
+                ? "dist/psd-parser.browser.js"
+                : "dist/psd-parser.js",
             format: "cjs",
-        },
-        {
-            file: "dist/psd-parser.umd.js",
-            format: "iife",
-            name: "PSD",
-            // 在 UMD 构建模式下为这些外部化的依赖提供一个全局变量
-            globals: {
-                psd: "PSD",
-            },
-            // plugins: [terser()],
         },
     ],
     plugins: [
+        isBrowser && nodePolyfills(/* options */),
         json(),
         resolve({
             preferBuiltins: false,

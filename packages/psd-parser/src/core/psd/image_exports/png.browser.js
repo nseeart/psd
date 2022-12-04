@@ -24,7 +24,7 @@ export default {
         image.src = dataUrl;
         return image;
     },
-    saveAsPng() {
-        throw "Not available in the browser. Use toPng() instead.";
-    },
+    // saveAsPng() {
+    //     throw "Not available in the browser. Use toPng() instead.";
+    // },
 };

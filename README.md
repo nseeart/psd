@@ -1,4 +1,4 @@
-# psd-parser
+# psd-parser.js
 
 A general purpose PSD parser written in ES6. Based off of [PSD.rb](https://github.com/layervault/psd.rb). It allows you to work with a Photoshop document in a manageable tree structure and find out important data such as:
 
@@ -19,34 +19,45 @@ Runs in both NodeJS and the browser (using browserify). There are still some pie
 
 ## Installation
 
-PSD.js has no native dependencies. Simply add `psd` to your package.json or run `npm install psd`.
+psd-parser has no native dependencies. Simply add `@n.see/psd-parser` to your package.json or run `pnpm install @n.see/psd-parser`.
 
 ## Documentation
 
-**Note: work in progress**
-
-Annotated source code documentation is available [here](http://meltingice.github.io/psd.js/docs/). PROTIP: if you're wondering how to access various metadata from a layer, you'll want to see this [file](http://meltingice.github.io/psd.js/docs/lib/psd/layer/info.coffee.html).
-
 ## Usage
 
-PSD.js works almost exactly the same in the browser and NodeJS.
+psd-parser.js works almost exactly the same in the browser and NodeJS.
 
 ### NodeJS Example
 
 ```js
-var PSD = require("psd");
-var psd = PSD.fromFile("path/to/file.psd");
-psd.parse();
-console.log(psd.tree().export());
-console.log(psd.tree().childrenAtPath("A/B/C")[0].export());
-// You can also use promises syntax for opening and parsing
-PSD.open("path/to/file.psd")
-    .then(function (psd) {
-        return psd.image.saveAsPng("./output.png");
-    })
-    .then(function () {
-        console.log("Finished!");
-    });
+import Koa from "koa";
+import PSD from "@n.see/psd-parser";
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const filepath = resolve(__dirname, "..", "public/test2.psd");
+const imgpath = resolve(__dirname, "..", "public/output.png");
+
+const app = new Koa();
+
+// response
+app.use(async (ctx) => {
+    // const psd = PSD.fromFile(filepath);
+    // psd.parse();
+    // const data = psd.tree().export();
+    // console.log("data:", data);
+    // ctx.body = data;
+
+    const psd = await PSD.open(filepath);
+    const data = psd.tree().export();
+    psd.image.saveAsPng(imgpath);
+    ctx.body = data;
+});
+
+app.listen(3000);
+console.log(`[psd-parser] http://127.0.0.1:3000`);
 ```
 
 ### Browser Example
