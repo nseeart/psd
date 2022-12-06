@@ -9,7 +9,9 @@ import * as actions from "./actions";
 import mutations from "./mutations";
 
 const store = createStore({
-    state,
+    state() {
+        return state;
+    },
     getters,
     actions,
     mutations,

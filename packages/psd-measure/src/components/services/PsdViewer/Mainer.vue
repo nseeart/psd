@@ -65,7 +65,7 @@
 
 <script lang="ts" setup>
 import DropBox from "./DropBox.vue";
-// import ViewLayer from "./ViewLayer.vue";
+import ViewLayer from "./ViewLayer.vue";
 import { useStore } from "vuex";
 import { reactive, computed, watch } from "vue";
 const store = useStore();

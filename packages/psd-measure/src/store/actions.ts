@@ -84,10 +84,12 @@ function getUpdateAt() {
     return moment().format("YYYY/MM/DD hh:mm");
 }
 
-export const getImage = ({ commit, getters }, id) => {
+export const getImage = ({ commit, getters }, id: number) => {
     let psdTree = getters.getPsdTree;
     let descendants = psdTree.descendants();
     let node = descendants[id];
+    console.log("node===", node);
+    console.log("toPng===", node.toPng);
     let png = node.toPng();
 
     let imageParse = new ImageParse(node);

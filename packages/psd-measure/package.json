@@ -9,13 +9,17 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@element-plus/icons-vue": "^2.0.10",
         "@n.see/psd-parser": "workspace:^1.0.0",
         "clipboard": "^2.0.11",
         "element-plus": "^2.2.26",
         "highlight.js": "^11.7.0",
+        "install": "^0.13.0",
         "moment": "^2.29.4",
+        "pnpm": "^7.18.1",
         "vue": "^3.2.41",
-        "vue3-highlightjs": "^1.0.5"
+        "vue3-highlightjs": "^1.0.5",
+        "vuex": "^4.1.0"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^23.0.3",

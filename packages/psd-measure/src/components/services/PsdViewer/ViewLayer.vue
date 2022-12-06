@@ -1,3 +1,308 @@
+<template>
+    <div class="layers-inner">
+        <div class="layer-select" v-if="isSelectLayer">
+            <div
+                class="layer-rect-lr"
+                :style="{
+                    top: selectLayer.top + 'px',
+                    height: selectLayer.height + 'px',
+                }"
+            ></div>
+            <div
+                class="layer-rect-tb"
+                :style="{
+                    left: selectLayer.left + 'px',
+                    width: selectLayer.width + 'px',
+                }"
+            ></div>
+            <div
+                class="layer-rect-middle"
+                :style="{
+                    left: selectLayer.left + 'px',
+                    top: selectLayer.top + 'px',
+                    width: selectLayer.width + 'px',
+                    height: selectLayer.height + 'px',
+                }"
+            >
+                <span class="layer-dot-tl"></span>
+                <span class="layer-dot-tr"></span>
+                <span class="layer-dot-bl"></span>
+                <span class="layer-dot-br"></span>
+            </div>
+            <div
+                class="layer-rect-attr layer-rect-width"
+                v-if="selectLayerAttr.width.isShow"
+                :style="{
+                    top: selectLayerAttr.width.top + 'px',
+                    left: selectLayerAttr.width.left + 'px',
+                }"
+            >
+                {{ selectLayer.width + "px" }}
+            </div>
+            <div
+                class="layer-rect-attr layer-rect-height"
+                v-if="selectLayerAttr.height.isShow"
+                :style="{
+                    top: selectLayerAttr.height.top + 'px',
+                    left: selectLayerAttr.height.left + 'px',
+                }"
+            >
+                {{ selectLayer.height + "px" }}
+            </div>
+        </div>
+        <div class="layer-over">
+            <div
+                class="layer-over-rect"
+                :style="{
+                    left: overLayer.left + 'px',
+                    top: overLayer.top + 'px',
+                    width: overLayer.width + 'px',
+                    height: overLayer.height + 'px',
+                }"
+            ></div>
+            <template v-for="attr in overLayerAttr.vertical">
+                <template v-if="attr.isShow">
+                    <div
+                        class="layer-over-line"
+                        :style="{
+                            top: attr.top + 'px',
+                            height: attr.height + 'px',
+                            left: attr.left + 'px',
+                            width: attr.width + 'px',
+                        }"
+                    ></div>
+                    <div
+                        class="layer-over-line"
+                        :style="{
+                            top: attr.top + 'px',
+                            height: '1px',
+                            left: attr.left - 2 + 'px',
+                            width: '5px',
+                        }"
+                    ></div>
+                    <div
+                        class="layer-over-line"
+                        :style="{
+                            top: attr.top + attr.height + 'px',
+                            height: '1px',
+                            left: attr.left - 2 + 'px',
+                            width: '5px',
+                        }"
+                    ></div>
+                    <div
+                        class="layer-rect-attr-over layer-rect-height"
+                        :style="{
+                            top: attr.top + attr.height / 2 + 'px',
+                            left: attr.left + attr.width / 2 + 5 + 'px',
+                        }"
+                    >
+                        {{ attr.height + "px" }}
+                    </div>
+                </template>
+            </template>
+            <template v-for="attr in overLayerAttr.horizontal">
+                <template v-if="attr.isShow">
+                    <div
+                        class="layer-over-line"
+                        :style="{
+                            top: attr.top + 'px',
+                            width: attr.width + 'px',
+                            left: attr.left + 'px',
+                            height: attr.height + 'px',
+                        }"
+                    ></div>
+                    <div
+                        class="layer-over-line"
+                        :style="{
+                            top: attr.top - 2 + 'px',
+                            width: '1px',
+                            left: attr.left + 'px',
+                            height: '5px',
+                        }"
+                    ></div>
+                    <div
+                        class="layer-over-line"
+                        :style="{
+                            top: attr.top - 2 + 'px',
+                            width: '1px',
+                            left: attr.left + attr.width + 'px',
+                            height: '5px',
+                        }"
+                    ></div>
+                    <div
+                        class="layer-rect-attr-over layer-rect-width"
+                        :style="{
+                            top: attr.top + 5 + 'px',
+                            left: attr.left + attr.width / 2 + 'px',
+                        }"
+                    >
+                        {{ attr.width + "px" }}
+                    </div>
+                </template>
+            </template>
+        </div>
+        <div class="layer-list">
+            <div
+                class="layer"
+                v-for="(layer, index) in layers"
+                :style="{
+                    width: layer.width + 'px',
+                    height: layer.height + 'px',
+                    left: layer.left + 'px',
+                    top: layer.top + 'px',
+                    'z-index': layer.zIndex,
+                }"
+                @click="handleLayerClick($event, index, layer)"
+                @mouseover="handleLayerOver($event, index, layer)"
+                @mouseout="handleLayerOut($event, index, layer)"
+            ></div>
+        </div>
+    </div>
+</template>
+
+<script lang="ts" setup>
+import { useStore } from "vuex";
+import Distance from "@/core/distance";
+import { PSDLayer } from "@/store/libs/psdParse";
+import { ref, computed, reactive } from "vue";
+
+const store = useStore();
+const DISTANCE = 5;
+
+const selectLayer = ref({
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+});
+const selectLayerAttr = reactive<
+    Record<
+        string,
+        {
+            isShow: boolean;
+            top: number;
+            left: number;
+        }
+    >
+>({
+    width: {
+        isShow: false,
+        top: 0,
+        left: 0,
+    },
+    height: {
+        isShow: false,
+        top: 0,
+        left: 0,
+    },
+});
+const overLayer = ref({
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    width: 0,
+    height: 0,
+});
+
+interface Rect {
+    top: number;
+    height: number;
+    left: number;
+    width: number;
+    isShow: boolean;
+}
+const overLayerAttr = reactive<{
+    horizontal: Rect[];
+    vertical: Rect[];
+}>({
+    horizontal: [],
+    vertical: [],
+});
+const selectIndex = ref(0);
+const overIndex = ref(0);
+
+console.log("store==getters:", store.getters);
+const layers = computed(() => store.getters["getLayers"]);
+const isSelectLayer = computed(() => store.getters["getSelectLayerStatus"]);
+const docuement = computed(() => store.getters["getPsdDocument"]);
+
+// ...mapActions(["handleSelectLayer"]),
+const handleLayerClick = (ev: Event, index: number, layer: PSDLayer) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+    // this.handleSelectLayer();
+    store.dispatch("handleSelectLayer");
+    store.dispatch("setLayerItem", layer);
+    store.dispatch("getImage", layer.id);
+    // overLayer.value = layer;
+    // Object.assign(selectLayerAttr, getClickAttr(layer));
+    // selectIndex.value = index;
+    // if (overIndex.value === index) {
+    //     overLayerAttr.horizontal.forEach((item, index) => {
+    //         item.isShow = false;
+    //     });
+    //     overLayerAttr.vertical.forEach((item, index) => {
+    //         item.isShow = false;
+    //     });
+    // }
+};
+function getClickAttr(currentLayer: PSDLayer) {
+    return {
+        width: {
+            isShow: true,
+            top: currentLayer.top + currentLayer.height + DISTANCE,
+            left: currentLayer.left + currentLayer.width / 2,
+        },
+        height: {
+            isShow: true,
+            top: currentLayer.top + currentLayer.height / 2,
+            left: currentLayer.left + currentLayer.width + DISTANCE,
+        },
+    };
+}
+const handleLayerOver = (ev: Event, index: number, layer: PSDLayer) => {
+    ev.stopPropagation();
+    ev.preventDefault();
+    overLayer.value = layer;
+    overIndex.value = index;
+    Object.assign(overLayerAttr, getOverAttr(layer));
+    if (overIndex.value !== index) {
+        for (let key in selectLayerAttr) {
+            selectLayerAttr[key].isShow = false;
+        }
+    } else {
+        for (let key in selectLayerAttr) {
+            selectLayerAttr[key].isShow = true;
+        }
+        overLayerAttr.horizontal.forEach((item, index) => {
+            item.isShow = false;
+        });
+        overLayerAttr.vertical.forEach((item, index) => {
+            item.isShow = false;
+        });
+    }
+
+    console.log("selectLayerAttr", selectLayerAttr);
+};
+const handleLayerOut = ($event: Event, index: number, layer: PSDLayer) => {
+    // this.width.isShow = false
+    // this.height.isShow = false
+};
+const getOverAttr = (currentLayer: PSDLayer) => {
+    let distance = new Distance(selectLayer.value, currentLayer);
+    // 垂直
+    let vertical = distance.vertical();
+    let horizontal = distance.horizontal();
+    return {
+        vertical,
+        horizontal,
+    };
+};
+</script>
+
 <style lang="scss" scoped>
 @import "base";
 .layers-inner {
@@ -111,284 +416,3 @@
     font-size: px2rem(24);
 }
 </style>
-
-<template>
-    <div class="layers-inner">
-        <div class="layer-select" v-if="isSelectLayer">
-            <div
-                class="layer-rect-lr"
-                :style="{
-                    top: selectLayer.top + 'px',
-                    height: selectLayer.height + 'px',
-                }"
-            ></div>
-            <div
-                class="layer-rect-tb"
-                :style="{
-                    left: selectLayer.left + 'px',
-                    width: selectLayer.width + 'px',
-                }"
-            ></div>
-            <div
-                class="layer-rect-middle"
-                :style="{
-                    left: selectLayer.left + 'px',
-                    top: selectLayer.top + 'px',
-                    width: selectLayer.width + 'px',
-                    height: selectLayer.height + 'px',
-                }"
-            >
-                <span class="layer-dot-tl"></span>
-                <span class="layer-dot-tr"></span>
-                <span class="layer-dot-bl"></span>
-                <span class="layer-dot-br"></span>
-            </div>
-            <div
-                class="layer-rect-attr layer-rect-width"
-                v-if="selectLayerAttr.width.isShow"
-                :style="{
-                    top: selectLayerAttr.width.top + 'px',
-                    left: selectLayerAttr.width.left + 'px',
-                }"
-            >
-                {{ selectLayer.width + "px" }}
-            </div>
-            <div
-                class="layer-rect-attr layer-rect-height"
-                v-if="selectLayerAttr.height.isShow"
-                :style="{
-                    top: selectLayerAttr.height.top + 'px',
-                    left: selectLayerAttr.height.left + 'px',
-                }"
-            >
-                {{ selectLayer.height + "px" }}
-            </div>
-        </div>
-        <div class="layer-over">
-            <div
-                class="layer-over-rect"
-                :style="{
-                    left: overLayer.left + 'px',
-                    top: overLayer.top + 'px',
-                    width: overLayer.width + 'px',
-                    height: overLayer.height + 'px',
-                }"
-            ></div>
-            <template v-for="attr in overLayerAttr.vertical" v-if="attr.isShow">
-                <div
-                    class="layer-over-line"
-                    :style="{
-                        top: attr.top + 'px',
-                        height: attr.height + 'px',
-                        left: attr.left + 'px',
-                        width: attr.width + 'px',
-                    }"
-                ></div>
-                <div
-                    class="layer-over-line"
-                    :style="{
-                        top: attr.top + 'px',
-                        height: '1px',
-                        left: attr.left - 2 + 'px',
-                        width: '5px',
-                    }"
-                ></div>
-                <div
-                    class="layer-over-line"
-                    :style="{
-                        top: attr.top + attr.height + 'px',
-                        height: '1px',
-                        left: attr.left - 2 + 'px',
-                        width: '5px',
-                    }"
-                ></div>
-                <div
-                    class="layer-rect-attr-over layer-rect-height"
-                    :style="{
-                        top: attr.top + attr.height / 2 + 'px',
-                        left: attr.left + attr.width / 2 + 5 + 'px',
-                    }"
-                >
-                    {{ attr.height + "px" }}
-                </div>
-            </template>
-            <template
-                v-for="attr in overLayerAttr.horizontal"
-                v-if="attr.isShow"
-            >
-                <div
-                    class="layer-over-line"
-                    :style="{
-                        top: attr.top + 'px',
-                        width: attr.width + 'px',
-                        left: attr.left + 'px',
-                        height: attr.height + 'px',
-                    }"
-                ></div>
-                <div
-                    class="layer-over-line"
-                    :style="{
-                        top: attr.top - 2 + 'px',
-                        width: '1px',
-                        left: attr.left + 'px',
-                        height: '5px',
-                    }"
-                ></div>
-                <div
-                    class="layer-over-line"
-                    :style="{
-                        top: attr.top - 2 + 'px',
-                        width: '1px',
-                        left: attr.left + attr.width + 'px',
-                        height: '5px',
-                    }"
-                ></div>
-                <div
-                    class="layer-rect-attr-over layer-rect-width"
-                    :style="{
-                        top: attr.top + 5 + 'px',
-                        left: attr.left + attr.width / 2 + 'px',
-                    }"
-                >
-                    {{ attr.width + "px" }}
-                </div>
-            </template>
-        </div>
-        <div class="layer-list">
-            <div
-                class="layer"
-                v-for="(layer, index) in layers"
-                :style="{
-                    width: layer.width + 'px',
-                    height: layer.height + 'px',
-                    left: layer.left + 'px',
-                    top: layer.top + 'px',
-                    'z-index': layer.zIndex,
-                }"
-                @click="handleLayerClick($event, index, layer)"
-                @mouseover="handleLayerOver($event, index, layer)"
-                @mouseout="handleLayerOut($event, index, layer)"
-            ></div>
-        </div>
-    </div>
-</template>
-
-<script lang="ts" setup>
-import { mapGetters, mapActions, useStore } from "vuex";
-import Distance from "@/core/distance";
-import { ref, computed, reactive } from "vue";
-
-const store = useStore();
-const DISTANCE = 5;
-
-const selectLayer = ref({
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-});
-const selectLayerAttr = ref({
-    width: {
-        isShow: false,
-        top: 0,
-        left: 0,
-    },
-    height: {
-        isShow: false,
-        top: 0,
-        left: 0,
-    },
-});
-const overLayer = ref({
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    width: 0,
-    height: 0,
-});
-const overLayerAttr = ref({
-    horizontal: [],
-    vertical: [],
-});
-const selectIndex = ref(null);
-const overIndex = ref(null);
-
-const layers = computed(() => store.getters["getLayers"]);
-const isSelectLayer = computed(() => store.getters["getSelectLayerStatus"]);
-const docuement = computed(() => store.getters["getPsdDocument"]);
-
-// ...mapActions(["handleSelectLayer"]),
-const handleLayerClick = (ev, index, layer) => {
-    ev.stopPropagation();
-    ev.preventDefault();
-    // this.handleSelectLayer();
-    store.dispatch("setLayerItem", layer);
-    store.dispatch("getImage", layer.id);
-    overLayer.value = layer;
-    selectLayerAttr.value = getClickAttr(layer);
-    selectIndex.value = index;
-    if (overIndex.value === index) {
-        overLayerAttr.value.horizontal.forEach((item, index) => {
-            overLayerAttr.value.horizontal[index].isShow = false;
-        });
-        overLayerAttr.value.vertical.forEach((item, index) => {
-            overLayerAttr.value.vertical[index].isShow = false;
-        });
-    }
-};
-function getClickAttr(currentLayer) {
-    return {
-        width: {
-            isShow: true,
-            top: currentLayer.top + currentLayer.height + DISTANCE,
-            left: currentLayer.left + currentLayer.width / 2,
-        },
-        height: {
-            isShow: true,
-            top: currentLayer.top + currentLayer.height / 2,
-            left: currentLayer.left + currentLayer.width + DISTANCE,
-        },
-    };
-}
-const handleLayerOver = (ev, index, layer) => {
-    ev.stopPropagation();
-    ev.preventDefault();
-    overLayer.value = layer;
-    overIndex.value = index;
-    overLayerAttr.value = getOverAttr(layer);
-    if (overIndex.value !== index) {
-        for (let key in selectLayerAttr.value) {
-            selectLayerAttr.value[key].isShow = false;
-        }
-    } else {
-        for (let key in selectLayerAttr.value) {
-            selectLayerAttr.value[key].isShow = true;
-        }
-        overLayerAttr.value.horizontal.forEach((item, index) => {
-            overLayerAttr.value.horizontal[index].isShow = false;
-        });
-        overLayerAttr.value.vertical.forEach((item, index) => {
-            overLayerAttr.value.vertical[index].isShow = false;
-        });
-    }
-
-    console.log("selectLayerAttr", selectLayerAttr.value);
-};
-const handleLayerOut = ($event, index, layer) => {
-    // this.width.isShow = false
-    // this.height.isShow = false
-};
-const getOverAttr = (currentLayer) => {
-    let distance = new Distance(selectLayer.value, currentLayer);
-    // 垂直
-    let vertical = distance.vertical();
-    let horizontal = distance.horizontal();
-    return {
-        vertical,
-        horizontal,
-    };
-};
-</script>

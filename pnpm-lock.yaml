@@ -42,6 +42,7 @@ importers:
 
   packages/psd-measure:
     specifiers:
+      '@element-plus/icons-vue': ^2.0.10
       '@n.see/psd-parser': workspace:^1.0.0
       '@rollup/plugin-commonjs': ^23.0.3
       '@rollup/plugin-node-resolve': ^15.0.1
@@ -50,21 +51,28 @@ importers:
       clipboard: ^2.0.11
       element-plus: ^2.2.26
       highlight.js: ^11.7.0
+      install: ^0.13.0
       moment: ^2.29.4
+      pnpm: ^7.18.1
       typescript: ^4.6.4
       vite: ^3.2.3
       vite-plugin-require-transform: ^1.0.4
       vue: ^3.2.41
       vue-tsc: ^1.0.9
       vue3-highlightjs: ^1.0.5
+      vuex: ^4.1.0
     dependencies:
+      '@element-plus/icons-vue': 2.0.10_vue@3.2.45
       '@n.see/psd-parser': link:../psd-parser
       clipboard: 2.0.11
       element-plus: 2.2.26_vue@3.2.45
       highlight.js: 11.7.0
+      install: 0.13.0
       moment: 2.29.4
+      pnpm: 7.18.1
       vue: 3.2.45
       vue3-highlightjs: 1.0.5_vue@3.2.45
+      vuex: 4.1.0_vue@3.2.45
     devDependencies:
       '@rollup/plugin-commonjs': 23.0.3
       '@rollup/plugin-node-resolve': 15.0.1
@@ -463,6 +471,10 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.2.45
       '@vue/shared': 3.2.45
+
+  /@vue/devtools-api/6.4.5:
+    resolution: {integrity: sha512-JD5fcdIuFxU4fQyXUu3w2KpAJHzTVdN+p4iOX2lMWSHMOoQdMAcpFLZzm9Z/2nmsoZ1a96QEhZ26e50xLBsgOQ==}
+    dev: false
 
   /@vue/reactivity-transform/3.2.45:
     resolution: {integrity: sha512-BHVmzYAvM7vcU5WmuYqXpwaBHjsS8T63jlKGWVtHxAHIoMIlmaMyurUSEs1Zcg46M4AYT5MtB1U274/2aNzjJQ==}
@@ -939,6 +951,11 @@ packages:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
 
+  /install/0.13.0:
+    resolution: {integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==}
+    engines: {node: '>= 0.10'}
+    dev: false
+
   /is-builtin-module/3.2.0:
     resolution: {integrity: sha512-phDA4oSGt7vl1n5tJvTWooWWAsXLY+2xCnxNqvKhGEzujg+A43wPlPOyDg3C8XQHN+6k/JTQWJ/j0dQh/qr+Hw==}
     engines: {node: '>=6'}
@@ -1053,6 +1070,12 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
     dev: true
+
+  /pnpm/7.18.1:
+    resolution: {integrity: sha512-GulnWxFW1dej1sSiju1FlYtvWIYa35ZvbTk9F8jOo+1GgJEVdx1ObLaZCApd2I4IB+jozyNWzInEdV0hQgUq0Q==}
+    engines: {node: '>=14.6'}
+    hasBin: true
+    dev: false
 
   /postcss/8.4.19:
     resolution: {integrity: sha512-h+pbPsyhlYj6N2ozBmHhHrs9DzGmbaarbLvWipMRO7RLS+v4onj26MPFXA5OBYFxyqYhUJK456SwDcY9H2/zsA==}
@@ -1214,6 +1237,15 @@ packages:
       vue: ^3.0.0
     dependencies:
       highlight.js: 10.7.3
+      vue: 3.2.45
+    dev: false
+
+  /vuex/4.1.0_vue@3.2.45:
+    resolution: {integrity: sha512-hmV6UerDrPcgbSy9ORAtNXDr9M4wlNP4pEFKye4ujJF8oqgFFuxDCdOLS3eNoRTtq5O3hoBDh9Doj1bQMYHRbQ==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@vue/devtools-api': 6.4.5
       vue: 3.2.45
     dev: false
 
