@@ -74,14 +74,11 @@ export default class PsdParse {
     descendants: any[];
     layers: any[];
     constructor(psdTree: any) {
-        console.log("psdTree====", psdTree);
         this.psdTree = psdTree;
         this.treeExport = this.psdTree.export();
-        console.log(" this.treeExport===", this.treeExport);
         this.children = this.treeExport.children;
         this.document = this.treeExport.document;
         this.descendants = this.psdTree.descendants();
-        console.log("this.descendants", this.descendants);
         this.layers = [];
     }
     parse() {
@@ -237,12 +234,12 @@ export default class PsdParse {
             weights: this.parseWeight(font.weights),
         };
     }
-    parseAlignment(alignment) {
+    parseAlignment(alignment: any) {
         if (!alignment) return;
         return unique(alignment).join("/");
     }
-    parseColor(colors) {
-        let newColors = [];
+    parseColor(colors: any[]) {
+        let newColors: any[] = [];
         colors = unique(colors);
         colors.forEach((item) => {
             newColors.push({
@@ -252,36 +249,36 @@ export default class PsdParse {
         });
         return newColors;
     }
-    parseLeading(lineHeights) {
+    parseLeading(lineHeights: any[]) {
         if (!lineHeights) return [];
-        let newLineHeights = [];
+        let newLineHeights: any[] = [];
         lineHeights = unique(lineHeights);
         lineHeights.forEach((item) => {
             newLineHeights.push(`${item}px`);
         });
         return newLineHeights.join("/");
     }
-    parseLengthArray(lengthArray) {
+    parseLengthArray(lengthArray: any[]) {
         return lengthArray;
     }
-    parseName(names) {
+    parseName(names: any[]) {
         return unique(names);
     }
-    parseSize(sizes) {
-        let newSize = [];
+    parseSize(sizes: any[]) {
+        let newSize: any[] = [];
         sizes = unique(sizes);
         sizes.forEach((item) => {
             newSize.push(`${item}px`);
         });
         return newSize.join("/");
     }
-    parseStyle(styles) {
+    parseStyle(styles: any[]) {
         return unique(styles).join("/");
     }
-    parseTextDecoration(textDecoration) {
+    parseTextDecoration(textDecoration: any[]) {
         return textDecoration;
     }
-    parseWeight(weights) {
+    parseWeight(weights: any[]) {
         return unique(weights).join("/");
     }
 }

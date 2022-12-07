@@ -17,18 +17,13 @@
     </div>
 </template>
 
-<!-- <script lang="ts">
-export default {
-    name: "psdViewer",
-};
-</script> -->
 <script lang="ts" setup>
 import Header from "@services/PsdViewer/Header.vue";
 import Mainer from "@services/PsdViewer/Mainer.vue";
 import Aside from "@services/PsdViewer/Aside.vue";
 import DropBar from "@services/PsdViewer/DropBar.vue";
 import { computed, ref } from "vue";
-import { mapGetters, useStore } from "vuex";
+import { useStore } from "vuex";
 
 const store = useStore();
 

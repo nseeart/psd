@@ -224,7 +224,6 @@ const overLayerAttr = reactive<{
 const selectIndex = ref(0);
 const overIndex = ref(0);
 
-console.log("store==getters:", store.getters);
 const layers = computed(() => store.getters["getLayers"]);
 const isSelectLayer = computed(() => store.getters["getSelectLayerStatus"]);
 const docuement = computed(() => store.getters["getPsdDocument"]);
@@ -237,17 +236,17 @@ const handleLayerClick = (ev: Event, index: number, layer: PSDLayer) => {
     store.dispatch("handleSelectLayer");
     store.dispatch("setLayerItem", layer);
     store.dispatch("getImage", layer.id);
-    // overLayer.value = layer;
-    // Object.assign(selectLayerAttr, getClickAttr(layer));
-    // selectIndex.value = index;
-    // if (overIndex.value === index) {
-    //     overLayerAttr.horizontal.forEach((item, index) => {
-    //         item.isShow = false;
-    //     });
-    //     overLayerAttr.vertical.forEach((item, index) => {
-    //         item.isShow = false;
-    //     });
-    // }
+    overLayer.value = layer;
+    Object.assign(selectLayerAttr, getClickAttr(layer));
+    selectIndex.value = index;
+    if (overIndex.value === index) {
+        overLayerAttr.horizontal.forEach((item, index) => {
+            item.isShow = false;
+        });
+        overLayerAttr.vertical.forEach((item, index) => {
+            item.isShow = false;
+        });
+    }
 };
 function getClickAttr(currentLayer: PSDLayer) {
     return {

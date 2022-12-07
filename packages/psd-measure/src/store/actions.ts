@@ -89,11 +89,12 @@ export const getImage = ({ commit, getters }, id: number) => {
     let descendants = psdTree.descendants();
     let node = descendants[id];
     console.log("node===", node);
-    console.log("toPng===", node.toPng);
+    console.log("toPng===", node.toPng());
     let png = node.toPng();
 
     let imageParse = new ImageParse(node);
     imageParse.getImageData((color) => {
+        console.log("color===", color);
         if (color.type === 1) {
             commit(types.SET_LAYER_BGCOLOR, {
                 id,

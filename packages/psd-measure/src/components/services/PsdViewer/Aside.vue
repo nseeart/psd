@@ -243,7 +243,7 @@ const font = computed(() =>
 
 const colors = computed(() => {
     let _colors: any[] = [];
-    store.state.font.colors.forEach((item, index) => {
+    store.state.layerItem.font.colors.forEach((item, index) => {
         _colors.push(item.hex.strHex);
     });
     return _colors.join("/");
