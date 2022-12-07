@@ -26,3 +26,21 @@ export function includes(self, obj) {
     }
     return self;
 }
+
+export function getProperies(obj, filters = []) {
+    function getProperty(newObj) {
+        if (newObj.__proto__ === null) {
+            return [];
+        }
+        const properies = Object.getOwnPropertyNames(newObj).filter(
+            (key) => !["constructor"].concat(filters).includes(key)
+        );
+        let arr = [];
+        if (properies.length > 0) {
+            arr = arr.concat(properies);
+        }
+        return [...arr, ...getProperty(newObj.__proto__)];
+    }
+
+    return getProperty(obj);
+}

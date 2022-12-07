@@ -1,5 +1,4 @@
-export default LazyExecute;
-declare class LazyExecute {
+export default class LazyExecute {
     constructor(obj: any, file: any);
     obj: any;
     file: any;

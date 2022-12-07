@@ -38,12 +38,11 @@ export default class ChannelImage extends ImageBase {
     }
 
     parse() {
-        let chan, finish, start;
         this.chanPos = 0;
         const _ref = this.channelsInfo;
         const _len = _ref.length;
         for (let _i = 0; _i < _len; _i++) {
-            chan = _ref[_i];
+            const chan = _ref[_i];
             if (chan.length <= 0) {
                 this.parseCompression();
                 continue;
@@ -57,9 +56,11 @@ export default class ChannelImage extends ImageBase {
                 this._height = this.layer.height;
             }
             this.length = this._width * this._height;
-            start = this.file.tell();
+            const start = this.file.tell();
+            console.log("start", start);
             this.parseImageData();
-            finish = this.file.tell();
+            const finish = this.file.tell();
+            console.log("finish", finish);
             if (finish !== start + this.chan.length) {
                 this.file.seek(start + this.chan.length);
             }
