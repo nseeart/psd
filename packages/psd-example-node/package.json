@@ -1,6 +1,6 @@
 {
     "name": "@n.see/psd-example-node",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "module",
     "description": "",
     "main": "index.js",
@@ -11,7 +11,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "@n.see/psd-parser": "workspace:^1.0.0",
+        "@n.see/psd-parser": "workspace:*",
         "koa": "^2.13.4"
     },
     "engines": {
