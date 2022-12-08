@@ -46,6 +46,7 @@ importers:
       '@n.see/psd-parser': workspace:^1.0.1
       '@rollup/plugin-commonjs': ^23.0.3
       '@rollup/plugin-node-resolve': ^15.0.1
+      '@soerenmartius/vue3-clipboard': ^0.1.2
       '@types/node': ^18.11.10
       '@vitejs/plugin-vue': ^3.2.0
       clipboard: ^2.0.11
@@ -58,12 +59,14 @@ importers:
       vite: ^3.2.3
       vite-plugin-require-transform: ^1.0.4
       vue: ^3.2.41
+      vue-router: ^4.1.6
       vue-tsc: ^1.0.9
       vue3-highlightjs: ^1.0.5
       vuex: ^4.1.0
     dependencies:
       '@element-plus/icons-vue': registry.npmmirror.com/@element-plus/icons-vue/2.0.10_vue@3.2.45
       '@n.see/psd-parser': link:../psd-parser
+      '@soerenmartius/vue3-clipboard': registry.npmmirror.com/@soerenmartius/vue3-clipboard/0.1.2
       clipboard: registry.npmmirror.com/clipboard/2.0.11
       element-plus: registry.npmmirror.com/element-plus/2.2.26_vue@3.2.45
       highlight.js: registry.npmmirror.com/highlight.js/11.7.0
@@ -71,6 +74,7 @@ importers:
       moment: registry.npmmirror.com/moment/2.29.4
       pnpm: registry.npmmirror.com/pnpm/7.18.1
       vue: registry.npmmirror.com/vue/3.2.45
+      vue-router: registry.npmmirror.com/vue-router/4.1.6_vue@3.2.45
       vue3-highlightjs: registry.npmmirror.com/vue3-highlightjs/1.0.5_vue@3.2.45
       vuex: registry.npmmirror.com/vuex/4.1.0_vue@3.2.45
     devDependencies:
@@ -1921,6 +1925,14 @@ packages:
       rollup: registry.npmmirror.com/rollup/3.7.0
     dev: true
 
+  registry.npmmirror.com/@soerenmartius/vue3-clipboard/0.1.2:
+    resolution: {integrity: sha512-a5er6cFGcFIQ/3qg6kWvU0yFqIz9iWoQGEVs9azjevyRyMAKvj1w3JuLH9y6+u0WhMNby3kn7nuR8nktSnDesg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@soerenmartius/vue3-clipboard/-/vue3-clipboard-0.1.2.tgz}
+    name: '@soerenmartius/vue3-clipboard'
+    version: 0.1.2
+    dependencies:
+      clipboard: registry.npmmirror.com/clipboard/2.0.11
+    dev: false
+
   registry.npmmirror.com/@sxzz/popperjs-es/2.11.7:
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@sxzz/popperjs-es/-/popperjs-es-2.11.7.tgz}
     name: '@sxzz/popperjs-es'
@@ -1975,7 +1987,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: registry.npmmirror.com/vite/3.2.5_tr7neyh64qpc4cjqb6wcsya4ri
+      vite: registry.npmmirror.com/vite/3.2.5_@types+node@18.11.11
       vue: registry.npmmirror.com/vue/3.2.45
     dev: true
 
@@ -4007,6 +4019,18 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
+      vue: registry.npmmirror.com/vue/3.2.45
+    dev: false
+
+  registry.npmmirror.com/vue-router/4.1.6_vue@3.2.45:
+    resolution: {integrity: sha512-DYWYwsG6xNPmLq/FmZn8Ip+qrhFEzA14EI12MsMgVxvHFDYvlr4NXpVF5hrRH1wVcDP8fGi5F4rxuJSl8/r+EQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vue-router/-/vue-router-4.1.6.tgz}
+    id: registry.npmmirror.com/vue-router/4.1.6
+    name: vue-router
+    version: 4.1.6
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api/6.4.5
       vue: registry.npmmirror.com/vue/3.2.45
     dev: false
 

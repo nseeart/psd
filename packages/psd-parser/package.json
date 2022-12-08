@@ -1,7 +1,7 @@
 {
     "name": "@n.see/psd-parser",
     "private": false,
-    "version": "1.0.1",
+    "version": "1.0.2",
     "type": "module",
     "main": "dist/psd-parser.js",
     "module": "dist/psd-parser.mjs",

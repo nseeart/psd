@@ -228,11 +228,9 @@ const layers = computed(() => store.getters["getLayers"]);
 const isSelectLayer = computed(() => store.getters["getSelectLayerStatus"]);
 const docuement = computed(() => store.getters["getPsdDocument"]);
 
-// ...mapActions(["handleSelectLayer"]),
 const handleLayerClick = (ev: Event, index: number, layer: PSDLayer) => {
     ev.stopPropagation();
     ev.preventDefault();
-    // this.handleSelectLayer();
     store.dispatch("handleSelectLayer");
     store.dispatch("setLayerItem", layer);
     store.dispatch("getImage", layer.id);

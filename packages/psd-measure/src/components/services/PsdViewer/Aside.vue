@@ -192,28 +192,26 @@
                         </div>
                     </template>
                     <div class="viewer-aside-title" v-if="layerItem.text">
-                        <!-- <div
+                        <div
                             class="right btn-copy"
-                            v-clipboard
-                            :data-clipboard-text="
-                                layerItem.text && layerItem.text.value
-                            "
+                            v-clipboard="layerItem.text.value"
+                            v-clipboard:success="hanSuccess"
                         >
-                            <i class="iconfont icon-copy"></i>
-                        </div> -->
+                            <el-icon><DocumentCopy /></el-icon>
+                        </div>
                         <h5>Content</h5>
                     </div>
                     <div class="viewer-aside-content" v-if="layerItem.text">
                         <p>{{ layerItem.text && layerItem.text.value }}</p>
                     </div>
                     <div class="viewer-aside-title">
-                        <!-- <div
+                        <div
                             class="right btn-copy"
-                            v-clipboard
-                            :data-clipboard-text="codeSource"
+                            v-clipboard="codeSource"
+                            v-clipboard:success="hanSuccess"
                         >
-                            <i class="iconfont icon-copy"></i>
-                        </div> -->
+                            <el-icon><DocumentCopy /></el-icon>
+                        </div>
                         <h5 class="auto">CSS</h5>
                     </div>
                     <div class="viewer-aside-content">
@@ -230,6 +228,15 @@ import { useStore } from "vuex";
 import AsideCss from "./AsideCss.vue";
 import { hash } from "@/core/utils";
 import { computed, ref, watch } from "vue";
+import { DocumentCopy } from "@element-plus/icons-vue";
+import { ElIcon, ElMessage } from "element-plus";
+
+const hanSuccess = () => {
+    ElMessage({
+        message: "复制成功！",
+        type: "success",
+    });
+};
 const store = useStore();
 const isSetDetailWidth = ref(false);
 const viewerAsideRef = ref();
@@ -437,11 +444,11 @@ function setDefaultWdith(asideWidth: number) {
     }
     .btn-close,
     .btn-copy {
-        display: block;
+        display: flex;
         width: px2rem(64);
         height: px2rem(64);
-        line-height: px2rem(64);
-        text-align: center;
+        align-items: center;
+        justify-content: center;
         float: right;
         cursor: pointer;
         color: #aaa;
