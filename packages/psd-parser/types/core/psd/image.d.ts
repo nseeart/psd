@@ -1,8 +1,7 @@
 export default Image;
-declare function Image(file: any, header: any, layer?: null): void;
+declare function Image(file: any, header: any): void;
 declare class Image {
-    constructor(file: any, header: any, layer?: null);
-    layer: any;
+    constructor(file: any, header: any);
     file: any;
     header: any;
     numPixels: number;
@@ -22,3 +21,7 @@ declare class Image {
     parseImageData(): null;
     processImageData(): null;
 }
+declare namespace Image {
+    const includes: typeof Module.includes;
+}
+import Module from "./module";

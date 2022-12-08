@@ -1,5 +1,5 @@
 export default Layer;
-declare class Layer {
+declare class Layer extends Module {
     constructor(file: any, header: any);
     file: any;
     header: any;
@@ -27,3 +27,4 @@ declare class Layer {
         mask: any;
     };
 }
+import Module from "./module";

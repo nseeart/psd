@@ -1,5 +1,5 @@
 export default Node;
-declare class Node {
+declare class Node extends Module {
     static PROPERTIES: string[];
     constructor(layer: any, parent: any);
     type: string;
@@ -33,9 +33,10 @@ declare class Node {
         opacity: number;
         blendingMode: any;
     };
-    updateDimensions(): any;
-    left: any;
-    top: any;
-    bottom: any;
-    right: any;
+    updateDimensions(): number | undefined;
+    left: number | undefined;
+    top: number | undefined;
+    bottom: number | undefined;
+    right: number | undefined;
 }
+import Module from "./module";

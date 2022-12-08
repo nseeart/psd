@@ -20,3 +20,7 @@ declare class ChannelImage {
     parseImageData(): any;
     compression: any;
 }
+declare namespace ChannelImage {
+    const includes: typeof Module.includes;
+}
+import Module from "./module";

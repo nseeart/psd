@@ -1,4 +1,4 @@
-export default class Header {
+export default class Header extends Module {
     constructor(file: any);
     sig: any;
     version: any;
@@ -14,3 +14,4 @@ export default class Header {
     modeName(): string;
     export(): {};
 }
+import Module from "./module";

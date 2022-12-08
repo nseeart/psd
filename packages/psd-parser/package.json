@@ -15,8 +15,8 @@
         "types"
     ],
     "scripts": {
-        "dev": "tsc && cross-env NODE_ENV=development rollup --watch --config rollup.config.ts --configPlugin typescript",
-        "build": "tsc && cross-env NODE_ENV=production rollup --config rollup.config.ts --configPlugin typescript",
+        "dev:node": "tsc && cross-env NODE_ENV=development rollup --watch --config rollup.config.ts --configPlugin typescript",
+        "build:node": "tsc && cross-env NODE_ENV=production rollup --config rollup.config.ts --configPlugin typescript",
         "dev:browser": "tsc && cross-env NODE_ENV=development RUN_ENV=browser rollup --watch --config rollup.config.ts --configPlugin typescript",
         "build:browser": "tsc && cross-env NODE_ENV=production RUN_ENV=browser rollup --config rollup.config.ts --configPlugin typescript"
     },
