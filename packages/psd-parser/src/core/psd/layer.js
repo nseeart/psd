@@ -7,9 +7,11 @@ import blendingRanges from "./layer/blending_ranges";
 import helpers from "./layer/helpers";
 import name from "./layer/name";
 import channelImage from "./layer/channel_image";
+import Module from "./module";
 
-class Layer {
+class Layer extends Module {
     constructor(file, header) {
+        super();
         this.file = file;
         this.header = header;
         this.mask = {};
@@ -64,13 +66,13 @@ class Layer {
     }
 }
 
-includes(Layer, positionChannels);
-includes(Layer, blendModes);
-includes(Layer, info);
-includes(Layer, mask);
-includes(Layer, blendingRanges);
-includes(Layer, helpers);
-includes(Layer, name);
-includes(Layer, channelImage);
+Layer.includes(positionChannels);
+Layer.includes(blendModes);
+Layer.includes(info);
+Layer.includes(mask);
+Layer.includes(blendingRanges);
+Layer.includes(helpers);
+Layer.includes(name);
+Layer.includes(channelImage);
 
 export default Layer;

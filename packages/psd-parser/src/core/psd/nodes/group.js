@@ -13,7 +13,7 @@ export default class Group extends Node {
     }
 
     isEmpty() {
-        var child;
+        let child;
         if (
             !function () {
                 var _i, _len, _ref, _results;

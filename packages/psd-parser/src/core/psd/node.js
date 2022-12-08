@@ -2,8 +2,9 @@ import { includes } from "./util";
 import ancestry from "./nodes/ancestry";
 import search from "./nodes/search";
 import buildPreview from "./nodes/build_preview";
+import Module from "./module";
 
-class Node {
+class Node extends Module {
     static PROPERTIES = [
         "name",
         "left",
@@ -17,6 +18,7 @@ class Node {
     type = "node";
 
     constructor(layer, parent) {
+        super();
         this.layer = layer;
         this.parent = parent != null ? parent : null;
         this.layer.node = this;
@@ -79,14 +81,14 @@ class Node {
         });
     }
 
-    // get(prop) {
-    //     const value = this[prop] != null ? this[prop] : this.layer[prop];
-    //     if (typeof value === "function") {
-    //         return value();
-    //     } else {
-    //         return value;
-    //     }
-    // }
+    get(prop) {
+        const value = this[prop] != null ? this[prop] : this.layer[prop];
+        if (typeof value === "function") {
+            return value();
+        } else {
+            return value;
+        }
+    }
 
     visible() {
         if (this.layer.clipped && !this.clippingMask().visible()) {
@@ -204,10 +206,50 @@ class Node {
     }
 }
 
-includes(Node, ancestry);
+// Node.prototype.updateDimensions = function () {
+//     var child, nonEmptyChildren, _i, _len, _ref;
+//     if (this.isLayer()) {
+//         return;
+//     }
+//     _ref = this._children;
+//     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+//         child = _ref[_i];
+//         child.updateDimensions();
+//     }
+//     if (this.isRoot()) {
+//         return;
+//     }
+//     nonEmptyChildren = this._children.filter(function (c) {
+//         return !c.isEmpty();
+//     });
+//     this.left =
+//         _.min(
+//             nonEmptyChildren.map(function (c) {
+//                 return c.left;
+//             })
+//         ) || 0;
+//     this.top =
+//         _.min(
+//             nonEmptyChildren.map(function (c) {
+//                 return c.top;
+//             })
+//         ) || 0;
+//     this.bottom =
+//         _.max(
+//             nonEmptyChildren.map(function (c) {
+//                 return c.bottom;
+//             })
+//         ) || 0;
+//     return (this.right =
+//         _.max(
+//             nonEmptyChildren.map(function (c) {
+//                 return c.right;
+//             })
+//         ) || 0);
+// };
 
-includes(Node, search);
-
-includes(Node, buildPreview);
+Node.includes(ancestry);
+Node.includes(search);
+Node.includes(buildPreview);
 
 export default Node;

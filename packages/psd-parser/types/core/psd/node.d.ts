@@ -17,6 +17,8 @@ declare class Node {
     topOffset: number;
     leftOffset: number;
     createProperties(): Node;
+    get(prop: any): any;
+    get(prop: any): any;
     visible(): any;
     hidden(): boolean;
     isLayer(): boolean;
@@ -25,16 +27,15 @@ declare class Node {
     clippingMask(): any;
     clippingMaskCached: any;
     clippedBy(): any;
-    get(prop: any): any;
     export(): {
         type: null;
         visible: any;
         opacity: number;
         blendingMode: any;
     };
-    updateDimensions(): number | undefined;
-    left: number | undefined;
-    top: number | undefined;
-    bottom: number | undefined;
-    right: number | undefined;
+    updateDimensions(): any;
+    left: any;
+    top: any;
+    bottom: any;
+    right: any;
 }

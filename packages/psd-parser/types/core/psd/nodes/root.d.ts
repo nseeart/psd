@@ -23,6 +23,6 @@ declare class Root extends Node {
             };
         };
     };
-    buildHeirarchy(): number | undefined;
+    buildHeirarchy(): any;
 }
 import Node from "../node";

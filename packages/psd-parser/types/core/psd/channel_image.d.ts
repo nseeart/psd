@@ -1,14 +1,22 @@
-export default class ChannelImage extends ImageBase {
+export default ChannelImage;
+declare function ChannelImage(file: any, header: any, layer: any): void;
+declare class ChannelImage {
     constructor(file: any, header: any, layer: any);
+    layer: any;
     _width: any;
     _height: any;
     channelsInfo: any;
     hasMask: any;
+    opacity: number;
     maskData: any[];
     skip(): any[];
-    parse(): null;
+    width(): any;
+    height(): any;
+    channels(): any;
+    parse(): any;
     chanPos: number | undefined;
     chan: any;
+    length: number | undefined;
     parseImageData(): any;
+    compression: any;
 }
-import ImageBase from "./image";

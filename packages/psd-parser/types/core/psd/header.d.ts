@@ -4,13 +4,13 @@ export default class Header {
     version: any;
     channels: any;
     rows: any;
-    height: any;
     cols: any;
-    width: any;
     depth: any;
     mode: any;
     file: any;
     parse(): any;
+    height: any;
+    width: any;
     modeName(): string;
     export(): {};
 }

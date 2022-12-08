@@ -1,6 +1,7 @@
-export default class ImageBase {
+export default Image;
+declare function Image(file: any, header: any, layer?: null): void;
+declare class Image {
     constructor(file: any, header: any, layer?: null);
-    COMPRESSIONS: string[];
     layer: any;
     file: any;
     header: any;
@@ -20,9 +21,4 @@ export default class ImageBase {
     parseCompression(): any;
     parseImageData(): null;
     processImageData(): null;
-    width(): any;
-    height(): any;
-    channels(): any;
-    depth(): any;
-    mode(): any;
 }

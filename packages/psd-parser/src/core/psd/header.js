@@ -1,3 +1,4 @@
+import Module from "./module";
 const MODES = [
     "Bitmap",
     "GrayScale",
@@ -17,13 +18,14 @@ const MODES = [
     "Duotone16",
 ];
 
-export default class Header {
+export default class Header extends Module {
     constructor(file) {
+        super();
         this.sig = null;
         this.version = null;
         this.channels = null;
-        this.rows = this.height = null;
-        this.cols = this.width = null;
+        this.rows = null;
+        this.cols = null;
         this.depth = null;
         this.mode = null;
         this.file = file;
@@ -76,3 +78,6 @@ export default class Header {
         return data;
     }
 }
+
+Header.aliasProperty("height", "rows");
+Header.aliasProperty("width", "cols");

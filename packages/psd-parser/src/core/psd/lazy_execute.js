@@ -36,7 +36,8 @@
 //   .ignore('foo', 'bar')
 //   .get()
 // ```
-import { getProperies } from "./util";
+
+// import { getProperies } from "./util";
 
 export default class LazyExecute {
     constructor(obj, file) {
@@ -99,13 +100,8 @@ export default class LazyExecute {
                 });
             };
         })(this);
-        const properies = getProperies(_ref);
-        const keys = new Set(properies);
-        // const ownKeys = Reflect.ownKeys(_ref.__proto__).filter(
-        //     (key) => key !== "constructor"
-        // );
-        // const keys = new Set([...ownKeys, ...Object.keys(_ref)]);
-        for (let key of keys) {
+        // const properies = getProperies(_ref);
+        for (let key in _ref) {
             const val = _ref[key];
             _fn(key, val);
         }

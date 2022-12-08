@@ -12,6 +12,4 @@ declare class BlendMode {
     visible: boolean | null;
     parse(): any;
     opacityPercentage(): number;
-    set blendingMode(arg: any);
-    get blendingMode(): any;
 }
