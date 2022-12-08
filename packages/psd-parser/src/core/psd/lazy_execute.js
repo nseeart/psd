@@ -36,8 +36,7 @@
 //   .ignore('foo', 'bar')
 //   .get()
 // ```
-
-// import { getProperies } from "./util";
+import { getProperies } from "./util";
 
 export default class LazyExecute {
     constructor(obj, file) {
@@ -85,25 +84,23 @@ export default class LazyExecute {
     // 这会在此对象上定义代理对象原型上的所有项目，并检查以确保在传递调用之前已加载代理对象。
     get() {
         const _ref = this.obj;
-        const _fn = (function (_this) {
-            return function (key, val) {
-                if (_this[key] != null) {
-                    return;
-                }
-                return Object.defineProperty(_this, key, {
-                    get: function () {
-                        if (!this.loaded && !this.passthru.includes(key)) {
-                            this.load();
-                        }
-                        return this.obj[key];
-                    },
-                });
-            };
-        })(this);
-        // const properies = getProperies(_ref);
-        for (let key in _ref) {
-            const val = _ref[key];
-            _fn(key, val);
+        const properies = getProperies(_ref);
+        const keys = new Set(properies);
+        const proxy = (key) => {
+            if (this[key] != null) {
+                return;
+            }
+            return Object.defineProperty(this, key, {
+                get: function () {
+                    if (!this.loaded && !this.passthru.includes(key)) {
+                        this.load();
+                    }
+                    return this.obj[key];
+                },
+            });
+        };
+        for (let key of keys) {
+            proxy(key);
         }
         return this;
     }

@@ -49,28 +49,6 @@ class Root extends Node {
         };
     }
 
-    buildHeirarchy() {
-        let currentGroup = this,
-            parent;
-        const parseStack = [];
-        const _ref = this.psd.layers;
-        const _len = _ref.length;
-        for (let _i = 0; _i < _len; _i++) {
-            const layer = _ref[_i];
-            if (layer.isFolder()) {
-                parseStack.push(currentGroup);
-                currentGroup = new Group(layer, last(parseStack));
-            } else if (layer.isFolderEnd()) {
-                parent = parseStack.pop();
-                parent.children().push(currentGroup);
-                currentGroup = parent;
-            } else {
-                currentGroup.children().push(new Layer(layer, currentGroup));
-            }
-        }
-        return this.updateDimensions();
-    }
-
     static layerForPsd(psd) {
         const layer = {};
         const _ref = Node.PROPERTIES;
@@ -86,5 +64,27 @@ class Root extends Node {
         return layer;
     }
 }
+
+Root.prototype.buildHeirarchy = function () {
+    let currentGroup = this,
+        parent;
+    const parseStack = [];
+    const _ref = this.psd.layers;
+    const _len = _ref.length;
+    for (let _i = 0; _i < _len; _i++) {
+        const layer = _ref[_i];
+        if (layer.isFolder()) {
+            parseStack.push(currentGroup);
+            currentGroup = new Group(layer, last(parseStack));
+        } else if (layer.isFolderEnd()) {
+            parent = parseStack.pop();
+            parent.children().push(currentGroup);
+            currentGroup = parent;
+        } else {
+            currentGroup.children().push(new Layer(layer, currentGroup));
+        }
+    }
+    return this.updateDimensions();
+};
 
 export default Root;

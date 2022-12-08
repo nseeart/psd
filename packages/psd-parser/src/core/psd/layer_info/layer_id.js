@@ -10,7 +10,6 @@ export default class LayerId extends LayerInfo {
     }
 
     parse() {
-        debugger;
         return (this.id = this.file.readInt());
     }
 }
