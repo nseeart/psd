@@ -37,13 +37,9 @@ export default class TextElements extends LayerInfo {
         this.descriptorVersion = this.file.readInt();
         this.warpData = new Descriptor(this.file).parse();
         const _results = [];
-        let index, _i, _len;
-        for (
-            index = _i = 0, _len = COORDS_VALUE.length;
-            _i < _len;
-            index = ++_i
-        ) {
-            const name = COORDS_VALUE[index];
+        const _len = COORDS_VALUE.length;
+        for (let i = 0; i < _len; ++i) {
+            const name = COORDS_VALUE[i];
             _results.push((this.coords[name] = this.file.readInt()));
         }
         return _results;
@@ -102,13 +98,11 @@ export default class TextElements extends LayerInfo {
             return r.StyleSheet.StyleSheetData;
         });
         return data.map((f) => {
-            let weight;
             if (f.FauxBold) {
-                weight = "bold";
+                return "bold";
             } else {
-                weight = "normal";
+                return "normal";
             }
-            return weight;
         });
     }
 
@@ -116,7 +110,12 @@ export default class TextElements extends LayerInfo {
         if (this.engineData == null) {
             return [];
         }
-        return this.engineData.ResourceDict.FontSet.map((f) => {
+        // https://juejin.cn/post/6844903950982840333
+        // 过滤 Script = 0
+        return this.engineData.ResourceDict.FontSet.filter(
+            (f) => f.Script > 0
+        ).map((f) => {
+            console.log("f====", f);
             return f.Name;
         });
     }
@@ -126,13 +125,11 @@ export default class TextElements extends LayerInfo {
             return r.StyleSheet.StyleSheetData;
         });
         return data.map((f) => {
-            let decoration;
             if (f.Underline) {
-                decoration = "underline";
+                return "underline";
             } else {
-                decoration = "none";
+                return "none";
             }
-            return decoration;
         });
     }
 
@@ -141,13 +138,11 @@ export default class TextElements extends LayerInfo {
             return r.StyleSheet.StyleSheetData;
         });
         return data.map((f) => {
-            let leading;
             if (f.Leading) {
-                leading = f.Leading;
+                return f.Leading;
             } else {
-                leading = "auto";
+                return "auto";
             }
-            return leading;
         });
     }
 
@@ -210,8 +205,8 @@ export default class TextElements extends LayerInfo {
     parseTransformInfo() {
         const _results = [];
         const _len = TRANSFORM_VALUE.length;
-        for (let _i = 0; _i < _len; ++_i) {
-            const name = TRANSFORM_VALUE[_i];
+        for (let i = 0; i < _len; ++i) {
+            const name = TRANSFORM_VALUE[i];
             _results.push((this.transform[name] = this.file.readDouble()));
         }
         return _results;
