@@ -1,4 +1,5 @@
 import TypeTool from "./typetool";
+import { tap } from "lodash-es";
 
 export default class LegacyTypeTool extends TypeTool {
     static shouldParse(key) {
@@ -23,68 +24,59 @@ export default class LegacyTypeTool extends TypeTool {
     }
 
     parse() {
-        let facesCount, i, linesCount, stylesCount, _i, _j, _k;
         this.file.seek(2, true);
         this.parseTransformInfo();
         this.file.seek(2, true);
-        facesCount = this.file.readShort();
+        const facesCount = this.file.readShort();
+        let i, _i;
         for (
             i = _i = 0;
             0 <= facesCount ? _i < facesCount : _i > facesCount;
             i = 0 <= facesCount ? ++_i : --_i
         ) {
             this.faces.push(
-                _({}).tap(
-                    (function (_this) {
-                        return function (face) {
-                            var j, _j, _ref, _results;
-                            face.mark = _this.file.readShort();
-                            face.fontType = _this.file.readInt();
-                            face.fontName = _this.file.readString();
-                            face.fontFamilyName = _this.file.readString();
-                            face.fontStyleName = _this.file.readString();
-                            face.script = _this.file.readShort();
-                            face.numberAxesVector = _this.file.readInt();
-                            face.vector = [];
-                            _results = [];
-                            for (
-                                j = _j = 0, _ref = face.numberAxesVector;
-                                0 <= _ref ? _j < _ref : _j > _ref;
-                                j = 0 <= _ref ? ++_j : --_j
-                            ) {
-                                _results.push(
-                                    face.vector.push(_this.file.readInt())
-                                );
-                            }
-                            return _results;
-                        };
-                    })(this)
-                )
+                tap({}, (face) => {
+                    let j, _j, _ref, _results;
+                    face.mark = this.file.readShort();
+                    face.fontType = this.file.readInt();
+                    face.fontName = this.file.readString();
+                    face.fontFamilyName = this.file.readString();
+                    face.fontStyleName = this.file.readString();
+                    face.script = this.file.readShort();
+                    face.numberAxesVector = this.file.readInt();
+                    face.vector = [];
+                    _results = [];
+                    for (
+                        j = _j = 0, _ref = face.numberAxesVector;
+                        0 <= _ref ? _j < _ref : _j > _ref;
+                        j = 0 <= _ref ? ++_j : --_j
+                    ) {
+                        _results.push(face.vector.push(this.file.readInt()));
+                    }
+                    return _results;
+                })
             );
         }
-        stylesCount = this.file.readShort();
+        const stylesCount = this.file.readShort();
+        let _j;
         for (
             i = _j = 0;
             0 <= stylesCount ? _j < stylesCount : _j > stylesCount;
             i = 0 <= stylesCount ? ++_j : --_j
         ) {
             this.styles.push(
-                _({}).tap(
-                    (function (_this) {
-                        return function (style) {
-                            style.mark = _this.file.readShort();
-                            style.faceMark = _this.file.readShort();
-                            style.size = _this.file.readInt();
-                            style.tracking = _this.file.readInt();
-                            style.kerning = _this.file.readInt();
-                            style.leading = _this.file.readInt();
-                            style.baseShift = _this.file.readInt();
-                            style.autoKern = _this.file.readBoolean();
-                            _this.file.seek(1, true);
-                            return (style.rotate = _this.file.readBoolean());
-                        };
-                    })(this)
-                )
+                tap({}, (style) => {
+                    style.mark = this.file.readShort();
+                    style.faceMark = this.file.readShort();
+                    style.size = this.file.readInt();
+                    style.tracking = this.file.readInt();
+                    style.kerning = this.file.readInt();
+                    style.leading = this.file.readInt();
+                    style.baseShift = this.file.readInt();
+                    style.autoKern = this.file.readBoolean();
+                    this.file.seek(1, true);
+                    return (style.rotate = this.file.readBoolean());
+                })
             );
         }
         this.type = this.file.readShort();
@@ -94,14 +86,15 @@ export default class LegacyTypeTool extends TypeTool {
         this.vertPlace = this.file.readInt();
         this.selectStart = this.file.readInt();
         this.selectEnd = this.file.readInt();
-        linesCount = this.file.readShort();
+        const linesCount = this.file.readShort();
+        let _k;
         for (
             i = _k = 0;
             0 <= linesCount ? _k < linesCount : _k > linesCount;
             i = 0 <= linesCount ? ++_k : --_k
         ) {
             this.lines.push(
-                _({}).tap(function (line) {
+                tap({}, (line) => {
                     line.charCount = this.file.readInt();
                     line.orientation = this.file.readShort();
                     line.alignment = this.file.readShort();

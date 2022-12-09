@@ -8,10 +8,10 @@
 </template>
 
 <script lang="ts" setup>
-import Header from "@services/Home/Header.vue";
-import Banner from "@services/Home/Banner.vue";
-import Mainer from "@services/Home/Mainer.vue";
-import Footer from "@services/Home/Footer.vue";
+import Header from "@/components/Home/Header.vue";
+import Banner from "@/components/Home/Banner.vue";
+import Mainer from "@/components/Home/Mainer.vue";
+import Footer from "@/components/Home/Footer.vue";
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

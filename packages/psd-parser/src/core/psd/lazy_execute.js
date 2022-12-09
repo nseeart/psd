@@ -41,7 +41,6 @@ import { getProperies } from "./util";
 export default class LazyExecute {
     constructor(obj, file) {
         this.obj = obj;
-
         this.file = file;
         this.startPos = this.file.tell();
         this.loaded = false;

@@ -13,10 +13,6 @@ export default defineConfig({
         alias: {
             "@": resolve(__dirname, "src"),
             "~/": `${resolve(__dirname, "src")}/`,
-            "@scss": resolve(__dirname, "src/assets/scss"),
-            "@pages": resolve(__dirname, "src/components/pages"),
-            "@services": resolve(__dirname, "src/components/services"),
-            "@widgets": resolve(__dirname, "src/components/widgets"),
         },
     },
 });

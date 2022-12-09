@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts" setup>
-import Header from "@services/PsdViewer/Header.vue";
-import Mainer from "@services/PsdViewer/Mainer.vue";
-import Aside from "@services/PsdViewer/Aside.vue";
-import DropBar from "@services/PsdViewer/DropBar.vue";
+import Header from "@/components/PsdViewer/Header.vue";
+import Mainer from "@/components/PsdViewer/Mainer.vue";
+import Aside from "@/components/PsdViewer/Aside.vue";
+import DropBar from "@/components/PsdViewer/DropBar.vue";
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 
