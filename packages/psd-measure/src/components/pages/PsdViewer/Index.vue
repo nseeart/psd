@@ -30,15 +30,6 @@ const store = useStore();
 const moveX = ref(0);
 const currentAsideWidth = ref(0);
 
-// computed: mapGetters({
-//     isShow: "getAsideDisaplayStatus",
-//     asideDownWidth: "getAsideDownWidth",
-//     asideDefaultWidth: "getAsideDefaultWidth",
-//     asideWidth: "getAsideWidth",
-//     pageX: "getPageX",
-//     isDrop: "getIsDropStatus",
-// }),
-
 const isShow = computed(() => store.getters["getAsideDisaplayStatus"]);
 const asideDownWidth = computed(() => store.getters["getAsideDownWidth"]);
 const asideDefaultWidth = computed(() => store.getters["getAsideDefaultWidth"]);

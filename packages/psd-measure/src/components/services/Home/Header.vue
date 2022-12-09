@@ -4,7 +4,7 @@
             <h1 class="left logo">PSD.work</h1>
             <ul class="right li-left user-nav">
                 <li>
-                    <router-link to="/demo">demo</router-link>
+                    <router-link to="/demo">Demo</router-link>
                 </li>
                 <li>
                     <a href="javacript:void(0)">Login</a>

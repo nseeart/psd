@@ -25,12 +25,14 @@
             <dl>
                 <dd>
                     <span class="icon icon-designers">
+                        <el-icon><UserFilled /></el-icon>
                         <i class="iconfont icon-upload"></i>
                     </span>
                     <p>Designers</p>
                 </dd>
                 <dd>
                     <span class="icon icon-developers">
+                        <el-icon><Avatar /></el-icon>
                         <i class="iconfont icon-view"></i>
                     </span>
                     <p>Developers</p>
@@ -62,6 +64,8 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { ElIcon } from "element-plus";
+import { Avatar, UserFilled } from "@element-plus/icons-vue";
 const isHover = ref(false);
 const handleToggle = (type: boolean) => {
     isHover.value = type;
@@ -99,7 +103,7 @@ const handleToggle = (type: boolean) => {
     position: absolute;
     left: 50%;
     top: px2rem(100);
-    margin-left: -px2rem(500);
+    margin-left: px2rem(-500);
     z-index: 2;
     .dashed-v,
     .dashed-h {

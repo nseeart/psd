@@ -1,3 +1,12 @@
+<template>
+    <div class="header-title">
+        <div class="header-title-inner">
+            <i class="iconfont icon-back disabled"></i>
+            <span class="title">编辑面板</span>
+            <i class="iconfont icon-go"></i>
+        </div>
+    </div>
+</template>
 <style lang="scss" scoped>
 @import "base";
 .header-title-inner {
@@ -24,13 +33,3 @@
     }
 }
 </style>
-
-<template>
-    <div class="header-title">
-        <div class="header-title-inner">
-            <i class="iconfont icon-back disabled"></i>
-            <span class="title">帮助页面</span>
-            <i class="iconfont icon-go"></i>
-        </div>
-    </div>
-</template>

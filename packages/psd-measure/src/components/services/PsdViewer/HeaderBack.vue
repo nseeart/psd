@@ -6,6 +6,7 @@
     padding: px2rem(44) 0;
     color: #999999;
     &:hover {
+        cursor: pointer;
         i,
         span {
             color: #666;

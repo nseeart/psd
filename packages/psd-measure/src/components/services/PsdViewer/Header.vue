@@ -1,11 +1,3 @@
-<style lang="scss" scoped>
-@import "base";
-.header {
-    width: 100%;
-    padding: 0 px2rem(32);
-}
-</style>
-
 <template>
     <header class="header">
         <header-back />
@@ -19,3 +11,11 @@ import HeaderBack from "./HeaderBack.vue";
 import HeaderTitle from "./HeaderTitle.vue";
 import HeaderUser from "./HeaderUser.vue";
 </script>
+
+<style lang="scss" scoped>
+@import "base";
+.header {
+    width: 100%;
+    padding: 0 px2rem(32);
+}
+</style>
