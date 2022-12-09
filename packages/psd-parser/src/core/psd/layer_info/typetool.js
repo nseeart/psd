@@ -69,9 +69,7 @@ export default class TextElements extends LayerInfo {
 
     lengthArray() {
         const arr = this.engineData.EngineDict.StyleRun.RunLengthArray;
-        const sum = arr.reduce((m, o) => {
-            return m + o;
-        });
+        const sum = arr.reduce((m, o) => m + o);
         if (sum - this.textValue.length === 1) {
             arr[arr.length - 1] = arr[arr.length - 1] - 1;
         }
@@ -79,9 +77,9 @@ export default class TextElements extends LayerInfo {
     }
 
     fontStyles() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
-            return r.StyleSheet.StyleSheetData;
-        });
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(
+            (r) => r.StyleSheet.StyleSheetData
+        );
         return data.map((f) => {
             let style;
             if (f.FauxItalic) {
@@ -94,9 +92,9 @@ export default class TextElements extends LayerInfo {
     }
 
     fontWeights() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
-            return r.StyleSheet.StyleSheetData;
-        });
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(
+            (r) => r.StyleSheet.StyleSheetData
+        );
         return data.map((f) => {
             if (f.FauxBold) {
                 return "bold";
@@ -114,16 +112,13 @@ export default class TextElements extends LayerInfo {
         // 过滤 Script = 0
         return this.engineData.ResourceDict.FontSet.filter(
             (f) => f.Script > 0
-        ).map((f) => {
-            console.log("f====", f);
-            return f.Name;
-        });
+        ).map((f) => f.Name);
     }
 
     textDecoration() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
-            return r.StyleSheet.StyleSheetData;
-        });
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(
+            (r) => r.StyleSheet.StyleSheetData
+        );
         return data.map((f) => {
             if (f.Underline) {
                 return "underline";
@@ -134,9 +129,9 @@ export default class TextElements extends LayerInfo {
     }
 
     leading() {
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
-            return r.StyleSheet.StyleSheetData;
-        });
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(
+            (r) => r.StyleSheet.StyleSheetData
+        );
         return data.map((f) => {
             if (f.Leading) {
                 return f.Leading;
@@ -188,9 +183,9 @@ export default class TextElements extends LayerInfo {
         if (this._styles != null) {
             return this._styles;
         }
-        const data = this.engineData.EngineDict.StyleRun.RunArray.map((r) => {
-            return r.StyleSheet.StyleSheetData;
-        });
+        const data = this.engineData.EngineDict.StyleRun.RunArray.map(
+            (r) => r.StyleSheet.StyleSheetData
+        );
         return (this._styles = data.reduce((m, o) => {
             for (let k in o) {
                 if (!o.hasOwnProperty(k)) continue;
