@@ -2,7 +2,7 @@ import Descriptor from "../descriptor";
 
 export default class LayerComps {
     id = 1065;
-    name = "layerComps";
+    name = "LayerComps";
 
     constructor(resource) {
         this.resource = resource;
@@ -21,13 +21,17 @@ export default class LayerComps {
     }
 
     export() {
-        return this.data.list.map((comp) => {
-            return {
-                id: comp.compID,
-                name: comp["Nm  "],
-                capturedInfo: comp.capturedInfo,
-            };
-        });
+        return {
+            id: this.id,
+            name: this.name,
+            data: this.data.list.map((comp) => {
+                return {
+                    id: comp.compID,
+                    name: comp["Nm  "],
+                    capturedInfo: comp.capturedInfo,
+                };
+            }),
+        };
     }
 
     static visibilityCaptured(comp) {

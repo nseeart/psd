@@ -1,5 +1,3 @@
-import Module from "./module";
-
 const BLEND_MODES = {
     norm: "normal",
     dark: "darken",
@@ -31,9 +29,8 @@ const BLEND_MODES = {
     fdiv: "divide",
 };
 
-class BlendMode extends Module {
+class BlendMode {
     constructor(file) {
-        super();
         this.file = file;
         this.signature = null;
         this.blendKey = null;
@@ -71,14 +68,12 @@ class BlendMode extends Module {
         return (this.opacity * 100) / 255;
     }
 
-    // get blendingMode() {
-    //     return this.mode;
-    // }
-    // set blendingMode(val) {
-    //     this.mode = val;
-    // }
+    get blendingMode() {
+        return this.mode;
+    }
+    set blendingMode(val) {
+        this.mode = val;
+    }
 }
-
-BlendMode.aliasProperty("blendingMode", "mode");
 
 export default BlendMode;

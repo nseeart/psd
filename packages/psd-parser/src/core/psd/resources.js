@@ -17,14 +17,11 @@ export default class Resources {
     parse() {
         this.length = this.file.readInt();
         let finish = this.length + this.file.tell();
-        let resourceEnd;
-        let resource;
-        let section;
         while (this.file.tell() < finish) {
-            resource = new Resource(this.file);
+            const resource = new Resource(this.file);
             resource.parse();
-            resourceEnd = this.file.tell() + resource.length;
-            section = Resource.Section.factory(resource);
+            const resourceEnd = this.file.tell() + resource.length;
+            const section = Resource.Section.factory(resource);
             if (section == null) {
                 this.file.seek(resourceEnd);
                 continue;

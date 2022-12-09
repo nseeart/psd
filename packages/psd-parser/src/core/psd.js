@@ -54,6 +54,7 @@ export default class PSD {
     // 图像资源部分
     parseImageResources() {
         const resources = new Resources(this.file);
+        console.log("resources====", resources);
         this.resources = new LazyExecute(resources, this.file);
         return this.resources.now("skip").later("parse").get();
     }

@@ -14,4 +14,12 @@ export default class LinkLayers {
         }
         return this.linkArray.reverse();
     }
+
+    export() {
+        return {
+            data: this.linkArray,
+            name: this.name,
+            id: this.id,
+        };
+    }
 }
