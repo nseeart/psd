@@ -10,7 +10,7 @@
 .dot-grid {
     min-width: 100%;
     min-height: 100%;
-    background-image: url("../../../assets/images/dot_bg.png");
+    background-image: url("~/assets/images/dot_bg.png");
     background-position: top left;
     background-size: px2rem(16) px2rem(16);
     padding: px2rem(100);

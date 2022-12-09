@@ -258,10 +258,10 @@ const handleToggle = (type: boolean) => {
         background-size: px2rem(300) px2rem(300);
     }
     .qr-code-alipay {
-        background-image: url(../../../assets/images/home/qr_code_alipay.png);
+        background-image: url(~/assets/images/home/qr_code_alipay.png);
     }
     .qr-code-wechat {
-        background-image: url(../../../assets/images/home/qr_code_wechat.png);
+        background-image: url(~/assets/images/home/qr_code_wechat.png);
     }
     dd {
         display: inline-block;

@@ -12,7 +12,7 @@
 .banner {
     height: px2rem(1150);
     background-color: #eee;
-    background-image: url(../../../assets/images/home/banner.png);
+    background-image: url("~/assets/images/home/banner.png");
     background-size: px2rem(1600) auto;
     background-position: bottom center;
     background-repeat: no-repeat;
