@@ -35,7 +35,7 @@
             background-color: #333333;
             position: absolute;
             top: px2rem(17);
-            left: -px2rem(23);
+            left: px2rem(-23);
         }
     }
     span {

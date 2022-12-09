@@ -234,7 +234,7 @@ const handleLayerClick = (ev: Event, index: number, layer: PSDLayer) => {
     store.dispatch("handleSelectLayer");
     store.dispatch("setLayerItem", layer);
     store.dispatch("getImage", layer.id);
-    overLayer.value = layer;
+    selectLayer.value = layer;
     Object.assign(selectLayerAttr, getClickAttr(layer));
     selectIndex.value = index;
     if (overIndex.value === index) {
@@ -274,19 +274,17 @@ const handleLayerOver = (ev: Event, index: number, layer: PSDLayer) => {
         for (let key in selectLayerAttr) {
             selectLayerAttr[key].isShow = true;
         }
-        overLayerAttr.horizontal.forEach((item, index) => {
+        overLayerAttr.horizontal.forEach((item) => {
             item.isShow = false;
         });
-        overLayerAttr.vertical.forEach((item, index) => {
+        overLayerAttr.vertical.forEach((item) => {
             item.isShow = false;
         });
     }
-
-    console.log("selectLayerAttr", selectLayerAttr);
 };
-const handleLayerOut = ($event: Event, index: number, layer: PSDLayer) => {
-    // this.width.isShow = false
-    // this.height.isShow = false
+const handleLayerOut = ($event: Event, index: number, layer: any) => {
+    // this.width.isShow = false;
+    // this.height.isShow = false;
 };
 const getOverAttr = (currentLayer: PSDLayer) => {
     let distance = new Distance(selectLayer.value, currentLayer);
