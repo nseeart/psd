@@ -7,5 +7,5 @@
 <script setup lang="ts"></script>
 
 <style lang="scss">
-@import "./assets/scss/public";
+@import "~/assets/scss/public";
 </style>

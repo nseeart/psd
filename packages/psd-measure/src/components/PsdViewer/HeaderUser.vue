@@ -1,12 +1,16 @@
 <style lang="scss" scoped>
 @import "base";
+.header-user {
+    display: flex;
+    height: inherit;
+}
 .header-avatar {
-    padding: px2rem(24) 0;
+    padding: px2rem(16) 0;
     span {
         display: block;
-        width: px2rem(72);
-        height: px2rem(72);
-        border-radius: px2rem(72);
+        width: px2rem(64);
+        height: px2rem(64);
+        border-radius: px2rem(64);
         background-color: #dddddd;
     }
 }
@@ -47,11 +51,11 @@
 </style>
 
 <template>
-    <div class="right header-user">
+    <div class="header-user">
         <div class="right header-avatar">
             <span></span>
         </div>
-        <ul class="right li-left clear">
+        <!-- <ul class="right li-left clear">
             <li>
                 <router-link class="icon" :to="{ path: '/' }">
                     <i class="iconfont icon-home"></i>
@@ -63,6 +67,6 @@
                     <em class="red-dot"></em>
                 </span>
             </li>
-        </ul>
+        </ul> -->
     </div>
 </template>

@@ -1,15 +1,18 @@
 <style lang="scss" scoped>
 @import "./base";
+.header-back {
+    display: flex;
+    align-items: center;
+    height: inherit;
+}
 .btn-back {
     display: block;
-    line-height: px2rem(32);
-    padding: px2rem(44) 0;
-    color: #999999;
+    color: #666;
     &:hover {
         cursor: pointer;
         i,
         span {
-            color: #666;
+            color: #0295e1;
         }
     }
 }
@@ -19,7 +22,7 @@
 </style>
 
 <template>
-    <div class="left header-back">
+    <div class="header-back">
         <a class="btn-back" @click="handleBack">
             <i class="iconfont icon-back"></i>
             <span>Home</span>

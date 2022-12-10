@@ -39,6 +39,7 @@ onMounted(() => {
     PSD.fromURL("/test2.psd").then((psd: any) => {
         console.log("psd", psd);
         const tree = psd.tree();
+        console.log("tree", tree.export());
         const node = tree.descendants()[1];
         const typeTool = node.get("typeTool");
         const fontFamily = typeTool.engineData.ResourceDict.FontSet;

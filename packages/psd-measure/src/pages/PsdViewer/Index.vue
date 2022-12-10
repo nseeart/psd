@@ -82,7 +82,7 @@ const handleMouseUp = (event: any) => {
     position: relative;
 }
 .psd-viewer {
-    height: calc(100% - #{px2rem(120)});
+    height: calc(100% - #{px2rem(96)});
     background-color: #f9f9f9;
 }
 .viewer-frame-mainer {

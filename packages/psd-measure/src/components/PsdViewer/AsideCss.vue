@@ -70,7 +70,7 @@
                 <div class="code-mirror-line">
                     <span class="dot">.</span>
                     <span :class="{ [codeData.className.type]: true }">{{
-                        codeData.className.value
+                        codeData.className.value + " "
                     }}</span>
                     <span>{</span>
                 </div>

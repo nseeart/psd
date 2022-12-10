@@ -1,8 +1,8 @@
 <template>
     <header class="header">
         <header-back />
-        <header-user />
         <header-title />
+        <header-user />
     </header>
 </template>
 
@@ -17,5 +17,11 @@ import HeaderUser from "./HeaderUser.vue";
 .header {
     width: 100%;
     padding: 0 px2rem(32);
+    height: px2rem(96);
+    box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.02);
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
 }
 </style>

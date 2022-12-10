@@ -128,7 +128,9 @@
                         <div class="viewer-aside-title">
                             <h5>Image</h5>
                         </div>
-                        <div class="viewer-aside-content">
+                        <div
+                            class="viewer-aside-content viewer-aside-content-bg"
+                        >
                             <div class="image-inner">
                                 <img :src="layerItem.image.src" />
                             </div>
@@ -250,7 +252,7 @@ const font = computed(() =>
 
 const colors = computed(() => {
     let _colors: any[] = [];
-    store.state.layerItem.font.colors.forEach((item, index) => {
+    store.state.layerItem.font.colors.forEach((item) => {
         _colors.push(item.hex.strHex);
     });
     return _colors.join("/");
@@ -537,6 +539,15 @@ function setDefaultWdith(asideWidth: number) {
     .bgcolor-inner {
         padding: 0 1rem;
     }
+}
+
+.viewer-aside-content-bg {
+    min-width: 100%;
+    min-height: 100%;
+    background-image: url(~/assets/images/dot_bg.png);
+    background-position: top left;
+    background-size: 0.5rem 0.5rem;
+    overflow: hidden;
 }
 .viewer-toast {
     position: absolute;
