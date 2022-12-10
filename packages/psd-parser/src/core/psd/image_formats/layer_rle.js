@@ -1,7 +1,7 @@
 export default {
     parseByteCounts() {
-        var i, _i, _ref, _results;
-        _results = [];
+        let i, _i, _ref;
+        const _results = [];
         for (
             i = _i = 0, _ref = this.height();
             0 <= _ref ? _i < _ref : _i > _ref;

@@ -4,7 +4,8 @@ import search from "./nodes/search";
 import buildPreview from "./nodes/build_preview";
 import Module from "./module";
 
-class Node extends Module {
+class Node {
+    static includes = Module.includes;
     static PROPERTIES = [
         "name",
         "left",
@@ -14,11 +15,8 @@ class Node extends Module {
         "height",
         "width",
     ];
-
     type = "node";
-
     constructor(layer, parent) {
-        super();
         this.layer = layer;
         this.parent = parent != null ? parent : null;
         this.layer.node = this;

@@ -23,7 +23,7 @@ export default {
         }
     },
     combineCmykChannel() {
-        var a,
+        let a,
             b,
             c,
             chan,

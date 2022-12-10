@@ -12,15 +12,16 @@ export default {
         }
     },
     combineGreyscaleChannel() {
-        var alpha, grey, i, _i, _ref, _results;
-        _results = [];
+        let i, _i;
+        const _results = [];
+        const _ref = this.numPixels;
         for (
-            i = _i = 0, _ref = this.numPixels;
+            i = _i = 0;
             0 <= _ref ? _i < _ref : _i > _ref;
             i = 0 <= _ref ? ++_i : --_i
         ) {
-            grey = this.channelData[i];
-            alpha =
+            const grey = this.channelData[i];
+            const alpha =
                 this.channels() === 2
                     ? this.channelData[this.channelLength + i]
                     : 255;

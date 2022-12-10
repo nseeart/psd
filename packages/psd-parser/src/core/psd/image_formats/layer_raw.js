@@ -1,6 +1,6 @@
 export default {
     parseRaw() {
-        var i, _i, _ref, _ref1;
+        let i, _i, _ref, _ref1;
         for (
             i = _i = _ref = this.chanPos,
                 _ref1 = this.chanPos + this.chan.length - 2;

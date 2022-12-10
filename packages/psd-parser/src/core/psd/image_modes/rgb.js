@@ -18,7 +18,7 @@ export default {
         }
     },
     combineRgbChannel() {
-        var a,
+        let a,
             b,
             chan,
             g,

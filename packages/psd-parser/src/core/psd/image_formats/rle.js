@@ -1,5 +1,3 @@
-const __slice = [].slice;
-
 export default {
     parseRLE() {
         this.byteCounts = this.parseByteCounts();
@@ -53,7 +51,7 @@ export default {
                             (_ref1 = this.channelData).splice.apply(
                                 _ref1,
                                 [this.chanPos, 0].concat(
-                                    __slice.call(this.file.read(len))
+                                    [].slice.call(this.file.read(len))
                                 )
                             );
                             _results1.push((this.chanPos += len));

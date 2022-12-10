@@ -9,8 +9,8 @@ export default class Artboard extends LayerInfo {
 
     static shouldParse(key) {
         // 关键是“artb”或“artd”或“abdd”。数据如下：
-        return "artb" === key;
-        // return ["artb", "artd", "abdd"].includes(key);
+        // return "artb" === key;
+        return ["artb", "artd", "abdd"].includes(key);
     }
 
     parse() {
