@@ -1,5 +1,5 @@
 /**
- * Created by wujian on 2018/1/1.
+ * Created by n.see on 2022/12/11.
  */
 
 export const getWinWidth = () => {
@@ -13,11 +13,11 @@ export const getWinWidth = () => {
     return 1;
 };
 
-export const array2hex = (array) => {
+export const array2hex = (arr: number[]) => {
     let strHex = "#";
     let opacity = 0;
-    array.length > 0 &&
-        array.forEach((item, index) => {
+    arr.length > 0 &&
+        arr.forEach((item, index) => {
             if (index < 3) {
                 let hex = Number(item).toString(16);
                 if (hex === "0") {
@@ -34,12 +34,12 @@ export const array2hex = (array) => {
     };
 };
 
-export const array2rgba = (array) => {
+export const array2rgba = (arr: number[]) => {
     let rgbaStr = "rgba";
-    let rgb = [];
+    let rgb: number[] = [];
     let a = 0;
-    array.length > 0 &&
-        array.forEach((item, index) => {
+    arr.length > 0 &&
+        arr.forEach((item, index) => {
             if (index < 3) {
                 rgb.push(item);
             } else {
@@ -49,9 +49,9 @@ export const array2rgba = (array) => {
     return `${rgbaStr}(${rgb.join(",")},${a})`;
 };
 
-export const unique = (arr) => {
-    var res = [];
-    var json = {};
+export const unique = (arr: any[]) => {
+    let res: any[] = [];
+    let json: Record<string, any> = {};
     for (let i = 0; i < arr.length; i++) {
         if (!json[arr[i]]) {
             res.push(arr[i]);
@@ -65,7 +65,7 @@ const I64BIT_TABLE =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-".split(
         ""
     );
-export const hash = (input) => {
+export const hash = (input: string) => {
     let hash = 5381;
     let i = input.length - 1;
     if (typeof input === "string") {
@@ -87,4 +87,4 @@ export const hash = (input) => {
     return retValue;
 };
 
-export const byte2bm = (byte) => (byte / 1024 / 1024).toFixed(2);
+export const byte2bm = (byte: number) => (byte / 1024 / 1024).toFixed(2);

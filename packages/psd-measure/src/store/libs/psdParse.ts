@@ -84,7 +84,7 @@ export default class PsdParse {
     parse() {
         this.parseLayer(this.descendants);
         this.overflows();
-        // console.log(this.layers)
+        console.log("===", this.layers);
         this.parseLayers(this.descendants);
         return this;
     }
@@ -116,8 +116,8 @@ export default class PsdParse {
             {},
             layer
         );
-        let docWidth = this.document.width;
-        let docHeight = this.document.height;
+        const docWidth = this.document.width;
+        const docHeight = this.document.height;
         top = top > 0 ? top : 0;
         left = left > 0 ? left : 0;
         width = width > docWidth - left ? docWidth - left : width;
@@ -147,72 +147,74 @@ export default class PsdParse {
      * @param children
      */
     parseLayer(children: PSDChildren) {
-        children.length > 0 &&
-            children.forEach((node, index) => {
-                if (node.isGroup() || node.hidden()) {
-                    return true;
-                }
-                let item = node.export();
-                // let png = node.toPng()
-                if (item.width <= 0 || item.height <= 0) {
-                    // 无效数据
-                    return;
-                }
-                if (item.type === "layer" && item.visible) {
-                    // console.log(node.name, node, item)
-                    var layer = {
-                        id: index,
-                        name: item.name,
-                        type: item.type,
-                        opacity: item.opacity,
-                        zIndex: -(item.width * item.height),
-                        item: item,
-                        image: false,
-                        bgColor: "",
-                        border: null,
-                    };
-                    if (item.text) {
-                        layer = Object.assign(layer, {
-                            top: item.top,
-                            right: item.right,
-                            bottom: item.bottom,
-                            left: item.left,
-                            width: item.width,
-                            height: item.height,
-                            text: this.parseText(item.text),
-                        });
-                        if (item.text && item.text.font) {
-                            layer = Object.assign(layer, {
-                                font: this.parseFont(item.text.font),
-                            });
-                        }
-                    } else {
-                        layer = Object.assign(layer, {
-                            top: item.top + 1,
-                            right: item.right - 1,
-                            bottom: item.bottom - 1,
-                            left: item.left + 1,
-                            width: item.width - 2,
-                            height: item.height - 2,
+        if (children.length === 0) {
+            return;
+        }
+        children.forEach((node, index) => {
+            if (node.isGroup() || node.hidden()) {
+                return true;
+            }
+            const item = node.export();
+            // let png = node.toPng()
+            if (item.width <= 0 || item.height <= 0) {
+                // 无效数据
+                return;
+            }
+            if (item.type === "layer" && item.visible) {
+                // console.log(node.name, node, item)
+                const layer = {
+                    id: index,
+                    name: item.name,
+                    type: item.type,
+                    opacity: item.opacity,
+                    zIndex: -(item.width * item.height),
+                    item: item,
+                    image: false,
+                    bgColor: "",
+                    border: null,
+                };
+                if (item.text) {
+                    Object.assign(layer, {
+                        top: item.top,
+                        right: item.right,
+                        bottom: item.bottom,
+                        left: item.left,
+                        width: item.width,
+                        height: item.height,
+                        text: this.parseText(item.text),
+                    });
+                    if (item.text && item.text.font) {
+                        Object.assign(layer, {
+                            font: this.parseFont(item.text.font),
                         });
                     }
-                    this.layers.push(layer);
+                } else {
+                    Object.assign(layer, {
+                        top: item.top + 1,
+                        right: item.right - 1,
+                        bottom: item.bottom - 1,
+                        left: item.left + 1,
+                        width: item.width - 2,
+                        height: item.height - 2,
+                    });
                 }
-            });
+                this.layers.push(layer);
+            }
+        });
     }
 
     _base64ToArrayBuffer(base64: string) {
-        let binaryString = window.btoa(base64);
-        let len = binaryString.length;
-        let bytes = new Uint8Array(len);
+        const binaryString = window.btoa(base64);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
         for (let i = 0; i < len; i++) {
             bytes[i] = binaryString.charCodeAt(i);
         }
         return bytes.buffer;
     }
 
-    parseText(text: any) {
-        let { value, top, right, bottom, left } = text;
+    parseText(text: PSDText) {
+        const { value, top, right, bottom, left } = text;
         return { value, top, right, bottom, left };
     }
 
