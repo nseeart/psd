@@ -102,6 +102,7 @@ export const getImage = ({ commit, getters }: Context, id: number) => {
     let png = node.toPng();
 
     let imageParse = new ImageParse(node);
+    console.time("getImageData");
     imageParse.getImageData((color: any) => {
         if (color.type === 1) {
             commit(types.SET_LAYER_BGCOLOR, {
@@ -124,5 +125,6 @@ export const getImage = ({ commit, getters }: Context, id: number) => {
                 },
             });
         }
+        console.timeEnd("getImageData");
     });
 };

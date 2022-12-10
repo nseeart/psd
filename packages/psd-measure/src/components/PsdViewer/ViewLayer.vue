@@ -238,10 +238,10 @@ const handleLayerClick = (ev: Event, index: number, layer: PSDLayer) => {
     Object.assign(selectLayerAttr, getClickAttr(layer));
     selectIndex.value = index;
     if (overIndex.value === index) {
-        overLayerAttr.horizontal.forEach((item, index) => {
+        overLayerAttr.horizontal.forEach((item) => {
             item.isShow = false;
         });
-        overLayerAttr.vertical.forEach((item, index) => {
+        overLayerAttr.vertical.forEach((item) => {
             item.isShow = false;
         });
     }

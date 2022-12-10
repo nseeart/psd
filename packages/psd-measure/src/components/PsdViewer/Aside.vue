@@ -117,7 +117,9 @@
                                 <li v-for="color in font.colors">
                                     <i
                                         class="color"
-                                        :style="{ backgroundColor: color.rgba }"
+                                        :style="{
+                                            backgroundColor: color.rgba,
+                                        }"
                                     ></i>
                                     <span>{{ color.hex.strHex }}</span>
                                 </li>
@@ -149,6 +151,11 @@
                                             :style="{
                                                 backgroundColor:
                                                     layerItem.bgColor,
+                                                border:
+                                                    layerItem.bgColor ===
+                                                    '#ffffff'
+                                                        ? `1px solid #ccc`
+                                                        : 'none',
                                             }"
                                         ></i>
                                         <span>{{ layerItem.bgColor }}</span>
@@ -524,6 +531,9 @@ function setDefaultWdith(asideWidth: number) {
         padding-left: 0;
         li {
             padding: px2rem(10) 0;
+            // i.color {
+            //     border: 1px solid #eee;
+            // }
         }
     }
     .image-inner {
