@@ -49,7 +49,6 @@ export default {
     parseLayerInfo() {
         let keyParseable;
         const _results = [];
-        let i;
         while (this.file.tell() < this.layerEnd) {
             // 签名：“8BIM”或“8B64”
             this.file.seek(4, true);
@@ -66,7 +65,7 @@ export default {
                 if (!klass.shouldParse(key)) {
                     continue;
                 }
-                i = new klass(this, length);
+                const i = new klass(this, length);
                 this.adjustments[name] = new LazyExecute(i, this.file)
                     .now("skip")
                     .later("parse")

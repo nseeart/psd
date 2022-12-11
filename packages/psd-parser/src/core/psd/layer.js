@@ -9,9 +9,9 @@ import name from "./layer/name";
 import channelImage from "./layer/channel_image";
 import Module from "./module";
 
-class Layer extends Module {
+class Layer {
+    static includes = Module.includes;
     constructor(file, header) {
-        super();
         this.file = file;
         this.header = header;
         this.mask = {};

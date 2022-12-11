@@ -1,6 +1,7 @@
 export default {
     parsePositionAndChannels() {
         // 包含图层内容的矩形。指定为上、左、下、右坐标
+        // 修复矩形偏移1px问题
         this.top = this.file.readInt();
         this.left = this.file.readInt();
         this.bottom = this.file.readInt();
@@ -11,6 +12,13 @@ export default {
         this.cols = this.width = this.right - this.left;
         const _results = [];
         const _ref = this.channels;
+        console.log("top", this.top);
+        console.log("left", this.left);
+        console.log("bottom", this.bottom);
+        console.log("right", this.right);
+        console.log("height", this.height);
+        console.log("width", this.width);
+        console.log("_vectorMask==========", this);
 
         let i, _i;
         for (

@@ -16,12 +16,10 @@ export default class LayerMask {
 
     parse() {
         const maskSize = this.file.readInt();
-
         const finish = maskSize + this.file.tell();
         if (maskSize <= 0) {
             return;
         }
-
         this.parseLayers();
         this.parseGlobalMask();
         this.layers.reverse();

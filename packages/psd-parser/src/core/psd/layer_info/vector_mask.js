@@ -15,20 +15,20 @@ export default class VectorMask extends LayerInfo {
     }
 
     parse() {
-        var i, numRecords, record, tag, _i, _results;
         this.file.seek(4, true);
-        tag = this.file.readInt();
+        const tag = this.file.readInt();
         this.invert = (tag & 0x01) > 0;
         this.notLink = (tag & (0x01 << 1)) > 0;
         this.disable = (tag & (0x01 << 2)) > 0;
-        numRecords = (this.length - 10) / 26;
-        _results = [];
+        const numRecords = (this.length - 10) / 26;
+        const _results = [];
+        let i, _i;
         for (
             i = _i = 0;
             0 <= numRecords ? _i < numRecords : _i > numRecords;
             i = 0 <= numRecords ? ++_i : --_i
         ) {
-            record = new PathRecord(this.file);
+            const record = new PathRecord(this.file);
             record.parse();
             _results.push(this.paths.push(record));
         }
