@@ -26,7 +26,7 @@ class Distance {
     nextLeft!: number;
     nextWidth!: number;
     nextHeight!: number;
-    constructor(selectLayer: PSDLayer, nextLayer: PSDLayer) {
+    constructor(selectLayer: any, nextLayer: any) {
         this.selectLayer = selectLayer;
         this.nextLayer = nextLayer;
         this.initCoordinate();

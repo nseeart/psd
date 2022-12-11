@@ -266,7 +266,7 @@ const handleLayerOver = (ev: Event, index: number, layer: PSDLayer) => {
     overLayer.value = layer;
     overIndex.value = index;
     Object.assign(overLayerAttr, getOverAttr(layer));
-    if (overIndex.value !== index) {
+    if (selectIndex.value !== index) {
         for (let key in selectLayerAttr) {
             selectLayerAttr[key].isShow = false;
         }
