@@ -12,13 +12,6 @@ export default {
         this.cols = this.width = this.right - this.left;
         const _results = [];
         const _ref = this.channels;
-        console.log("top", this.top);
-        console.log("left", this.left);
-        console.log("bottom", this.bottom);
-        console.log("right", this.right);
-        console.log("height", this.height);
-        console.log("width", this.width);
-        console.log("_vectorMask==========", this);
 
         let i, _i;
         for (

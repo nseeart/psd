@@ -10,7 +10,7 @@
     },
     "dependencies": {
         "@element-plus/icons-vue": "^2.0.10",
-        "@n.see/psd-parser": "workspace:^1.0.1",
+        "@n.see/psd-parser": "workspace:*",
         "@soerenmartius/vue3-clipboard": "^0.1.2",
         "clipboard": "^2.0.11",
         "element-plus": "^2.2.26",

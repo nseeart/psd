@@ -1,7 +1,7 @@
 {
     "name": "@n.see/psd-parser",
     "private": false,
-    "version": "1.0.4",
+    "version": "1.0.5",
     "type": "module",
     "main": "dist/psd-parser.js",
     "module": "dist/psd-parser.mjs",
@@ -16,8 +16,8 @@
     ],
     "scripts": {
         "dev:node": "tsc && cross-env NODE_ENV=development rollup --watch --config rollup.config.ts --configPlugin typescript",
-        "build:node": "tsc && cross-env NODE_ENV=production rollup --config rollup.config.ts --configPlugin typescript",
         "dev:browser": "tsc && cross-env NODE_ENV=development RUN_ENV=browser rollup --watch --config rollup.config.ts --configPlugin typescript",
+        "build:node": "tsc && cross-env NODE_ENV=production rollup --config rollup.config.ts --configPlugin typescript",
         "build:browser": "tsc && cross-env NODE_ENV=production RUN_ENV=browser rollup --config rollup.config.ts --configPlugin typescript"
     },
     "dependencies": {
@@ -41,6 +41,7 @@
         "@rollup/plugin-node-resolve": "^15.0.1",
         "@rollup/plugin-terser": "^0.1.0",
         "@rollup/plugin-typescript": "^10.0.1",
+        "@types/node": "^18.11.10",
         "cross-env": "^7.0.3",
         "rollup": "^3.5.1",
         "rollup-plugin-polyfill-node": "^0.11.0",

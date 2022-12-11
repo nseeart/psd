@@ -168,7 +168,7 @@ export default class PsdParse {
                     type: item.type,
                     opacity: item.opacity,
                     zIndex: -(item.width * item.height),
-                    item: item,
+                    // item: item,
                     image: false,
                     bgColor: "",
                     border: null,
@@ -189,13 +189,21 @@ export default class PsdParse {
                         });
                     }
                 } else {
+                    // Object.assign(layer, {
+                    //     top: item.top + 1,
+                    //     right: item.right - 1,
+                    //     bottom: item.bottom - 1,
+                    //     left: item.left + 1,
+                    //     width: item.width - 2,
+                    //     height: item.height - 2,
+                    // });
                     Object.assign(layer, {
-                        top: item.top + 1,
-                        right: item.right - 1,
-                        bottom: item.bottom - 1,
-                        left: item.left + 1,
-                        width: item.width - 2,
-                        height: item.height - 2,
+                        top: item.top,
+                        right: item.right,
+                        bottom: item.bottom,
+                        left: item.left,
+                        width: item.width,
+                        height: item.height,
                     });
                 }
                 this.layers.push(layer);

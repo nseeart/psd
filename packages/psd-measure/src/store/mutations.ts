@@ -76,15 +76,15 @@ export default {
     [SET_LAYER_BGCOLOR](state, { id, bgColor }) {
         state.layers.forEach((item, index) => {
             if (item.id === id) {
-                state.layers[index].bgColor = bgColor;
+                // state.layers[index].bgColor = bgColor;
             }
         });
     },
     [SET_LAYER_BORDER](state, { id, border, bgColor }) {
         state.layers.forEach((item, index) => {
             if (item.id === id) {
-                state.layers[index].border = border;
-                state.layers[index].bgColor = bgColor;
+                // state.layers[index].border = border;
+                // state.layers[index].bgColor = bgColor;
             }
         });
     },

@@ -40,13 +40,17 @@ onMounted(() => {
         console.log("psd", psd);
         const tree = psd.tree();
         console.log("tree", tree.export());
-        const node = tree.descendants()[1];
+        const node = tree.descendants().find((node) => !!node.get("typeTool"));
         const typeTool = node.get("typeTool");
-        const fontFamily = typeTool.engineData.ResourceDict.FontSet;
-        console.log("fontFamily", fontFamily);
-        console.log("descendants", tree.descendants());
-        console.log("typeTool", node.get("typeTool").export());
-        console.log("name", node.get("name"));
+        if (typeTool) {
+            const fontFamily =
+                typeTool && typeTool.engineData.ResourceDict.FontSet;
+            console.log("fontFamily", fontFamily);
+        }
+
+        // console.log("descendants", tree.descendants());
+        // console.log("typeTool", node.get("typeTool").export());
+        // console.log("name", node.get("name"));
         store.dispatch("parsePsd", psd);
         // storage.setItem(STORAGE_KEY_PSD_DATA, data)
         console.log("parsePsd success!");

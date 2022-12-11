@@ -263,6 +263,7 @@ function getClickAttr(currentLayer: PSDLayer) {
 const handleLayerOver = (ev: Event, index: number, layer: PSDLayer) => {
     ev.stopPropagation();
     ev.preventDefault();
+    console.log(".export())===layer", layer);
     overLayer.value = layer;
     overIndex.value = index;
     Object.assign(overLayerAttr, getOverAttr(layer));
