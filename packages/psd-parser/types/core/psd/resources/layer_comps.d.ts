@@ -10,5 +10,9 @@ export default class LayerComps {
     parse(): {};
     data: {} | undefined;
     names(): any;
-    export(): any;
+    export(): {
+        id: number;
+        name: string;
+        data: any;
+    };
 }

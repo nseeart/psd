@@ -6,4 +6,9 @@ export default class LinkLayers {
     file: any;
     linkArray: any[];
     parse(): any[];
+    export(): {
+        data: any[];
+        name: string;
+        id: number;
+    };
 }

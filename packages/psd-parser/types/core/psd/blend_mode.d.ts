@@ -1,5 +1,5 @@
 export default BlendMode;
-declare class BlendMode extends Module {
+declare class BlendMode {
     constructor(file: any);
     file: any;
     signature: any;
@@ -12,5 +12,6 @@ declare class BlendMode extends Module {
     visible: boolean | null;
     parse(): any;
     opacityPercentage(): number;
+    set blendingMode(arg: any);
+    get blendingMode(): any;
 }
-import Module from "./module";

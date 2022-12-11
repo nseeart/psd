@@ -1,5 +1,6 @@
 export default Layer;
-declare class Layer extends Module {
+declare class Layer {
+    static includes: typeof Module.includes;
     constructor(file: any, header: any);
     file: any;
     header: any;

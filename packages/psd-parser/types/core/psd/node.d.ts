@@ -1,5 +1,6 @@
 export default Node;
-declare class Node extends Module {
+declare class Node {
+    static includes: typeof Module.includes;
     static PROPERTIES: string[];
     constructor(layer: any, parent: any);
     type: string;
