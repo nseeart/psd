@@ -17,7 +17,16 @@ declare class Node {
     };
     topOffset: number;
     leftOffset: number;
-    createProperties(): Node;
+    set top(arg: any);
+    get top(): any;
+    set right(arg: any);
+    get right(): any;
+    set bottom(arg: any);
+    get bottom(): any;
+    set left(arg: any);
+    get left(): any;
+    get width(): number;
+    get height(): number;
     get(prop: any): any;
     get(prop: any): any;
     visible(): any;
@@ -35,9 +44,5 @@ declare class Node {
         blendingMode: any;
     };
     updateDimensions(): number | undefined;
-    left: number | undefined;
-    top: number | undefined;
-    bottom: number | undefined;
-    right: number | undefined;
 }
 import Module from "./module";

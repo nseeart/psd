@@ -8,14 +8,14 @@ declare class Root extends Node {
     };
     constructor(psd: any);
     psd: any;
-    depth(): any[];
+    depth(): number[];
     opacity(): number;
     fillOpacity(): number;
     export(): {
         children: any[];
         document: {
-            width: any;
-            height: any;
+            width: number;
+            height: number;
             resources: {
                 layerComps: any;
                 guides: never[];
