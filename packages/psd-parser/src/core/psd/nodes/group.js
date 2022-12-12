@@ -13,14 +13,13 @@ export default class Group extends Node {
     }
 
     isEmpty() {
-        let child;
         if (
             !function () {
-                var _i, _len, _ref, _results;
-                _ref = this._children;
-                _results = [];
-                for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-                    child = _ref[_i];
+                const _ref = this._children;
+                const _len = _ref.length;
+                const _results = [];
+                for (let _i = 0; _i < _len; _i++) {
+                    const child = _ref[_i];
                     _results.push(child.isEmpty());
                 }
                 return _results;
@@ -33,9 +32,7 @@ export default class Group extends Node {
     export() {
         return merge(super.export(), {
             type: "group",
-            children: this._children.map(function (c) {
-                return c.export();
-            }),
+            children: this._children.map((c) => c.export()),
         });
     }
 }

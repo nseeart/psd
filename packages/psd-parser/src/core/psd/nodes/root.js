@@ -66,8 +66,7 @@ class Root extends Node {
 }
 
 Root.prototype.buildHeirarchy = function () {
-    let currentGroup = this,
-        parent;
+    let currentGroup = this;
     const parseStack = [];
     const _ref = this.psd.layers;
     const _len = _ref.length;
@@ -77,7 +76,7 @@ Root.prototype.buildHeirarchy = function () {
             parseStack.push(currentGroup);
             currentGroup = new Group(layer, last(parseStack));
         } else if (layer.isFolderEnd()) {
-            parent = parseStack.pop();
+            const parent = parseStack.pop();
             parent.children().push(currentGroup);
             currentGroup = parent;
         } else {
