@@ -23,7 +23,7 @@ export default class Layer extends Node {
                 top: layerInfo.top + 1,
                 left: layerInfo.left + 1,
                 right: layerInfo.right - 1,
-                bottom: layerInfo.bottom + 1,
+                bottom: layerInfo.bottom - 1,
                 width: layerInfo.right - layerInfo.left - 2,
                 height: layerInfo.bottom - layerInfo.top - 2,
             };
