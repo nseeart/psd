@@ -100,27 +100,28 @@ export const getImage = ({ commit, getters }: Context, id: number) => {
     let descendants = psdTree.descendants();
     let node = descendants[id];
     console.log("node", node);
-    let png = node.toPng();
-    const vectorStroke = node.get("vectorStroke");
-    const vectorMask = node.get("vectorMask");
-    console.log(
-        "vectorStroke",
-        vectorStroke && vectorStroke.export && vectorStroke.export()
-    );
-    console.log(
-        "vectorMask",
-        vectorMask && vectorMask.export && vectorMask.export()
-    );
+    // let png = node.toPng();
+    // console.log("png", png);
+    // const vectorStroke = node.get("vectorStroke");
+    // const vectorMask = node.get("vectorMask");
+    // console.log(
+    //     "vectorStroke",
+    //     vectorStroke && vectorStroke.export && vectorStroke.export()
+    // );
+    // console.log(
+    //     "vectorMask",
+    //     vectorMask && vectorMask.export && vectorMask.export()
+    // );
     commit(types.SET_LAYER_IMAGE, {
         id,
         image: {
-            width: png.width,
-            height: png.height,
+            // width: png.width,
+            // height: png.height,
             // src: png.src,
         },
     });
     // let imageParse = new ImageParse(node);
-    console.time("getImageData");
+    // console.time("getImageData");
     // imageParse.getImageData((color: any) => {
     //     if (color.type === 1) {
     //         commit(types.SET_LAYER_BGCOLOR, {

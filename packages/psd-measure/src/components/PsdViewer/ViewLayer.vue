@@ -83,7 +83,7 @@
                     <div
                         class="layer-over-line"
                         :style="{
-                            top: attr.top + attr.height + 'px',
+                            top: attr.top + attr.height - 1 + 'px',
                             height: '1px',
                             left: attr.left - 2 + 'px',
                             width: '5px',
@@ -263,7 +263,6 @@ function getClickAttr(currentLayer: PSDLayer) {
 const handleLayerOver = (ev: Event, index: number, layer: PSDLayer) => {
     ev.stopPropagation();
     ev.preventDefault();
-    console.log(".export())===layer", layer);
     overLayer.value = layer;
     overIndex.value = index;
     Object.assign(overLayerAttr, getOverAttr(layer));

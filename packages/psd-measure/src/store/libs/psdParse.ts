@@ -84,7 +84,6 @@ export default class PsdParse {
     parse() {
         this.parseLayer(this.descendants);
         this.overflows();
-        console.log("===", this.layers);
         this.parseLayers(this.descendants);
         return this;
     }

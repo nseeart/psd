@@ -99,6 +99,7 @@ importers:
       '@rollup/plugin-node-resolve': ^15.0.1
       '@rollup/plugin-terser': ^0.1.0
       '@rollup/plugin-typescript': ^10.0.1
+      '@types/node': ^18.11.10
       buffer: ^6.0.3
       cross-env: ^7.0.3
       iconv-lite: ~0.4.24
@@ -132,6 +133,7 @@ importers:
       '@rollup/plugin-node-resolve': registry.npmmirror.com/@rollup/plugin-node-resolve/15.0.1_rollup@3.7.0
       '@rollup/plugin-terser': registry.npmmirror.com/@rollup/plugin-terser/0.1.0_rollup@3.7.0
       '@rollup/plugin-typescript': registry.npmmirror.com/@rollup/plugin-typescript/10.0.1_wku5fgz7hc2rohaijq36wq5qcq
+      '@types/node': registry.npmmirror.com/@types/node/18.11.11
       cross-env: registry.npmmirror.com/cross-env/7.0.3
       rollup: registry.npmmirror.com/rollup/3.7.0
       rollup-plugin-polyfill-node: registry.npmmirror.com/rollup-plugin-polyfill-node/0.11.0_rollup@3.7.0
