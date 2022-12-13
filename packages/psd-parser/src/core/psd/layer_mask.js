@@ -1,5 +1,6 @@
 import { pad2 } from "./util";
 import Layer from "./layer";
+import { tap } from "lodash-es";
 
 export default class LayerMask {
     constructor(file, header) {
@@ -62,7 +63,8 @@ export default class LayerMask {
             return;
         }
         const maskEnd = this.file.tell() + length;
-        this.globalMask = _({}).tap(
+        this.globalMask = tap(
+            {},
             (function (_this) {
                 return function (mask) {
                     mask.overlayColorSpace = _this.file.readShort();

@@ -83,6 +83,7 @@ export default class LazyExecute {
     // 这会在此对象上定义代理对象原型上的所有项目，并检查以确保在传递调用之前已加载代理对象。
     get() {
         const _ref = this.obj;
+        // console.log("proxyProperies", _ref.proxyProperies);
         const properies = getProperies(_ref);
         const keys = new Set(properies);
         const proxy = (key) => {

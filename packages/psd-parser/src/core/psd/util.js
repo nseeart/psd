@@ -44,3 +44,12 @@ export function getProperies(obj, filters = []) {
 
     return getProperty(obj);
 }
+
+// 转化无符号浮点数
+export function signed(n) {
+    let num = n;
+    if (num > 0x8f) {
+        num = num - 0xff - 1;
+    }
+    return num;
+}

@@ -6,6 +6,8 @@ export default class VectorMask extends LayerInfo {
         return key === "vmsk" || key === "vsms";
     }
 
+    proxyProperies = ["parse", "export"];
+
     constructor(layer, length) {
         super(layer, length);
         this.invert = null;
@@ -40,9 +42,7 @@ export default class VectorMask extends LayerInfo {
             invert: this.invert,
             notLink: this.notLink,
             disable: this.disable,
-            paths: this.paths.map(function (p) {
-                return p["export"]();
-            }),
+            paths: this.paths.map((p) => p.export()),
         };
     }
 }

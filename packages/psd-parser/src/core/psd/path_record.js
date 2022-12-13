@@ -31,7 +31,7 @@ export default class PathRecord {
             {
                 recordType: this.recordType,
             },
-            () => {
+            (() => {
                 switch (this.recordType) {
                     case 0:
                     case 3:
@@ -75,7 +75,7 @@ export default class PathRecord {
                     default:
                         return {};
                 }
-            }
+            })()
         );
     }
 
