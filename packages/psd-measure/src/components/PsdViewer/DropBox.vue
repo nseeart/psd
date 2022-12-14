@@ -9,6 +9,8 @@
 // import storage from '@/core/storage'
 // import { STORAGE_KEY_PSD_DATA } from '@/core/constants'
 import PSD from "@n.see/psd-parser";
+
+// import PSD from "psd.js";
 import { useStore } from "vuex";
 import { onMounted, ref } from "vue";
 import { ElIcon } from "element-plus";
@@ -29,7 +31,7 @@ const onDrop = (e: Event) => {
     PSD.fromEvent(e).then((psd: PSD) => {
         store.dispatch("parsePsd", psd);
         // storage.setItem(STORAGE_KEY_PSD_DATA, data)
-        console.log("parsePsd success!");
+        console.log("parsePsd success!", psd);
     });
 };
 

@@ -43,7 +43,7 @@ importers:
   packages/psd-measure:
     specifiers:
       '@element-plus/icons-vue': ^2.0.10
-      '@n.see/psd-parser': workspace:^1.0.1
+      '@n.see/psd-parser': workspace:*
       '@rollup/plugin-commonjs': ^23.0.3
       '@rollup/plugin-node-resolve': ^15.0.1
       '@soerenmartius/vue3-clipboard': ^0.1.2
@@ -55,6 +55,7 @@ importers:
       install: ^0.13.0
       moment: ^2.29.4
       pnpm: ^7.18.1
+      psd.js: ^3.6.5
       typescript: ^4.6.4
       vite: ^3.2.3
       vite-plugin-require-transform: ^1.0.4
@@ -73,6 +74,7 @@ importers:
       install: registry.npmmirror.com/install/0.13.0
       moment: registry.npmmirror.com/moment/2.29.4
       pnpm: registry.npmmirror.com/pnpm/7.18.1
+      psd.js: registry.npmmirror.com/psd.js/3.6.5
       vue: registry.npmmirror.com/vue/3.2.45
       vue-router: registry.npmmirror.com/vue-router/4.1.6_vue@3.2.45
       vue3-highlightjs: registry.npmmirror.com/vue3-highlightjs/1.0.5_vue@3.2.45
@@ -1691,6 +1693,12 @@ packages:
       '@jridgewell/sourcemap-codec': registry.npmmirror.com/@jridgewell/sourcemap-codec/1.4.14
     dev: true
 
+  registry.npmmirror.com/@noahlam/parse-engine-data/0.1.6:
+    resolution: {integrity: sha512-W4EEvbTmku1ca3bgtyhp2o38dfyMoXnpd9HYF7wrB3F1muNt1AEL8Jj2xwPOD/qaHQYQAtUuCQdXJck19GWnmg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@noahlam/parse-engine-data/-/parse-engine-data-0.1.6.tgz}
+    name: '@noahlam/parse-engine-data'
+    version: 0.1.6
+    dev: false
+
   registry.npmmirror.com/@nodelib/fs.scandir/2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz}
     name: '@nodelib/fs.scandir'
@@ -2394,6 +2402,21 @@ packages:
     name: co
     version: 4.6.0
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
+    dev: false
+
+  registry.npmmirror.com/coffee-script/1.12.7:
+    resolution: {integrity: sha512-fLeEhqwymYat/MpTPUjSKHVYYl0ec2mOyALEMLmzr5i1isuG+6jfI2j2d5oBO3VIzgUXgBVIcOT9uH1TFxBckw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/coffee-script/-/coffee-script-1.12.7.tgz}
+    name: coffee-script
+    version: 1.12.7
+    engines: {node: '>=0.8.0'}
+    deprecated: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
+    hasBin: true
+    dev: false
+
+  registry.npmmirror.com/coffeescript-module/0.2.1:
+    resolution: {integrity: sha512-xVLuaDltmc5OnwvGd7/82U/kwQ0me09b66Ywg/N/KynmE41XTWbsl2+dCySOs3ixnjsy5xXOdM5BjIpjNUAQSg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/coffeescript-module/-/coffeescript-module-0.2.1.tgz}
+    name: coffeescript-module
+    version: 0.2.1
     dev: false
 
   registry.npmmirror.com/color-convert/1.9.3:
@@ -3223,6 +3246,12 @@ packages:
     hasBin: true
     dev: true
 
+  registry.npmmirror.com/jspack/0.0.4:
+    resolution: {integrity: sha512-DC/lSTXYDDdYWzyY/9A1kMzp6Ov9mCRhZQ1cGg4te2w3y4/aKZTSspvbYN4LUsvSzMCb/H8z4TV9mYYW/bs3PQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jspack/-/jspack-0.0.4.tgz}
+    name: jspack
+    version: 0.0.4
+    dev: false
+
   registry.npmmirror.com/keygrip/1.1.0:
     resolution: {integrity: sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/keygrip/-/keygrip-1.1.0.tgz}
     name: keygrip
@@ -3308,10 +3337,22 @@ packages:
     version: 4.0.8
     dev: true
 
+  registry.npmmirror.com/lodash/4.17.15:
+    resolution: {integrity: sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash/-/lodash-4.17.15.tgz}
+    name: lodash
+    version: 4.17.15
+    dev: false
+
   registry.npmmirror.com/lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lodash/-/lodash-4.17.21.tgz}
     name: lodash
     version: 4.17.21
+    dev: false
+
+  registry.npmmirror.com/long/4.0.0:
+    resolution: {integrity: sha512-XsP+KhQif4bjX1kbuSiySJFNAehNxgLb6hPRGJ9QsUr8ajHkuXGdrHmFUTUUXhDwVX2R5bY4JNZEwbUiMhV+MA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/long/-/long-4.0.0.tgz}
+    name: long
+    version: 4.0.0
     dev: false
 
   registry.npmmirror.com/magic-string/0.25.9:
@@ -3497,6 +3538,13 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: false
 
+  registry.npmmirror.com/pngjs/3.4.0:
+    resolution: {integrity: sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pngjs/-/pngjs-3.4.0.tgz}
+    name: pngjs
+    version: 3.4.0
+    engines: {node: '>=4.0.0'}
+    dev: false
+
   registry.npmmirror.com/pnpm/7.18.1:
     resolution: {integrity: sha512-GulnWxFW1dej1sSiju1FlYtvWIYa35ZvbTk9F8jOo+1GgJEVdx1ObLaZCApd2I4IB+jozyNWzInEdV0hQgUq0Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pnpm/-/pnpm-7.18.1.tgz}
     name: pnpm
@@ -3514,6 +3562,21 @@ packages:
       nanoid: registry.npmmirror.com/nanoid/3.3.4
       picocolors: registry.npmmirror.com/picocolors/1.0.0
       source-map-js: registry.npmmirror.com/source-map-js/1.0.2
+
+  registry.npmmirror.com/psd.js/3.6.5:
+    resolution: {integrity: sha512-vfoQ0dRO/LGG1UdQa51Y10GopcylseOk0KoFUzsxTMeHFFvGXxZkbu/7mT8v3Q+xg47OF4L1Ti3+kB+epFd/Ng==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/psd.js/-/psd.js-3.6.5.tgz}
+    name: psd.js
+    version: 3.6.5
+    dependencies:
+      '@noahlam/parse-engine-data': registry.npmmirror.com/@noahlam/parse-engine-data/0.1.6
+      coffee-script: registry.npmmirror.com/coffee-script/1.12.7
+      coffeescript-module: registry.npmmirror.com/coffeescript-module/0.2.1
+      jspack: registry.npmmirror.com/jspack/0.0.4
+      lodash: registry.npmmirror.com/lodash/4.17.15
+      long: registry.npmmirror.com/long/4.0.0
+      pngjs: registry.npmmirror.com/pngjs/3.4.0
+      rsvp: registry.npmmirror.com/rsvp/3.0.21
+    dev: false
 
   registry.npmmirror.com/queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/queue-microtask/-/queue-microtask-1.2.3.tgz}

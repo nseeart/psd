@@ -11,3 +11,4 @@ declare module "@/core/*";
 declare module "@pages/*";
 declare module "@pages/*";
 declare module "vite-plugin-require-transform";
+declare module "psd.js";
