@@ -98,7 +98,37 @@ export default class Layer extends Node {
         // return `<path d="${data.join(' ')}" fill="${fill}" />`;
     }
 
-    // solidColorData = node.get('solidColor');
+    getVectorStroke() {
+        const vectorStroke = this.get("vectorStroke");
+        if (!vectorStroke) {
+            return {};
+        }
+        return vectorStroke.data;
+    }
+
+    getVectorStrokeContent() {
+        const vectorStrokeContent = this.get("vectorStrokeContent");
+        if (!vectorStrokeContent) {
+            return {};
+        }
+        return vectorStrokeContent.color();
+    }
+
+    getSolidColor() {
+        const solidColor = this.get("solidColor");
+        if (!solidColor) {
+            return [];
+        }
+        return solidColor.color();
+    }
+
+    getVectorOrigination() {
+        const vectorOrigination = this.get("vectorOrigination");
+        if (!vectorOrigination) {
+            return [];
+        }
+        return vectorOrigination.data;
+    }
 
     /**
      * https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577409_13084
@@ -164,12 +194,17 @@ export default class Layer extends Node {
 
     export() {
         const layerInfo = this.getIsVectorRect(super.export());
+        // console.log("====color", this.get("solidColor"));
         return merge(layerInfo, {
             type: "layer",
             mask: this.layer.mask.export(),
             text: this.getText(),
             image: {},
+            solidColor: this.getSolidColor(),
             vectorMask: this.getVectorMask(),
+            vectorStroke: this.getVectorStroke(),
+            vectorStrokeContent: this.getVectorStrokeContent(),
+            vectorOrigination: this.getVectorOrigination(),
         });
     }
 }

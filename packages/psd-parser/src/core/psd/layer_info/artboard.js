@@ -16,7 +16,7 @@ export default class Artboard extends LayerInfo {
     parse() {
         this.file.seek(4, true);
         this.data = new Descriptor(this.file);
-        console.log("this.data", this.data.parse());
+        console.log("this.data===", this.data.parse());
         return this.data.parse();
     }
 

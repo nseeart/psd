@@ -5,15 +5,15 @@ export default class Descriptor {
     }
 
     parse() {
-        let i, id, value, _i, _ref;
         this.data["class"] = this.parseClass();
+        // 描述符中的项目数 4
         const numItems = this.file.readInt();
         for (
-            i = _i = 0;
+            let i = 0, _i = 0;
             0 <= numItems ? _i < numItems : _i > numItems;
             i = 0 <= numItems ? ++_i : --_i
         ) {
-            (_ref = this.parseKeyItem()), (id = _ref[0]), (value = _ref[1]);
+            const [id, value] = this.parseKeyItem();
             this.data[id] = value;
         }
         return this.data;
@@ -42,12 +42,8 @@ export default class Descriptor {
     }
 
     parseItem(type) {
-        if (type == null) {
-            type = null;
-        }
-        if (type == null) {
-            type = this.file.readString(4);
-        }
+        type = type || this.file.readString(4);
+
         switch (type) {
             case "bool":
                 return this.parseBoolean();
@@ -137,30 +133,27 @@ export default class Descriptor {
     }
 
     parseAlias() {
-        var len;
-        len = this.file.readInt();
+        const len = this.file.readInt();
         return this.file.readString(len);
     }
 
     parseFilePath() {
-        var len, numChars, path, pathSize, sig;
-        len = this.file.readInt();
-        sig = this.file.readString(4);
-        pathSize = this.file.read("<i");
-        numChars = this.file.read("<i");
-        path = this.file.readUnicodeString(numChars);
+        const len = this.file.readInt();
+        const sig = this.file.readString(4);
+        const pathSize = this.file.read("<i");
+        const numChars = this.file.read("<i");
+        const path = this.file.readUnicodeString(numChars);
         return {
-            sig: sig,
-            path: path,
+            sig,
+            path,
         };
     }
 
     parseList() {
-        var count, i, items, _i;
-        count = this.file.readInt();
-        items = [];
+        const count = this.file.readInt();
+        const items = [];
         for (
-            i = _i = 0;
+            let i = 0, _i = 0;
             0 <= count ? _i < count : _i > count;
             i = 0 <= count ? ++_i : --_i
         ) {
@@ -181,16 +174,15 @@ export default class Descriptor {
     }
 
     parseReference() {
-        let i, numItems, type, value, _i;
-        numItems = this.file.readInt();
+        const numItems = this.file.readInt();
         const items = [];
         for (
-            i = _i = 0;
+            let i = 0, _i = 0;
             0 <= numItems ? _i < numItems : _i > numItems;
             i = 0 <= numItems ? ++_i : --_i
         ) {
-            type = this.file.readString(4);
-            value = function () {
+            const type = this.file.readString(4);
+            const value = function () {
                 switch (type) {
                     case "prop":
                         return this.parseProperty();
@@ -248,7 +240,7 @@ export default class Descriptor {
 
     parseUnitFloat() {
         const unitId = this.file.readString(4);
-        const unit = (function () {
+        const unit = (() => {
             switch (unitId) {
                 case "#Ang":
                     return "Angle";
@@ -271,8 +263,8 @@ export default class Descriptor {
         const value = this.file.readFloat();
         return {
             id: unitId,
-            unit: unit,
-            value: value,
+            unit,
+            value,
         };
     }
 }
