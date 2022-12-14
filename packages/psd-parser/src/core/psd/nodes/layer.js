@@ -101,7 +101,7 @@ export default class Layer extends Node {
     getVectorStroke() {
         const vectorStroke = this.get("vectorStroke");
         if (!vectorStroke) {
-            return {};
+            return undefined;
         }
         return vectorStroke.data;
     }
@@ -109,7 +109,7 @@ export default class Layer extends Node {
     getVectorStrokeContent() {
         const vectorStrokeContent = this.get("vectorStrokeContent");
         if (!vectorStrokeContent) {
-            return {};
+            return undefined;
         }
         return vectorStrokeContent.color();
     }
@@ -117,7 +117,7 @@ export default class Layer extends Node {
     getSolidColor() {
         const solidColor = this.get("solidColor");
         if (!solidColor) {
-            return [];
+            return undefined;
         }
         return solidColor.color();
     }
@@ -145,7 +145,7 @@ export default class Layer extends Node {
     getVectorMask() {
         const vectorMask = this.get("vectorMask");
         if (!vectorMask) {
-            return {};
+            return undefined;
         }
         const vectorMaskData = vectorMask.export();
         const { width, height } = this.root();
@@ -192,9 +192,51 @@ export default class Layer extends Node {
         return text;
     }
 
+    parseVectorBorderStyle(strokeStyleLineDashSet) {
+        if (strokeStyleLineDashSet.length === 0) {
+            return "solid";
+        } else if (strokeStyleLineDashSet.length === 2) {
+            const [a, b] = strokeStyleLineDashSet;
+            if (a.value === 0 && b.value === 2) {
+                return "dotted";
+            } else if (a.value === 2 && b.value === 4) {
+                return "dashed";
+            }
+            return "solid";
+        }
+        return "solid";
+    }
+    parseVectorBorderColor(strokeStyleContent) {
+        const colorData = strokeStyleContent["Clr "];
+        let color = [0, 0, 0];
+        for (let i in colorData) {
+            if (i.indexOf("Rd") > -1) {
+                color[0] = colorData[i];
+            } else if (i.indexOf("Grn") > -1) {
+                color[1] = colorData[i];
+            } else if (i.indexOf("Bl") > -1) {
+                color[2] = colorData[i];
+            }
+        }
+        return color;
+    }
+    parseVectorBorder(vectorStroke) {
+        if (!vectorStroke) {
+            return undefined;
+        }
+        return {
+            width: vectorStroke.strokeStyleLineWidth.value,
+            style: this.parseVectorBorderStyle(
+                vectorStroke.strokeStyleLineDashSet
+            ),
+            color: this.parseVectorBorderColor(vectorStroke.strokeStyleContent),
+            opacity: vectorStroke.strokeStyleOpacity.value,
+        };
+    }
+
     export() {
         const layerInfo = this.getIsVectorRect(super.export());
-        // console.log("====color", this.get("solidColor"));
+        const vectorStroke = this.getVectorStroke();
         return merge(layerInfo, {
             type: "layer",
             mask: this.layer.mask.export(),
@@ -202,9 +244,12 @@ export default class Layer extends Node {
             image: {},
             solidColor: this.getSolidColor(),
             vectorMask: this.getVectorMask(),
-            vectorStroke: this.getVectorStroke(),
+            vectorStroke,
             vectorStrokeContent: this.getVectorStrokeContent(),
             vectorOrigination: this.getVectorOrigination(),
+            vector: {
+                border: this.parseVectorBorder(vectorStroke),
+            },
         });
     }
 }
