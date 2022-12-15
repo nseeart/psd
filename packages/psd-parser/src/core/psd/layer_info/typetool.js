@@ -45,6 +45,19 @@ export default class TextElements extends LayerInfo {
         return _results;
     }
 
+    getFont() {
+        return {
+            style: this.fontStyles()[0],
+            weight: this.fontWeights()[0],
+            family: this.fonts(),
+            size: this.sizes()[0],
+            color: this.colors()[0],
+            textAlign: this.alignment()[0],
+            textDecoration: this.textDecoration()[0],
+            lineHeight: this.leading()[0],
+        };
+    }
+
     export() {
         return {
             value: this.textValue,
@@ -59,6 +72,7 @@ export default class TextElements extends LayerInfo {
                 textDecoration: this.textDecoration(),
                 leading: this.leading(),
             },
+            cssFont: this.getFont(),
             left: this.coords.left,
             top: this.coords.top,
             right: this.coords.right,
@@ -111,7 +125,7 @@ export default class TextElements extends LayerInfo {
         // https://juejin.cn/post/6844903950982840333
         // 过滤 Script = 0
         return this.engineData.ResourceDict.FontSet.filter(
-            (f) => f.Script > 0
+            (f) => !f.Synthetic
         ).map((f) => f.Name);
     }
 
