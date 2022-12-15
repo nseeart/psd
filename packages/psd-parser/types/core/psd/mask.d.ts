@@ -22,26 +22,15 @@ export default class Mask {
      */
     flags: any;
     export(): {
-        top?: undefined;
-        left?: undefined;
-        bottom?: undefined;
-        right?: undefined;
-        width?: undefined;
-        height?: undefined;
-        defaultColor?: undefined;
-        relative?: undefined;
-        disabled?: undefined;
-        invert?: undefined;
-    } | {
         top: number;
         left: number;
         bottom: number;
         right: number;
-        width: number | undefined;
-        height: number | undefined;
+        width: number;
+        height: number;
         defaultColor: any;
         relative: boolean | undefined;
         disabled: boolean | undefined;
         invert: boolean | undefined;
-    };
+    } | undefined;
 }

@@ -28,14 +28,6 @@ export default class Mask {
         // We can then easily derive the dimensions from the box coordinates.
         this.width = this.right - this.left;
         this.height = this.bottom - this.top;
-        // console.log("mask-------start");
-        // console.log("top", this.top);
-        // console.log("left", this.left);
-        // console.log("bottom", this.bottom);
-        // console.log("right", this.right);
-        // console.log("width", this.width);
-        // console.log("height", this.height);
-        // console.log("mask-------end");
         // Each mask defines a couple of flags that are used as extra metadata.
         this.relative = (this.flags & 0x01) > 0;
         this.disabled = (this.flags & (0x01 << 1)) > 0;
@@ -56,15 +48,15 @@ export default class Mask {
 
     export() {
         if (this.size === 0) {
-            return {};
+            return undefined;
         }
         return {
-            top: this.top,
-            left: this.left,
-            bottom: this.bottom,
-            right: this.right,
-            width: this.width,
-            height: this.height,
+            top: this.top + 1,
+            left: this.left + 1,
+            bottom: this.bottom - 1,
+            right: this.right - 1,
+            width: this.width - 2,
+            height: this.height - 2,
             defaultColor: this.defaultColor,
             relative: this.relative,
             disabled: this.disabled,

@@ -1,5 +1,4 @@
 import Node from "../node";
-import { merge } from "lodash-es";
 import { signed } from "../util";
 
 export default class Layer extends Node {
@@ -8,6 +7,7 @@ export default class Layer extends Node {
     }
 
     type = "layer";
+    layerType = "image";
 
     isEmpty() {
         return this.width === 0 || this.height === 0;
@@ -17,7 +17,7 @@ export default class Layer extends Node {
         return !!this.get("vectorMask");
     }
 
-    getIsVectorRect(layerInfo) {
+    getLayerInfo(layerInfo) {
         if (this.isVector()) {
             return {
                 ...layerInfo,
@@ -125,7 +125,7 @@ export default class Layer extends Node {
     getVectorOrigination() {
         const vectorOrigination = this.get("vectorOrigination");
         if (!vectorOrigination) {
-            return [];
+            return undefined;
         }
         return vectorOrigination.data;
     }
@@ -152,7 +152,9 @@ export default class Layer extends Node {
         const data = {};
         const convertedPath = [];
         vectorMaskData.paths.forEach((path) => {
-            const { recordType, numPoints, initialFill } = path;
+            const { recordType, numPoints, initialFill, linked, closed } = path;
+            data["linked"] = linked;
+            data["closed"] = closed;
             const { preceding, anchor, leaving } = this.parsePath(path, {
                 width,
                 height,
@@ -179,6 +181,17 @@ export default class Layer extends Node {
                 data["initialFill"] = initialFill;
             }
         });
+        // 判断多边形
+        if (
+            data.closed &&
+            !data.linked &&
+            (data.numPoints === 3 || data.numPoints > 4)
+        ) {
+            this.layerType = "polygon";
+        }
+        if (!data.closed && data.numPoints > 1) {
+            this.layerType = "path";
+        }
         return {
             ...data,
             d: this.toPathD(convertedPath),
@@ -188,11 +201,14 @@ export default class Layer extends Node {
 
     getText() {
         const _ref = this.get("typeTool");
-        const text = _ref && _ref.export ? _ref.export() : void 0;
-        return text;
+        if (!_ref) {
+            return undefined;
+        }
+        this.layerType = "text";
+        return _ref.export();
     }
 
-    parseVectorBorderStyle(strokeStyleLineDashSet) {
+    parseVectorStrokeStyle(strokeStyleLineDashSet) {
         if (strokeStyleLineDashSet.length === 0) {
             return "solid";
         } else if (strokeStyleLineDashSet.length === 2) {
@@ -206,7 +222,7 @@ export default class Layer extends Node {
         }
         return "solid";
     }
-    parseVectorBorderColor(strokeStyleContent) {
+    parseVectorStrokeColor(strokeStyleContent) {
         const colorData = strokeStyleContent["Clr "];
         let color = [0, 0, 0];
         for (let i in colorData) {
@@ -220,36 +236,138 @@ export default class Layer extends Node {
         }
         return color;
     }
-    parseVectorBorder(vectorStroke) {
-        if (!vectorStroke) {
+    parseVectorStrokeRadius(vectorOrigination) {
+        if (!vectorOrigination) {
             return undefined;
         }
-        return {
-            width: vectorStroke.strokeStyleLineWidth.value,
-            style: this.parseVectorBorderStyle(
-                vectorStroke.strokeStyleLineDashSet
-            ),
-            color: this.parseVectorBorderColor(vectorStroke.strokeStyleContent),
-            opacity: vectorStroke.strokeStyleOpacity.value,
-        };
+        const { keyOriginType, keyOriginRRectRadii, keyOriginShapeBBox } =
+            vectorOrigination.keyDescriptorList[0];
+        // 线
+        if (keyOriginType === 4) {
+            this.layerType = "line";
+        }
+
+        // 圆与椭圆
+        if (keyOriginType === 5) {
+            const { Btom, Left, Rght } = keyOriginShapeBBox;
+            const Top = keyOriginShapeBBox["Top "];
+            if (Btom.value - Top.value === Rght.value - Left.value) {
+                this.layerType = "circle";
+            } else {
+                this.layerType = "ellipse";
+            }
+            return "50%";
+        }
+
+        if ([1, 2].includes(keyOriginType)) {
+            this.layerType = "rect";
+        }
+        // 矩形
+        if (keyOriginType === 1) {
+            return 0;
+        }
+        // 矩形-圆角
+        if (keyOriginType === 2) {
+            const { bottomLeft, bottomRight, topLeft, topRight } =
+                keyOriginRRectRadii;
+            const radius = [
+                bottomLeft.value,
+                bottomRight.value,
+                topLeft.value,
+                topRight.value,
+            ];
+            const radiusSet = new Set(radius);
+            // 四角相等
+            if (radiusSet.size === 1) {
+                return bottomLeft.value;
+            }
+            return {
+                bottomLeft: bottomLeft.value,
+                bottomRight: bottomRight.value,
+                topLeft: topLeft.value,
+                topRight: topRight.value,
+            };
+        }
+        return 0;
+    }
+    parseVectorStroke(vectorStroke, vectorOrigination) {
+        // let radius = undefined;
+        // if (vectorOrigination) {
+        //     radius = this.parseVectorStrokeRadius(vectorOrigination);
+        // }
+        if (vectorStroke) {
+            const stroke = {
+                width: vectorStroke.strokeStyleLineWidth.value,
+                style: this.parseVectorStrokeStyle(
+                    vectorStroke.strokeStyleLineDashSet
+                ),
+                color: this.parseVectorStrokeColor(
+                    vectorStroke.strokeStyleContent
+                ),
+                opacity: vectorStroke.strokeStyleOpacity.value,
+            };
+            // if (radius) {
+            //     Object.assign(stroke, { radius });
+            // }
+            return stroke;
+        }
+        // if (radius) {
+        //     return {
+        //         radius: this.parseVectorStrokeRadius(vectorOrigination),
+        //     };
+        // }
+        return undefined;
     }
 
     export() {
-        const layerInfo = this.getIsVectorRect(super.export());
+        const layerInfo = this.getLayerInfo(super.export());
+
         const vectorStroke = this.getVectorStroke();
-        return merge(layerInfo, {
+        vectorStroke && Object.assign(layerInfo, { vectorStroke });
+
+        const vectorOrigination = this.getVectorOrigination();
+        vectorOrigination && Object.assign(layerInfo, { vectorOrigination });
+
+        const vectorStrokeContent = this.getVectorStrokeContent();
+        vectorStrokeContent &&
+            Object.assign(layerInfo, { vectorStrokeContent });
+
+        const solidColor = this.getSolidColor();
+        solidColor && Object.assign(layerInfo, { solidColor });
+        // vectorMask
+        const vectorMask = this.getVectorMask();
+        vectorMask && Object.assign(layerInfo, { vectorMask });
+        // text
+        const text = this.getText();
+        text && Object.assign(layerInfo, { text });
+        // mask
+        const mask = this.layer.mask.export();
+        mask && Object.assign(layerInfo, { mask });
+
+        // vector data;
+        const vector = {};
+        const stroke = this.parseVectorStroke(vectorStroke, vectorOrigination);
+        stroke && Object.assign(vector, { stroke });
+        (solidColor || vectorStrokeContent) &&
+            Object.assign(vector, {
+                fill: solidColor ? solidColor : vectorStrokeContent,
+            });
+        vectorMask &&
+            Object.assign(vector, {
+                d: vectorMask.d,
+            });
+
+        if (vectorOrigination) {
+            const radius = this.parseVectorStrokeRadius(vectorOrigination);
+            radius && Object.assign(vector, { radius });
+        }
+
+        Object.keys(vector).length > 0 && Object.assign(layerInfo, { vector });
+
+        return Object.assign(layerInfo, {
             type: "layer",
-            mask: this.layer.mask.export(),
-            text: this.getText(),
+            layerType: this.layerType,
             image: {},
-            solidColor: this.getSolidColor(),
-            vectorMask: this.getVectorMask(),
-            vectorStroke,
-            vectorStrokeContent: this.getVectorStrokeContent(),
-            vectorOrigination: this.getVectorOrigination(),
-            vector: {
-                border: this.parseVectorBorder(vectorStroke),
-            },
         });
     }
 }
