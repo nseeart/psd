@@ -50,7 +50,9 @@
                         <span class="btn-close" @click="handleClose">
                             <i class="iconfont icon-close"></i>
                         </span>
-                        <h5>{{ layerItem.name }}</h5>
+                        <h5>
+                            [{{ layerItem.layerType }}] {{ layerItem.name }}
+                        </h5>
                     </div>
                     <div class="viewer-aside-content">
                         <div class="attr-line" data-label="X:">
@@ -70,62 +72,107 @@
                         <h5>Typeface</h5>
                     </div>
                     <div class="viewer-aside-content" v-if="font">
-                        <ul>
-                            <li v-for="name in font.names">{{ name }}</li>
-                        </ul>
                         <div
-                            v-if="font.lineHeights"
+                            v-if="font.family"
+                            class="attr-line"
+                            data-label="Family:"
+                        >
+                            {{ font.family }}
+                        </div>
+                        <div
+                            v-if="font.lineHeight"
                             class="attr-line"
                             data-label="LineHeight:"
                         >
-                            {{ font.lineHeights }}
+                            {{ font.lineHeight }}
                         </div>
                         <div
-                            v-if="font.sizes"
+                            v-if="font.size"
                             class="attr-line"
                             data-label="Size:"
                         >
-                            {{ font.sizes }}
+                            {{ font.size }}
                         </div>
                         <div
-                            v-if="font.aligns"
+                            v-if="font.textAlign"
                             class="attr-line"
-                            data-label="Align:"
+                            data-label="textAlign:"
                         >
-                            {{ font.aligns }}
+                            {{ font.textAlign }}
                         </div>
                         <div
-                            v-if="font.styles"
+                            v-if="font.style"
                             class="attr-line"
                             data-label="Style:"
                         >
-                            {{ font.styles }}
+                            {{ font.style }}
                         </div>
                         <div
-                            v-if="font.weights"
+                            v-if="font.weight"
                             class="attr-line"
                             data-label="Weight:"
                         >
-                            {{ font.weights }}
+                            {{ font.weight }}
                         </div>
                         <div
-                            v-if="font.colors"
+                            v-if="font.color"
                             class="attr-line"
                             data-label="Color:"
                         >
                             <ul class="colors">
-                                <li v-for="color in font.colors">
+                                <li>
                                     <i
                                         class="color"
                                         :style="{
-                                            backgroundColor: color.rgba,
+                                            backgroundColor: font.color.rgba,
                                         }"
                                     ></i>
-                                    <span>{{ color.hex.strHex }}</span>
+                                    <span>{{ font.color.hex.strHex }}</span>
+                                    <span style="margin-left: 8px"
+                                        >{{
+                                            font.color.hex.opacity * 100
+                                        }}%</span
+                                    >
                                 </li>
                             </ul>
                         </div>
                     </div>
+                    <template v-if="layerItem.vector">
+                        <div class="viewer-aside-title">
+                            <h5>Svg</h5>
+                        </div>
+                        <div
+                            class="viewer-aside-content viewer-aside-content-bg"
+                        >
+                            <div class="image-inner">
+                                <svg
+                                    :width="layerItem.width"
+                                    :height="layerItem.height"
+                                    version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        :d="layerItem.vector.d"
+                                        fill="red"
+                                    ></path>
+                                    <!-- <rect
+                                        x="20"
+                                        y="20"
+                                        rx="20"
+                                        ry="20"
+                                        width="250"
+                                        height="100"
+                                        style="
+                                            fill: red;
+                                            stroke: black;
+                                            stroke-width: 5;
+                                            opacity: 0.5;
+                                        "
+                                    /> -->
+                                </svg>
+                            </div>
+                        </div>
+                    </template>
                     <template v-if="layerItem.image">
                         <div class="viewer-aside-title">
                             <h5>Image</h5>
@@ -253,17 +300,14 @@ const docmentSize = computed(() => store.state.psdPng.src.length / 1024);
 const border = computed(() =>
     store.state.layerItem.border ? store.state.layerItem.border : null
 );
-const font = computed(() =>
-    store.state.layerItem.font ? store.state.layerItem.font : null
-);
-
-const colors = computed(() => {
-    let _colors: any[] = [];
-    store.state.layerItem.font.colors.forEach((item) => {
-        _colors.push(item.hex.strHex);
-    });
-    return _colors.join("/");
+const font = computed(() => {
+    return store.state.layerItem.font ? store.state.layerItem.font : null;
 });
+
+const layerType = computed(() => {
+    return store.state.layerItem.layerType;
+});
+
 const codeData = computed(() => {
     let classNameHash = getClassName(store.state.layerItem.name);
     let base = [
@@ -308,38 +352,39 @@ const codeData = computed(() => {
                       {
                           keyValue: "line-height",
                           keyType: "hl-key",
-                          valueValue: font.value && font.value.lineHeights,
+                          valueValue:
+                              font.value && font.value.lineHeight + "px",
                           valueType: "hl-value-number",
                       },
                       {
                           keyValue: "font-size",
                           keyType: "hl-key",
-                          valueValue: font.value && font.value.sizes,
+                          valueValue: font.value && font.value.size + "px",
                           valueType: "hl-value-number",
                       },
                       {
                           keyValue: "font-weight",
                           keyType: "hl-key",
-                          valueValue: font.value && font.value.weights,
+                          valueValue: font.value && font.value.weight,
                           valueType: "hl-value-number",
                       },
                       {
                           keyValue: "text-align",
                           keyType: "hl-key",
-                          valueValue: font.value && font.value.aligns,
-                          valueType: "hl-value-string",
+                          valueValue: font.value && font.value.textAlign,
+                          valueType: "hl-value-number",
                       },
                       {
                           keyValue: "color",
                           keyType: "hl-key",
-                          valueValue: font.value && colors.value,
-                          valueType: "hl-value-string",
+                          valueValue: font.value && font.value.color.rgba,
+                          valueType: "hl-value-number",
                       },
                       {
                           keyValue: "font-family",
                           keyType: "hl-key",
-                          valueValue: font.value && font.value.names.join(", "),
-                          valueType: "hl-value-string",
+                          valueValue: font.value && font.value.family,
+                          valueType: "hl-value-number",
                       },
                   ]
                 : null,

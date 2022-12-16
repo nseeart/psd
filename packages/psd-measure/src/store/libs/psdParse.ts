@@ -18,6 +18,17 @@ export interface PSDNode {
     width: number;
 }
 
+export interface PSDFont {
+    color: number[];
+    family: string[];
+    lineHeight: number;
+    size: number;
+    style: string;
+    textAlign: string;
+    textDecoration: string;
+    weight: string;
+}
+
 export interface PSDText {
     bottom: number;
     font: Record<string, any>;
@@ -26,6 +37,7 @@ export interface PSDText {
     top: number;
     transform: Record<string, any>;
     value: string;
+    cssFont: PSDFont;
 }
 
 export interface PSDGroup extends PSDNode {
@@ -82,9 +94,10 @@ export default class PsdParse {
         this.layers = [];
     }
     parse() {
-        this.parseLayer(this.descendants);
+        this.parseDescendants(this.descendants);
         this.overflows();
-        this.parseLayers(this.descendants);
+        console.log("this.layers", this.layers);
+        // this.parseLayers(this.descendants);
         return this;
     }
 
@@ -145,11 +158,11 @@ export default class PsdParse {
      * 修正偏移
      * @param children
      */
-    parseLayer(children: PSDChildren) {
-        if (children.length === 0) {
+    parseDescendants(descendants: PSDChildren) {
+        if (descendants.length === 0) {
             return;
         }
-        children.forEach((node, index) => {
+        descendants.forEach((node, index) => {
             if (node.isGroup() || node.hidden()) {
                 return true;
             }
@@ -159,51 +172,45 @@ export default class PsdParse {
                 // 无效数据
                 return;
             }
+
             if (item.type === "layer" && item.visible) {
-                // console.log(node.name, node, item)
+                const {
+                    layerType,
+                    name,
+                    left,
+                    top,
+                    right,
+                    bottom,
+                    width,
+                    height,
+                } = item;
                 const layer = {
                     id: index,
-                    name: item.name,
-                    type: item.type,
-                    opacity: item.opacity,
-                    zIndex: -(item.width * item.height),
-                    // item: item,
-                    image: false,
-                    bgColor: "",
-                    border: null,
+                    layerType,
+                    name,
+                    left,
+                    top,
+                    right,
+                    bottom,
+                    width,
+                    height,
+                    zIndex: -(width * height),
                 };
-                if (item.text) {
+                if (layerType === "text") {
                     Object.assign(layer, {
-                        top: item.top,
-                        right: item.right,
-                        bottom: item.bottom,
-                        left: item.left,
-                        width: item.width,
-                        height: item.height,
                         text: this.parseText(item.text),
+                        font: this.parseFont(item.text.cssFont),
                     });
-                    if (item.text && item.text.font) {
-                        Object.assign(layer, {
-                            font: this.parseFont(item.text.font),
-                        });
-                    }
                 } else {
-                    // Object.assign(layer, {
-                    //     top: item.top + 1,
-                    //     right: item.right - 1,
-                    //     bottom: item.bottom - 1,
-                    //     left: item.left + 1,
-                    //     width: item.width - 2,
-                    //     height: item.height - 2,
-                    // });
-                    Object.assign(layer, {
-                        top: item.top,
-                        right: item.right,
-                        bottom: item.bottom,
-                        left: item.left,
-                        width: item.width,
-                        height: item.height,
-                    });
+                    item.vector &&
+                        Object.assign(layer, {
+                            vector: item.vector,
+                        });
+
+                    item.mask &&
+                        Object.assign(layer, {
+                            mask: item.mask,
+                        });
                 }
                 this.layers.push(layer);
             }
@@ -222,7 +229,13 @@ export default class PsdParse {
 
     parseText(text: PSDText) {
         const { value, top, right, bottom, left } = text;
-        return { value, top, right, bottom, left };
+        return {
+            value,
+            top,
+            right,
+            bottom,
+            left,
+        };
     }
 
     /**
@@ -230,64 +243,22 @@ export default class PsdParse {
      * @param font
      * @returns {{aligns: *, colors: *, lineHeights: *, lengthArray: *, names: *, sizes: *, styles: *, textDecoration: *, weights: *}}
      */
-    parseFont(font: any) {
+    parseFont(font: PSDFont) {
         return {
-            aligns: this.parseAlignment(font.alignment),
-            colors: this.parseColor(font.colors),
-            lineHeights: this.parseLeading(font.leading),
-            lengthArray: this.parseLengthArray(font.lengthArray),
-            names: this.parseName(font.names),
-            sizes: this.parseSize(font.sizes),
-            styles: this.parseStyle(font.styles),
-            textDecoration: this.parseTextDecoration(font.textDecoration),
-            weights: this.parseWeight(font.weights),
+            ...font,
+            color: this.parseColor(font.color),
+            family: this.parseFamily(font.family),
         };
     }
-    parseAlignment(alignment: any) {
-        if (!alignment) return;
-        return unique(alignment).join("/");
+
+    parseColor(color: number[]) {
+        return {
+            rgba: array2rgba(color),
+            hex: array2hex(color),
+        };
     }
-    parseColor(colors: any[]) {
-        let newColors: any[] = [];
-        colors = unique(colors);
-        colors.forEach((item) => {
-            newColors.push({
-                rgba: array2rgba(item),
-                hex: array2hex(item),
-            });
-        });
-        return newColors;
-    }
-    parseLeading(lineHeights: any[]) {
-        if (!lineHeights) return [];
-        let newLineHeights: any[] = [];
-        lineHeights = unique(lineHeights);
-        lineHeights.forEach((item) => {
-            newLineHeights.push(`${item}px`);
-        });
-        return newLineHeights.join("/");
-    }
-    parseLengthArray(lengthArray: any[]) {
-        return lengthArray;
-    }
-    parseName(names: any[]) {
-        return unique(names);
-    }
-    parseSize(sizes: any[]) {
-        let newSize: any[] = [];
-        sizes = unique(sizes);
-        sizes.forEach((item) => {
-            newSize.push(`${item}px`);
-        });
-        return newSize.join("/");
-    }
-    parseStyle(styles: any[]) {
-        return unique(styles).join("/");
-    }
-    parseTextDecoration(textDecoration: any[]) {
-        return textDecoration;
-    }
-    parseWeight(weights: any[]) {
-        return unique(weights).join("/");
+
+    parseFamily(family: string[]) {
+        return family.join(", ");
     }
 }

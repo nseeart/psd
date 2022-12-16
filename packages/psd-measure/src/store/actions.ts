@@ -59,6 +59,7 @@ export const parsePsd = ({ commit }: Context, psd: any) => {
         height: thumb.height,
     };
     let layers = psdParse.parse().getLayers();
+    console.log("getLayers", layers);
     let document = psdTree.export().document;
     commit(types.SET_PSD, psdTree);
     commit(types.SET_LAYERS, layers);
