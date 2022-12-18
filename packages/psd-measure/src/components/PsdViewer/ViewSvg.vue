@@ -104,16 +104,10 @@ function renderSvg(draw: any) {
         );
         console.log("group", isPathGroup, group);
         if (isPathGroup) {
-            // const path0 = draw.path(group[0].d);
-            // path0.fill(fillHex).move(strokeWidth + 50, strokeWidth);
-            // renderStroke(path0, stroke);
-
-            // const path1 = draw.path(group[1].d);
-            // path1.fill(fillHex).move(strokeWidth, strokeWidth);
-            // renderStroke(path1, stroke);
+            const g = draw.group();
             group.forEach((item: any) => {
-                const path = draw.path(item.d);
-                path.fill(fillHex).move(strokeWidth, strokeWidth);
+                const path = g.path(item.d);
+                path.fill(fillHex);
                 renderStroke(path, stroke);
             });
         } else {
