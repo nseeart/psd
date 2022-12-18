@@ -11,6 +11,16 @@ export default class TextElements extends LayerInfo {
     warpData: {} | null;
     coords: {};
     parse(): any[];
+    getFont(): {
+        style: any;
+        weight: any;
+        family: any;
+        size: any;
+        color: any;
+        textAlign: any;
+        textDecoration: any;
+        lineHeight: any;
+    };
     export(): {
         value: any;
         font: {
@@ -23,6 +33,16 @@ export default class TextElements extends LayerInfo {
             alignment: any;
             textDecoration: any;
             leading: any;
+        };
+        cssFont: {
+            style: any;
+            weight: any;
+            family: any;
+            size: any;
+            color: any;
+            textAlign: any;
+            textDecoration: any;
+            lineHeight: any;
         };
         left: any;
         top: any;

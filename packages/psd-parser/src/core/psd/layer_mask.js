@@ -63,22 +63,17 @@ export default class LayerMask {
             return;
         }
         const maskEnd = this.file.tell() + length;
-        this.globalMask = tap(
-            {},
-            (function (_this) {
-                return function (mask) {
-                    mask.overlayColorSpace = _this.file.readShort();
-                    mask.colorComponents = [
-                        _this.file.readShort() >> 8,
-                        _this.file.readShort() >> 8,
-                        _this.file.readShort() >> 8,
-                        _this.file.readShort() >> 8,
-                    ];
-                    mask.opacity = _this.file.readShort() / 16.0;
-                    return (mask.kind = _this.file.readByte());
-                };
-            })(this)
-        );
+        this.globalMask = tap({}, (mask) => {
+            mask.overlayColorSpace = this.file.readShort();
+            mask.colorComponents = [
+                this.file.readShort() >> 8,
+                this.file.readShort() >> 8,
+                this.file.readShort() >> 8,
+                this.file.readShort() >> 8,
+            ];
+            mask.opacity = this.file.readShort() / 16.0;
+            return (mask.kind = this.file.readByte());
+        });
 
         return this.file.seek(maskEnd);
     }

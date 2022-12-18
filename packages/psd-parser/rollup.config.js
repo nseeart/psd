@@ -4,6 +4,7 @@ import resolve from "@rollup/plugin-node-resolve";
 import babel from "@rollup/plugin-babel";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
+import { defineConfig } from "rollup";
 // import ts from "@rollup/plugin-typescript";
 
 const isProduction = process.env.NODE_ENV === "production";
@@ -11,7 +12,7 @@ const isBrowser = process.env.RUN_ENV === "browser";
 
 console.log("isBrowser", isBrowser);
 
-export default {
+export default defineConfig({
     input: "src/main.js",
     output: [
         {
@@ -39,4 +40,4 @@ export default {
         isProduction && terser(),
         // babel({ babelHelpers: "bundled" }),
     ],
-};
+});

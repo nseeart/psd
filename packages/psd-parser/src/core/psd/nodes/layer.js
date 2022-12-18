@@ -46,54 +46,82 @@ export default class Layer extends Node {
         const anchorPos = this.getPathPosition(anchor);
         const leavingPos = this.getPathPosition(leaving);
         // relX 和 relY 保留了PSD中原始数据。
+        console.log("this.left ", this.left);
         return {
+            ...path,
             preceding: {
-                relX: precedingPos.x,
-                relY: precedingPos.y,
-                x: Math.round(width * precedingPos.x),
-                y: Math.round(height * precedingPos.y),
+                // relX: precedingPos.x,
+                // relY: precedingPos.y,
+                x: Math.round(width * precedingPos.x) - this.left - 1,
+                y: Math.round(height * precedingPos.y) - this.top - 1,
+                // x: Math.round(width * precedingPos.x),
+                // y: Math.round(height * precedingPos.y),
             },
             anchor: {
-                relX: anchorPos.x,
-                relY: anchorPos.y,
-                x: Math.round(width * anchorPos.x),
-                y: Math.round(height * anchorPos.y),
+                // relX: anchorPos.x,
+                // relY: anchorPos.y,
+                x: Math.round(width * anchorPos.x) - this.left - 1,
+                y: Math.round(height * anchorPos.y) - this.top - 1,
+                // x: Math.round(width * anchorPos.x),
+                // y: Math.round(height * anchorPos.y),
             },
             leaving: {
-                relX: leavingPos.x,
-                relY: leavingPos.y,
-                x: Math.round(width * leavingPos.x),
-                y: Math.round(height * leavingPos.y),
+                // relX: leavingPos.x,
+                // relY: leavingPos.y,
+                x: Math.round(width * leavingPos.x) - this.left - 1,
+                y: Math.round(height * leavingPos.y) - this.top - 1,
+                // x: Math.round(width * leavingPos.x),
+                // y: Math.round(height * leavingPos.y),
             },
         };
     }
 
-    toPathD(paths) {
+    toPathPoint(paths = [], { closed, numPoints }) {
+        const data = [];
+        paths.forEach((path) => {
+            if (!path.linked && closed) {
+                data.push({
+                    x: path.anchor.x,
+                    y: path.anchor.y,
+                });
+            }
+        });
+        return data;
+    }
+
+    toPathD(paths = []) {
         let head;
         const data = [];
-
+        // if (linked) {
         paths.forEach((path, index) => {
-            const { preceding, anchor, leaving } = path;
-
+            const { preceding, anchor, leaving, linked, closed } = path;
             if (index < paths.length - 1) {
                 if (index > 0) {
                     // 中间节点
                     data.push(
-                        `${preceding.x}, ${preceding.y} ${anchor.x}, ${anchor.y} ${leaving.x}, ${leaving.y}`
+                        `${preceding.x} ${preceding.y} ${anchor.x} ${anchor.y} ${leaving.x} ${leaving.y}`
                     );
                 } else {
                     // 记录第一个节点，用于在关闭路径的时候使用
                     head = path;
                     data.push(
-                        `M ${anchor.x}, ${anchor.y} C${leaving.x}, ${leaving.y}`
+                        `M${anchor.x} ${anchor.y} C${leaving.x} ${leaving.y}`
                     );
                 }
             } else {
-                data.push(
-                    `${preceding.x}, ${preceding.y} ${anchor.x}, ${anchor.y} ${leaving.x}, ${leaving.y} ${head.preceding.x}, ${head.preceding.y} ${head.anchor.x}, ${head.anchor.y} Z`
-                );
+                // console.log("closed", closed, linked);
+                if (closed) {
+                    data.push(
+                        `${preceding.x} ${preceding.y} ${anchor.x} ${anchor.y} ${leaving.x} ${leaving.y} ${head.preceding.x} ${head.preceding.y} ${head.anchor.x} ${head.anchor.y} Z`
+                    );
+                } else {
+                    data.push(
+                        `${preceding.x} ${preceding.y} ${anchor.x} ${anchor.y}`
+                    );
+                }
             }
         });
+
         return data.join(" ");
         // return `<path d="${data.join(' ')}" fill="${fill}" />`;
     }
@@ -130,6 +158,94 @@ export default class Layer extends Node {
         return vectorOrigination.data;
     }
 
+    getPathData(paths, { width, height }) {
+        paths = paths.map((path) =>
+            this.parsePath(path, {
+                width,
+                height,
+            })
+        );
+        const isPathGroup = this.isPathGroup(paths);
+        const _group = [];
+        let _initialFill = undefined;
+        let _numPoints = 0;
+        let _paths = [];
+        let i = 0;
+        paths.forEach((path, index) => {
+            if (path.recordType === 8) {
+                _initialFill = path.initialFill;
+            }
+            if (path.numPoints && path.numPoints > 0) {
+                _numPoints = path.numPoints || "";
+                const current = paths.splice(index + 1, path.numPoints);
+                if (isPathGroup) {
+                    if (!_group[i]) {
+                        _group[i] = {
+                            paths: [],
+                            numPoints: _numPoints,
+                        };
+                    }
+                    _group[i].paths.push(...current);
+                    _numPoints = 0;
+                    if (_numPoints === 0) {
+                        i++;
+                    }
+                } else {
+                    _paths = current;
+                }
+            }
+        });
+
+        return {
+            initialFill: _initialFill,
+            group: _group,
+            paths: _paths,
+            isPathGroup,
+            numPoints: _numPoints,
+        };
+    }
+
+    isPathGroup(paths) {
+        const p = paths.filter((path) => path.numPoints > 0);
+        return p.length > 1;
+    }
+
+    convertPaths(paths) {
+        const _paths = [];
+        paths.forEach((path) => {
+            const {
+                preceding,
+                anchor,
+                leaving,
+                recordType,
+                numPoints,
+                initialFill,
+                linked,
+                closed,
+            } = path;
+
+            if ([1, 4].includes(recordType)) {
+                _paths.push({
+                    preceding,
+                    anchor,
+                    leaving,
+                    linked,
+                    closed,
+                });
+            }
+            if ([2, 5].includes(recordType)) {
+                _paths.push({
+                    anchor,
+                    preceding: anchor,
+                    leaving: anchor,
+                    linked,
+                    closed,
+                });
+            }
+        });
+        return _paths;
+    }
+
     /**
      * https://www.adobe.com/devnet-apps/photoshop/fileformatashtml/#50577409_13084
      * 0 - 闭合子路径长度记录
@@ -147,56 +263,42 @@ export default class Layer extends Node {
         if (!vectorMask) {
             return undefined;
         }
+        this.layerType = "path";
         const vectorMaskData = vectorMask.export();
         const { width, height } = this.root();
-        const data = {};
-        const convertedPath = [];
-        vectorMaskData.paths.forEach((path) => {
-            const { recordType, numPoints, initialFill, linked, closed } = path;
-            data["linked"] = linked;
-            data["closed"] = closed;
-            const { preceding, anchor, leaving } = this.parsePath(path, {
-                width,
-                height,
-            });
-            // 点数量
-            if ([0, 3].includes(recordType)) {
-                data["numPoints"] = numPoints;
-            }
-            if ([1, 4].includes(recordType)) {
-                convertedPath.push({
-                    preceding,
-                    anchor,
-                    leaving,
-                });
-            }
-            if ([2, 5].includes(recordType)) {
-                convertedPath.push({
-                    anchor,
-                    preceding: anchor,
-                    leaving: anchor,
-                });
-            }
-            if (recordType === 8) {
-                data["initialFill"] = initialFill;
-            }
+        const _vectorMaskData = this.getPathData(vectorMaskData.paths, {
+            width,
+            height,
         });
-        // 判断多边形
-        if (
-            data.closed &&
-            !data.linked &&
-            (data.numPoints === 3 || data.numPoints > 4)
-        ) {
-            this.layerType = "polygon";
-        }
-        if (!data.closed && data.numPoints > 1) {
-            this.layerType = "path";
-        }
-        return {
-            ...data,
-            d: this.toPathD(convertedPath),
-            paths: convertedPath,
+        const paths = this.convertPaths(_vectorMaskData.paths);
+        const data = {
+            ..._vectorMaskData,
+            group: _vectorMaskData.group.map((item) => {
+                const groupPaths = this.convertPaths(item.paths);
+                return {
+                    ...item,
+                    paths: groupPaths,
+                    d: this.toPathD(groupPaths),
+                };
+            }),
+            paths,
+            d: this.toPathD(paths),
         };
+
+        // console.log("convertedPath", convertedPath);
+        // 判断多边形
+        // if (
+        //     data.closed &&
+        //     !data.linked &&
+        //     (data.numPoints === 3 || data.numPoints > 4)
+        // ) {
+        //     this.layerType = "polygon";
+        // }
+        // if (!data.closed && data.numPoints > 1) {
+        //     this.layerType = "path";
+        // }
+        // console.log("data", data);
+        return data;
     }
 
     getText() {
@@ -236,7 +338,32 @@ export default class Layer extends Node {
         }
         return color;
     }
-    parseVectorStrokeRadius(vectorOrigination) {
+
+    // 线点
+    parseVectorLinePoint(vectorOrigination) {
+        if (!vectorOrigination) {
+            return undefined;
+        }
+
+        const { keyOriginType, keyOriginLineEnd, keyOriginLineStart } =
+            vectorOrigination.keyDescriptorList[0];
+        if (keyOriginType !== 4) {
+            return undefined;
+        }
+        return {
+            start: {
+                x: keyOriginLineStart.Hrzn - this.left - 1,
+                y: keyOriginLineStart.Vrtc - this.top - 1,
+            },
+            end: {
+                x: keyOriginLineEnd.Hrzn - this.left - 1,
+                y: keyOriginLineEnd.Vrtc - this.top - 1,
+            },
+        };
+    }
+
+    // 圆角
+    parseVectorRadius(vectorOrigination) {
         if (!vectorOrigination) {
             return undefined;
         }
@@ -290,11 +417,9 @@ export default class Layer extends Node {
         }
         return 0;
     }
+
+    // svg 边框
     parseVectorStroke(vectorStroke, vectorOrigination) {
-        // let radius = undefined;
-        // if (vectorOrigination) {
-        //     radius = this.parseVectorStrokeRadius(vectorOrigination);
-        // }
         if (vectorStroke) {
             const stroke = {
                 width: vectorStroke.strokeStyleLineWidth.value,
@@ -306,31 +431,28 @@ export default class Layer extends Node {
                 ),
                 opacity: vectorStroke.strokeStyleOpacity.value,
             };
-            // if (radius) {
-            //     Object.assign(stroke, { radius });
-            // }
             return stroke;
         }
-        // if (radius) {
-        //     return {
-        //         radius: this.parseVectorStrokeRadius(vectorOrigination),
-        //     };
-        // }
+        if (vectorOrigination) {
+            const { keyOriginLineWeight } =
+                vectorOrigination.keyDescriptorList[0];
+            return {
+                width: keyOriginLineWeight,
+            };
+        }
         return undefined;
+    }
+
+    parsePolygonPoint(poits) {
+        const _poits = [];
+        poits.forEach((poit) => {
+            _poits.push(`${poit.x},${poit.y}`);
+        });
+        return _poits.join(" ");
     }
 
     export() {
         const layerInfo = this.getLayerInfo(super.export());
-
-        const vectorStroke = this.getVectorStroke();
-        vectorStroke && Object.assign(layerInfo, { vectorStroke });
-
-        const vectorOrigination = this.getVectorOrigination();
-        vectorOrigination && Object.assign(layerInfo, { vectorOrigination });
-
-        const vectorStrokeContent = this.getVectorStrokeContent();
-        vectorStrokeContent &&
-            Object.assign(layerInfo, { vectorStrokeContent });
 
         const solidColor = this.getSolidColor();
         solidColor && Object.assign(layerInfo, { solidColor });
@@ -344,6 +466,16 @@ export default class Layer extends Node {
         const mask = this.layer.mask.export();
         mask && Object.assign(layerInfo, { mask });
 
+        const vectorStroke = this.getVectorStroke();
+        vectorStroke && Object.assign(layerInfo, { vectorStroke });
+
+        const vectorOrigination = this.getVectorOrigination();
+        vectorOrigination && Object.assign(layerInfo, { vectorOrigination });
+
+        const vectorStrokeContent = this.getVectorStrokeContent();
+        vectorStrokeContent &&
+            Object.assign(layerInfo, { vectorStrokeContent });
+
         // vector data;
         const vector = {};
         const stroke = this.parseVectorStroke(vectorStroke, vectorOrigination);
@@ -352,13 +484,25 @@ export default class Layer extends Node {
             Object.assign(vector, {
                 fill: solidColor ? solidColor : vectorStrokeContent,
             });
+        vectorMask && Object.assign(vector, vectorMask);
+
+        // polygon poit
         vectorMask &&
+            vectorMask.points &&
             Object.assign(vector, {
-                d: vectorMask.d,
+                polygonPoint: this.parsePolygonPoint(vectorMask.points),
             });
 
         if (vectorOrigination) {
-            const radius = this.parseVectorStrokeRadius(vectorOrigination);
+            const linePoint = this.parseVectorLinePoint(vectorOrigination);
+            linePoint &&
+                Object.assign(vector, {
+                    linePoint,
+                });
+        }
+
+        if (vectorOrigination) {
+            const radius = this.parseVectorRadius(vectorOrigination);
             radius && Object.assign(vector, { radius });
         }
 
