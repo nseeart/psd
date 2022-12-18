@@ -145,31 +145,7 @@
                             class="viewer-aside-content viewer-aside-content-bg"
                         >
                             <div class="image-inner">
-                                <svg
-                                    :width="layerItem.width"
-                                    :height="layerItem.height"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        :d="layerItem.vector.d"
-                                        fill="red"
-                                    ></path>
-                                    <!-- <rect
-                                        x="20"
-                                        y="20"
-                                        rx="20"
-                                        ry="20"
-                                        width="250"
-                                        height="100"
-                                        style="
-                                            fill: red;
-                                            stroke: black;
-                                            stroke-width: 5;
-                                            opacity: 0.5;
-                                        "
-                                    /> -->
-                                </svg>
+                                <view-svg :layer-item="layerItem" />
                             </div>
                         </div>
                     </template>
@@ -286,6 +262,7 @@ import { hash } from "@/core/utils";
 import { computed, ref, watch } from "vue";
 import { DocumentCopy } from "@element-plus/icons-vue";
 import { ElIcon, ElMessage } from "element-plus";
+import ViewSvg from "./ViewSvg.vue";
 
 const hanSuccess = () => {
     ElMessage({

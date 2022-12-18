@@ -20,6 +20,10 @@ export const array2hex = (arr: number[]) => {
         arr.forEach((item, index) => {
             if (index < 3) {
                 let hex = Number(item).toString(16);
+                // if (hex.includes(".")) {
+                //     hex = hex.split(".").unshift().toString();
+                // }
+                // console.log("hex", hex);
                 if (hex === "0") {
                     hex += hex;
                 }
@@ -47,6 +51,14 @@ export const array2rgba = (arr: number[]) => {
             }
         });
     return `${rgbaStr}(${rgb.join(",")},${a})`;
+};
+
+export const array2rgb = (arr: number[]) => {
+    if (arr.length === 3 || arr.length === 4) {
+        const [r, g, b] = arr;
+        return `rgb(${r},${g},${b})`;
+    }
+    return `rgb(0,0,0,1)`;
 };
 
 export const unique = (arr: any[]) => {
