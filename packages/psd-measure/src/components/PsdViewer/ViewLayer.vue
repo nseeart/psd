@@ -229,6 +229,7 @@ const isSelectLayer = computed(() => store.getters["getSelectLayerStatus"]);
 const docuement = computed(() => store.getters["getPsdDocument"]);
 
 const handleLayerClick = (ev: Event, index: number, layer: PSDLayer) => {
+    console.log("layer====index", layer, index);
     ev.stopPropagation();
     ev.preventDefault();
     store.dispatch("handleSelectLayer");

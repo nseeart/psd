@@ -19,6 +19,7 @@ const state = {
 
     isToast: false,
     psdTree: {},
+    node: {},
 };
 
 export default state;

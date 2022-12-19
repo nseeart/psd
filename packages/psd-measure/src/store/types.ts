@@ -30,3 +30,5 @@ export const TOAST_SHOW = "TOAST_SHOW";
 export const SET_LAYER_IMAGE = "SET_LAYER_IMAGE";
 export const SET_LAYER_BGCOLOR = "SET_LAYER_BGCOLOR";
 export const SET_LAYER_BORDER = "SET_LAYER_BORDER";
+
+export const SET_NODE = "SET_NODE";

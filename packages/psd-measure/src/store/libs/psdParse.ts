@@ -50,6 +50,7 @@ export interface PSDGroup extends PSDNode {
     isGroup: () => boolean;
     hidden: () => boolean;
     export: () => Record<string, any>;
+    toPng: () => string;
 }
 
 export interface PSDMask extends PSDNode {
@@ -72,6 +73,7 @@ export interface PSDLayer extends PSDNode {
     isGroup: () => boolean;
     hidden: () => boolean;
     export: () => Record<string, any>;
+    toPng: () => string;
 }
 export type PSDChildren = Array<PSDGroup | PSDLayer>;
 
@@ -167,7 +169,8 @@ export default class PsdParse {
                 return true;
             }
             const item = node.export();
-            // let png = node.toPng()
+            // let toPng = node.toPng;
+            console.log("item", item, index);
             if (item.width <= 0 || item.height <= 0) {
                 // 无效数据
                 return;
@@ -175,6 +178,7 @@ export default class PsdParse {
 
             if (item.type === "layer" && item.visible) {
                 const {
+                    // id: index,
                     layerType,
                     name,
                     left,

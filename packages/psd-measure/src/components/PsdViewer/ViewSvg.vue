@@ -1,30 +1,10 @@
 <template>
-    <div class="view-svg" ref="viewSvg">
-        <!-- <svg
-            width="100%"
-            height="auto"
-            :viewBox="`0 0 ${layerItem.width} ${layerItem.height}`"
-            version="1.1"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                :d="layerItem.vector.d"
-                :fill="`rgb(${layerItem.vector.fill})`"
-                :stroke="`rgb(${layerItem.vector?.stroke?.color})`"
-                :stroke-width="layerItem.vector?.stroke?.width"
-                :stroke-style="layerItem.vector?.stroke?.style"
-                :stroke-opacity="layerItem.vector?.stroke?.opacity / 100"
-                stroke-linejoin="round"
-                stroke-linecap="round"
-            ></path>
-        </svg> -->
-    </div>
+    <div class="view-svg" ref="viewSvg"></div>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, onMounted, ref, watch } from "vue";
-import { StrokeData, Svg, SVG, SvgType } from "@svgdotjs/svg.js";
-import { array2rgb } from "@/core/utils";
+import { defineProps, onMounted, ref, watch } from "vue";
+import { StrokeData, Svg, SVG } from "@svgdotjs/svg.js";
 import Color from "color";
 const props = defineProps({
     layerItem: {

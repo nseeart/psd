@@ -18,5 +18,6 @@ export const getPsdDocument = (state) => state.psdDocument;
 export const getLayers = (state) => state.layers;
 
 export const getLayerItem = (state) => state.layerItem;
+export const getNode = (state) => state.node;
 
 export const getToastStatus = (state) => state.isToast;

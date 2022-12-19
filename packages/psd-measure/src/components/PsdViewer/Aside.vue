@@ -149,19 +149,19 @@
                             </div>
                         </div>
                     </template>
-                    <template v-if="layerItem.image">
-                        <div class="viewer-aside-title">
-                            <h5>Image</h5>
+                    <!-- <template> -->
+                    <div class="viewer-aside-title viewer-aside-title-image">
+                        <h5>Image</h5>
+                        <el-icon @click="handleExportImage"><Plus /></el-icon>
+                    </div>
+                    <div class="viewer-aside-content viewer-aside-content-bg">
+                        <div class="image-inner">
+                            <!-- {{ layerItem.toPng() }} -->
+                            <img :src="image.src" />
                         </div>
-                        <div
-                            class="viewer-aside-content viewer-aside-content-bg"
-                        >
-                            <div class="image-inner">
-                                <img :src="layerItem.image.src" />
-                            </div>
-                        </div>
-                    </template>
-                    <template v-else>
+                    </div>
+                    <!-- </template> -->
+                    <!-- <template v-else>
                         <div class="viewer-aside-title">
                             <h5>BackgroundColor</h5>
                         </div>
@@ -222,7 +222,7 @@
                                 </ul>
                             </div>
                         </div>
-                    </template>
+                    </template> -->
                     <div class="viewer-aside-title" v-if="layerItem.text">
                         <div
                             class="right btn-copy"
@@ -259,8 +259,8 @@
 import { useStore } from "vuex";
 import AsideCss from "./AsideCss.vue";
 import { hash } from "@/core/utils";
-import { computed, ref, watch } from "vue";
-import { DocumentCopy } from "@element-plus/icons-vue";
+import { computed, reactive, ref, watch } from "vue";
+import { DocumentCopy, Plus } from "@element-plus/icons-vue";
 import { ElIcon, ElMessage } from "element-plus";
 import ViewSvg from "./ViewSvg.vue";
 
@@ -389,10 +389,10 @@ const codeSource = computed(() => {
 const asideWidth = computed(() => store.getters["getAsideWidth"]);
 const asideDefaultWidth = computed(() => store.getters["getAsideDefaultWidth"]);
 const psdDocument = computed(() => store.getters["getPsdDocument"]);
-const psdPng = computed(() => store.getters["getPsdPng"]);
 const isSelectLayer = computed(() => store.getters["getSelectLayerStatus"]);
 const layerItem = computed(() => store.getters["getLayerItem"]);
 const isToastShow = computed(() => store.getters["getToastStatus"]);
+// const node = computed(() => store.getters["getNode"]);
 
 watch(asideWidth, (newVal: number, oldVal: number) => {
     if (newVal > 0 && !isSetDetailWidth.value) {
@@ -428,6 +428,20 @@ function updateWidth(asideWidth: number) {
 function setDefaultWdith(asideWidth: number) {
     store.dispatch("setAsideDefaultWidth", asideWidth);
 }
+
+const image = reactive({
+    width: "",
+    height: "",
+    src: "",
+});
+
+const handleExportImage = () => {
+    const node = store.getters["getNode"];
+    const img = node.toPng();
+    image.height = img.height;
+    image.width = img.width;
+    image.src = img.src;
+};
 </script>
 <style lang="scss" scoped>
 @import "base";
@@ -485,6 +499,16 @@ function setDefaultWdith(asideWidth: number) {
         color: #aaa;
         &:hover {
             color: #666;
+        }
+    }
+    &.viewer-aside-title-image {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        .el-icon {
+            color: #999;
+            cursor: pointer;
         }
     }
 }

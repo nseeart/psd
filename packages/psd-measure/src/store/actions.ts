@@ -99,57 +99,10 @@ function getUpdateAt() {
 export const getImage = ({ commit, getters }: Context, id: number) => {
     let psdTree = getters.getPsdTree;
     let descendants = psdTree.descendants();
+    console.log("===", id);
     let node = descendants[id];
-    console.log("node==", node.export());
     // let png = node.toPng();
     // console.log("png", png);
-    // const vectorStroke = node.get("vectorStroke");
-    // const vectorMask = node.get("vectorMask");
-    // if (vectorMask) {
-    //     // console.log("vectorMask", vectorMask.parse());
-    //     // console.log("vectorMask", vectorMask.export());
-    //     // console.log("vectorMask", vectorMask.parse());
-    //     // vectorMask.parse();
-    //     // console.log("vectorMask.export()", vectorMask.export());
-    // }
 
-    // console.log(
-    //     "vectorStroke",
-    //     vectorStroke && vectorStroke.export && vectorStroke.export()
-    // );
-
-    commit(types.SET_LAYER_IMAGE, {
-        id,
-        image: {
-            // width: png.width,
-            // height: png.height,
-            // src: png.src,
-        },
-    });
-    // let imageParse = new ImageParse(node);
-    // console.time("getImageData");
-    // imageParse.getImageData((color: any) => {
-    //     if (color.type === 1) {
-    //         commit(types.SET_LAYER_BGCOLOR, {
-    //             id,
-    //             bgColor: color.bgColor,
-    //         });
-    //     } else if (color.type === 2) {
-    //         commit(types.SET_LAYER_BORDER, {
-    //             id,
-    //             bgColor: color.bgColor,
-    //             border: color.border,
-    //         });
-    //     } else {
-    //         commit(types.SET_LAYER_IMAGE, {
-    //             id,
-    //             image: {
-    //                 width: png.width,
-    //                 height: png.height,
-    //                 src: png.src,
-    //             },
-    //         });
-    //     }
-    //     console.timeEnd("getImageData");
-    // });
+    commit(types.SET_NODE, node);
 };

@@ -21,6 +21,7 @@ import {
     SET_LAYER_BGCOLOR,
     SET_LAYER_BORDER,
     SET_PSD,
+    SET_NODE,
 } from "./types";
 
 export default {
@@ -66,12 +67,8 @@ export default {
     [TOAST_SHOW](state, flag) {
         state.isToast = flag;
     },
-    [SET_LAYER_IMAGE](state, { id, image }) {
-        state.layers.forEach((item, index) => {
-            if (item.id === id) {
-                state.layers[index].image = image;
-            }
-        });
+    [SET_NODE](state: any, node) {
+        state.node = node;
     },
     [SET_LAYER_BGCOLOR](state, { id, bgColor }) {
         state.layers.forEach((item, index) => {
