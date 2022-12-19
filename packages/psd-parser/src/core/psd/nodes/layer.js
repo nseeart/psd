@@ -46,7 +46,6 @@ export default class Layer extends Node {
         const anchorPos = this.getPathPosition(anchor);
         const leavingPos = this.getPathPosition(leaving);
         // relX 和 relY 保留了PSD中原始数据。
-        console.log("this.left ", this.left);
         return {
             ...path,
             preceding: {
@@ -121,9 +120,8 @@ export default class Layer extends Node {
                 }
             }
         });
-
-        return data.join(" ");
         // return `<path d="${data.join(' ')}" fill="${fill}" />`;
+        return data.join(" ");
     }
 
     getVectorStroke() {
