@@ -98,7 +98,6 @@ export default class PsdParse {
     parse() {
         this.parseDescendants(this.descendants);
         this.overflows();
-        console.log("this.layers", this.layers);
         // this.parseLayers(this.descendants);
         return this;
     }
@@ -169,8 +168,6 @@ export default class PsdParse {
                 return true;
             }
             const item = node.export();
-            // let toPng = node.toPng;
-            console.log("item", item, index);
             if (item.width <= 0 || item.height <= 0) {
                 // 无效数据
                 return;
