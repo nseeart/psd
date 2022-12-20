@@ -91,7 +91,6 @@ export default class Layer extends Node {
     toPathD(paths = []) {
         let head;
         const data = [];
-        // if (linked) {
         paths.forEach((path, index) => {
             const { preceding, anchor, leaving, linked, closed } = path;
             if (index < paths.length - 1) {
@@ -108,7 +107,6 @@ export default class Layer extends Node {
                     );
                 }
             } else {
-                // console.log("closed", closed, linked);
                 if (closed) {
                     data.push(
                         `${preceding.x} ${preceding.y} ${anchor.x} ${anchor.y} ${leaving.x} ${leaving.y} ${head.preceding.x} ${head.preceding.y} ${head.anchor.x} ${head.anchor.y} Z`
@@ -453,10 +451,10 @@ export default class Layer extends Node {
         const layerInfo = this.getLayerInfo(super.export());
 
         const solidColor = this.getSolidColor();
-        solidColor && Object.assign(layerInfo, { solidColor });
+        // solidColor && Object.assign(layerInfo, { solidColor });
         // vectorMask
         const vectorMask = this.getVectorMask();
-        vectorMask && Object.assign(layerInfo, { vectorMask });
+        // vectorMask && Object.assign(layerInfo, { vectorMask });
         // text
         const text = this.getText();
         text && Object.assign(layerInfo, { text });
@@ -465,14 +463,14 @@ export default class Layer extends Node {
         mask && Object.assign(layerInfo, { mask });
 
         const vectorStroke = this.getVectorStroke();
-        vectorStroke && Object.assign(layerInfo, { vectorStroke });
+        // vectorStroke && Object.assign(layerInfo, { vectorStroke });
 
         const vectorOrigination = this.getVectorOrigination();
-        vectorOrigination && Object.assign(layerInfo, { vectorOrigination });
+        // vectorOrigination && Object.assign(layerInfo, { vectorOrigination });
 
         const vectorStrokeContent = this.getVectorStrokeContent();
-        vectorStrokeContent &&
-            Object.assign(layerInfo, { vectorStrokeContent });
+        // vectorStrokeContent &&
+        //     Object.assign(layerInfo, { vectorStrokeContent });
 
         // vector data;
         const vector = {};
