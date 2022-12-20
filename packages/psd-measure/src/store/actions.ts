@@ -4,7 +4,6 @@
 
 import * as types from "./types";
 import PsdParse from "./libs/psdParse";
-import ImageParse from "./libs/ImageParse";
 import { byte2bm } from "@/core/utils";
 import moment from "moment";
 
@@ -98,10 +97,6 @@ function getUpdateAt() {
 export const getImage = ({ commit, getters }: Context, id: number) => {
     let psdTree = getters.getPsdTree;
     let descendants = psdTree.descendants();
-    console.log("===", id);
     let node = descendants[id];
-    // let png = node.toPng();
-    // console.log("png", png);
-
     commit(types.SET_NODE, node);
 };
