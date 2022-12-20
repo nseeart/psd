@@ -9,6 +9,12 @@
         "./dist/psd-parser.mjs": "./dist/psd-parser.browser.mjs",
         "./dist/psd-parser.js": "./dist/psd-parser.browser.js"
     },
+    "exports": {
+        ".": {
+            "import": "./dist/psd-parser.mjs",
+            "require": "./dist/psd-parser.js"
+        }
+    },
     "types": "types/main.d.ts",
     "files": [
         "dist",
