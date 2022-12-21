@@ -18,8 +18,9 @@ declare class Root extends Node {
             height: number;
             resources: {
                 layerComps: any;
-                guides: never[];
+                guides: any;
                 slices: never[];
+                resolutionInfo: any;
             };
         };
     };

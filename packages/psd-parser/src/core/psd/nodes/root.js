@@ -29,21 +29,21 @@ class Root extends Node {
     }
 
     export() {
-        const _ref =
-            (this.psd.resources.resource &&
-                this.psd.resources.resource("layerComps")) ||
-            null;
-        const layerComps = _ref && _ref.export ? _ref.export() : void 0 || [];
-
         return {
             children: this._children.map((c) => c.export()),
             document: {
                 width: this.width,
                 height: this.height,
                 resources: {
-                    layerComps,
-                    guides: [],
+                    layerComps:
+                        this.psd.resources.resource("layerComps")?.export() ||
+                        [],
+                    guides: this.psd.resources.resource("guides")?.export(),
                     slices: [],
+                    resolutionInfo:
+                        this.psd.resources
+                            .resource("resolutionInfo")
+                            ?.export() || [],
                 },
             },
         };
