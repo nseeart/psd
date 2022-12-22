@@ -10,7 +10,7 @@
 // import { STORAGE_KEY_PSD_DATA } from '@/core/constants'
 import PSD from "@n.see/psd-parser";
 
-// import PSD from "psd.js";
+import PSDJS from "psd.js";
 import { useStore } from "vuex";
 import { onMounted, ref } from "vue";
 import { ElIcon } from "element-plus";
@@ -41,9 +41,17 @@ onMounted(() => {
     PSD.fromURL("/test2.psd").then((psd: any) => {
         const tree = psd.tree();
         store.dispatch("parsePsd", psd);
-        console.log("tree", tree.export());
-        console.log("parsePsd success!");
+        const node = tree.descendants()[2];
+        console.log("psd:", tree.export());
+        // console.log("vectorMask", node.get("vectorMask").export());
+        // console.log("parsePsd success!");
     });
+    // PSDJS.fromURL("/test1.psd").then((psd: any) => {
+    //     const tree = psd.tree();
+    //     store.dispatch("parsePsd", psd);
+    //     console.log("psd.js:", tree.export());
+    //     // console.log("parsePsd success!");
+    // });
 });
 </script>
 
