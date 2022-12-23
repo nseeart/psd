@@ -12,7 +12,7 @@ class Root extends Node {
 
     type = "root";
 
-    depth() {
+    documentDimensions() {
         return [this.width, this.height];
     }
 

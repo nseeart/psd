@@ -58,14 +58,9 @@ export default {
     depth() {
         return this.ancestors().length + 1;
     },
-    path(asArray) {
-        if (asArray == null) {
-            asArray = false;
-        }
+    path(asArray = false) {
         const path = this.ancestors()
-            .map(function (n) {
-                return n.name;
-            })
+            .map((n) => n.name)
             .concat([this.name]);
         if (asArray) {
             return path;
